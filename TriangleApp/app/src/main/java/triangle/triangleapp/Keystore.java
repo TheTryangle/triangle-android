@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class Keystore { //Did you remember to vote up my example?
+public class Keystore {
     private static Keystore store;
     private SharedPreferences SP;
     private static String filename="Keys";
