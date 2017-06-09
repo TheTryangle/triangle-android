@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
   private MediaRecorder mMediaRecorder;
   private boolean isRecording = false;
   private Button captureButton;
+  private boolean websocketConnected = false;
+  private WebSocket mWebSocketInstance;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
           record();
         }
       });
+      initWebsocket();
     }
   }
 
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
     // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-    mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
+    mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
     // Step 4: Set output file
     final String fileName = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
@@ -123,41 +126,29 @@ public class MainActivity extends AppCompatActivity {
           record();
           record();
 
-          // Send the file
-          String url = "ws://192.168.2.4:1234/send";
-          String protocol = "WS";
-          AsyncHttpClient.getDefaultInstance()
-              .websocket(url, protocol, new AsyncHttpClient.WebSocketConnectCallback() {
-                @Override public void onCompleted(Exception ex, WebSocket webSocket) {
-                  if (ex != null) {
-                    ex.printStackTrace();
-                    return;
-                  }
+          if (websocketConnected) {
+            File file = new File(fileName);
 
-                  File file = new File(fileName);
+            int size = (int) file.length();
+            byte bytes[] = new byte[size];
+            byte tmpBuff[] = new byte[size];
+            try {
+              FileInputStream fis = new FileInputStream(file);
 
-                  int size = (int) file.length();
-                  byte bytes[] = new byte[size];
-                  byte tmpBuff[] = new byte[size];
-                  try {
-                    FileInputStream fis = new FileInputStream(file);
-
-                    int read = fis.read(bytes, 0, size);
-                    if (read < size) {
-                      int remain = size - read;
-                      while (remain > 0) {
-                        read = fis.read(tmpBuff, 0, remain);
-                        System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-                        remain -= read;
-                      }
-                    }
-                  } catch (IOException e) {
-                    Log.e(TAG, "IoExc", e);
-                  }
-
-                  webSocket.send(bytes);
+              int read = fis.read(bytes, 0, size);
+              if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                  read = fis.read(tmpBuff, 0, remain);
+                  System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                  remain -= read;
                 }
-              });
+              }
+            } catch (IOException e) {
+              Log.e(TAG, "IoExc", e);
+            }
+            mWebSocketInstance.send(bytes);
+          }
         }
       }
     });
@@ -193,6 +184,24 @@ public class MainActivity extends AppCompatActivity {
       mCamera.release();        // release the camera for other applications
       mCamera = null;
     }
+  }
+
+  private void initWebsocket() {
+    // Send the file
+    String url = "ws://145.49.35.215:1234/send";
+    String protocol = "WS";
+    AsyncHttpClient.getDefaultInstance()
+        .websocket(url, protocol, new AsyncHttpClient.WebSocketConnectCallback() {
+          @Override public void onCompleted(Exception ex, WebSocket webSocket) {
+            if (ex != null) {
+              ex.printStackTrace();
+              return;
+            }
+
+            websocketConnected = true;
+            mWebSocketInstance = webSocket;
+          }
+        });
   }
 
   public static final int MEDIA_TYPE_IMAGE = 1;
