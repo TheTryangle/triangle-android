@@ -7,6 +7,7 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnInfoListener;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
   private String TAG = "MainActivity";
@@ -118,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Step 5: Set the preview output
     mMediaRecorder.setPreviewDisplay(mPreview.getHolder().getSurface());
-
     mMediaRecorder.setOnInfoListener(new OnInfoListener() {
       @Override public void onInfo(MediaRecorder mr, int what, int extra) {
         // Handle the on duration exceeded
