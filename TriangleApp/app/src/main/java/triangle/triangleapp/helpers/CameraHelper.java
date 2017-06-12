@@ -64,19 +64,32 @@ public class CameraHelper {
         }
     }
 
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try{
+            c = Camera.open();
+        }
+        catch (Exception ex){
+
+        }
+        return c;
+    }
+
     public void onResume() {
-        if (!hasCamera()) {
+        if (!checkCameraHardware(context)) {
             Toast toast = Toast.makeText(context, "Sorry, your phone does not have a camera!", Toast.LENGTH_LONG);
             toast.show();
         }
         if (mCamera == null) {
-            if (findFrontFacingCamera() < 0) {
+            if (findFrontFacingCamera() <= 0) {
                 Toast toast = Toast.makeText(context, "No front facing camera found.", Toast.LENGTH_LONG);
                 toast.show();
             }
-            mCamera = Camera.open(findBackFacingCamera());
-            mCameraPreview.refreshCamera(mCamera);
         }
+
+            //mCamera = Camera.open(findBackFacingCamera());
+            //mCameraPreview.refreshCamera(mCamera);
+
     }
 
     private int findBackFacingCamera() {
@@ -109,23 +122,5 @@ public class CameraHelper {
         }
         camId = cameraId;
         return cameraId;
-    }
-
-    private boolean hasCamera() {
-        boolean hasCamera = false;
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            hasCamera = true;
-        } else {
-            hasCamera = false;
-        }
-        return hasCamera;
-    }
-
-    public int getCameraId() {
-        return camId;
-    }
-
-    public Camera getCamera() {
-        return mCamera;
     }
 }

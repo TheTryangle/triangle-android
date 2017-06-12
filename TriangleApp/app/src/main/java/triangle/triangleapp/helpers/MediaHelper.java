@@ -34,12 +34,18 @@ public class MediaHelper {
         isRecording = false;
     }
 
-    public void setRecordingEnabled() {
-        isRecording = true;
-    }
+    public void record(){
+        if (isRecording) {
 
-    public void setRecordingDisabled() {
-        isRecording = false;
+            // inform the user that recording has stopped
+            //captureButton.setText("Capture");
+            isRecording = false;
+            stopStreaming(true);
+        } else {
+            //captureButton.setText("Stop");
+            // Start the stream
+            startStreaming(true);
+        }
     }
 
     public boolean isRecording() {
@@ -48,8 +54,10 @@ public class MediaHelper {
 
     private void initializeVideoRecorder(boolean firstInit) {
         if (firstInit) {
-            mCamera = mCameraHelper.getCamera();
+            mCamera = CameraHelper.getCameraInstance();
             mMediaRecorder = new MediaRecorder();
+
+            mCamera.setDisplayOrientation(90);
 
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
@@ -61,7 +69,7 @@ public class MediaHelper {
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
 
         // Step 4: Set output file
         final String fileName = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
@@ -69,6 +77,7 @@ public class MediaHelper {
 
         // Step 5: Set the preview output
         mMediaRecorder.setPreviewDisplay(mCameraPreview.getHolder().getSurface());
+
         mMediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
             @Override
             public void onInfo(MediaRecorder mr, int what, int extra) {
@@ -77,10 +86,10 @@ public class MediaHelper {
                     stopStreaming(false);
                     startStreaming(true);
 
-                    String url = "ws://145.x.x.x:1234/send";
-                    String protocol = "ws";
-                    webSocket = new WebSocket(url, protocol);
-
+//                    String url = "ws://145.49.35.215:1234/send";
+//                    String protocol = "ws";
+//                    webSocket = new WebSocket(url, protocol);
+//
 //                    if (webSocket.isConnected()) {
 //                        File file = new File(fileName);
 //

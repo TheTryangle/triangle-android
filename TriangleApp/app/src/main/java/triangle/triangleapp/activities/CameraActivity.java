@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.view.CameraPreview;
 import triangle.triangleapp.R;
@@ -25,9 +27,13 @@ public class CameraActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        if (CameraHelper.checkCameraHardware(getApplicationContext())){
-            cameraPreview = new CameraPreview(this);
-            cameraHelper = new CameraHelper(getApplicationContext(), cameraPreview);
+        if (CameraHelper.checkCameraHardware(this)){
+            mCamera = CameraHelper.getCameraInstance();
+            cameraPreview = new CameraPreview(this, mCamera);
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+            preview.addView(cameraPreview);
+
+            cameraHelper = new CameraHelper(this, cameraPreview);
         }
 
         mediaHelper = new MediaHelper(cameraHelper, cameraPreview);
@@ -36,7 +42,7 @@ public class CameraActivity extends AppCompatActivity{
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaHelper.setRecordingEnabled();
+                mediaHelper.record();
             }
         });
 
@@ -56,7 +62,7 @@ public class CameraActivity extends AppCompatActivity{
         super.onResume();
         if (cameraHelper != null) {
             cameraHelper.onResume();
-            finish();
+            //finish();
         }
     }
 }

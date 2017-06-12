@@ -17,8 +17,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private SurfaceHolder mHolder;
     private Camera mCamera;
 
-    public CameraPreview(Context context) {
+    public CameraPreview(Context context, Camera camera) {
         super(context);
+        mCamera = camera;
+
         mHolder = getHolder();
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mHolder.addCallback(this);
@@ -37,7 +39,24 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        refreshCamera(mCamera);
+        if (mHolder.getSurface() == null){
+            return;
+        }
+
+        try{
+            mCamera.stopPreview();
+        }
+        catch (Exception ex){
+            Log.e(TAG, "Error stopping preview", ex);
+        }
+
+        try{
+            mCamera.setPreviewDisplay(mHolder);
+            mCamera.startPreview();
+        }
+        catch (Exception ex){
+            Log.e(TAG, "Error starting camera preview", ex);
+        }
     }
 
     public void refreshCamera(Camera camera) {
