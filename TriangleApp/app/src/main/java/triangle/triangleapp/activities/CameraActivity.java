@@ -30,7 +30,7 @@ public class CameraActivity extends AppCompatActivity{
             cameraHelper = new CameraHelper(getApplicationContext(), cameraPreview);
         }
 
-        mediaHelper = new MediaHelper(cameraHelper);
+        mediaHelper = new MediaHelper(cameraHelper, cameraPreview);
 
         btnCapture = (Button) findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(new View.OnClickListener() {

@@ -20,8 +20,8 @@ public class CameraHelper {
     private int amountCameras;
 
     public CameraHelper(Context context, CameraPreview cameraPreview) {
-        this.context = context;
         this.mCameraPreview = cameraPreview;
+        this.context = context;
     }
 
     public static boolean checkCameraHardware(Context myContext) {
