@@ -1,4 +1,4 @@
-package triangle.triangleapp.Helpers;
+package triangle.triangleapp.helpers;
 
 import android.util.Log;
 import com.koushikdutta.async.http.AsyncHttpClient;
