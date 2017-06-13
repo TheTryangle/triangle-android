@@ -17,7 +17,7 @@ import triangle.triangleapp.helpers.MediaHelper;
  */
 
 public class CameraActivity extends AppCompatActivity{
-    private Button btnCapture, btnSwitchCamera;
+    private Button btnCapture;
     private CameraHelper cameraHelper;
     private CameraPreview cameraPreview;
     private Camera mCamera;
@@ -33,7 +33,7 @@ public class CameraActivity extends AppCompatActivity{
             FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
             preview.addView(cameraPreview);
 
-            cameraHelper = new CameraHelper(this, cameraPreview);
+            cameraHelper = new CameraHelper();
         }
 
         mediaHelper = new MediaHelper(cameraHelper, cameraPreview);
@@ -45,24 +45,13 @@ public class CameraActivity extends AppCompatActivity{
                 mediaHelper.record();
             }
         });
-
-        btnSwitchCamera = (Button) findViewById(R.id.btnSwitchCamera);
-        btnSwitchCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cameraHelper != null && !mediaHelper.isRecording() && cameraHelper.getAmountCameras() > 1){
-                    cameraHelper.switchCamera();
-                }
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (cameraHelper != null) {
-            cameraHelper.onResume();
-            //finish();
+            cameraHelper.onResume(getApplicationContext());
         }
     }
 }

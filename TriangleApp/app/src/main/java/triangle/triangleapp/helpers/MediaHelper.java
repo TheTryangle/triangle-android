@@ -1,6 +1,5 @@
 package triangle.triangleapp.helpers;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -27,27 +26,23 @@ public class MediaHelper {
     private final int MEDIA_TYPE_VIDEO = 2;
     private CameraHelper mCameraHelper;
     private WebSocket webSocket;
+    private String url;
+    private String protocol;
 
     public MediaHelper(CameraHelper cameraHelper, CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
         mCameraHelper = cameraHelper;
         isRecording = false;
-
-        String url = "ws://145.49.35.215:1234/send";
-        String protocol = "ws";
+        url = "ws://145.49.35.215:1234/send";
+        protocol = "ws";
         webSocket = new WebSocket(url, protocol);
     }
 
     public void record(){
         if (isRecording) {
-
-            // inform the user that recording has stopped
-            //captureButton.setText("Capture");
             isRecording = false;
             stopStreaming(true);
         } else {
-            //captureButton.setText("Stop");
-            // Start the stream
             startStreaming(true);
         }
     }
