@@ -1,6 +1,5 @@
 package triangle.triangleapp.helpers;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -25,39 +24,33 @@ public class MediaHelper {
     private Camera mCamera;
     private final int MEDIA_TYPE_IMAGE = 1;
     private final int MEDIA_TYPE_VIDEO = 2;
-    private CameraHelper mCameraHelper;
     private WebSocket webSocket;
+    private String url;
+    private String protocol;
+    private int mediaRecorderMaxDuration;
 
-    public MediaHelper(CameraHelper cameraHelper, CameraPreview cameraPreview) {
+    public MediaHelper(CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
-        mCameraHelper = cameraHelper;
         isRecording = false;
+        mediaRecorderMaxDuration = 5000;
+        url = "ws://145.49.35.215:1234/send";
+        protocol = "ws";
+        webSocket = new WebSocket(url, protocol);
     }
 
     public void record(){
         if (isRecording) {
-
-            // inform the user that recording has stopped
-            //captureButton.setText("Capture");
             isRecording = false;
             stopStreaming(true);
         } else {
-            //captureButton.setText("Stop");
-            // Start the stream
             startStreaming(true);
         }
-    }
-
-    public boolean isRecording() {
-        return isRecording;
     }
 
     private void initializeVideoRecorder(boolean firstInit) {
         if (firstInit) {
             mCamera = CameraHelper.getCameraInstance();
             mMediaRecorder = new MediaRecorder();
-
-            mCamera.setDisplayOrientation(90);
 
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
@@ -69,7 +62,7 @@ public class MediaHelper {
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
         // Step 4: Set output file
         final String fileName = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
@@ -86,34 +79,30 @@ public class MediaHelper {
                     stopStreaming(false);
                     startStreaming(true);
 
-//                    String url = "ws://145.49.35.215:1234/send";
-//                    String protocol = "ws";
-//                    webSocket = new WebSocket(url, protocol);
-//
-//                    if (webSocket.isConnected()) {
-//                        File file = new File(fileName);
-//
-//                        int size = (int) file.length();
-//                        byte bytes[] = new byte[size];
-//                        byte tmpBuff[] = new byte[size];
-//                        try {
-//                            FileInputStream fis = new FileInputStream(file);
-//
-//                            int read = fis.read(bytes, 0, size);
-//                            if (read < size) {
-//                                int remain = size - read;
-//                                while (remain > 0) {
-//                                    read = fis.read(tmpBuff, 0, remain);
-//                                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-//                                    remain -= read;
-//                                }
-//                            }
-//                        } catch (IOException e) {
-//                            Log.e(TAG, "IoExc", e);
-//                        }
-//                        webSocket.sendStream(bytes);
-//                        file.delete();
-//                    }
+                    if (webSocket.isConnected()) {
+                        File file = new File(fileName);
+
+                        int size = (int) file.length();
+                        byte bytes[] = new byte[size];
+                        byte tmpBuff[] = new byte[size];
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+
+                            int read = fis.read(bytes, 0, size);
+                            if (read < size) {
+                                int remain = size - read;
+                                while (remain > 0) {
+                                    read = fis.read(tmpBuff, 0, remain);
+                                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                                    remain -= read;
+                                }
+                            }
+                        } catch (IOException e) {
+                            Log.e(TAG, "IoExc", e);
+                        }
+                        webSocket.sendStream(bytes);
+                        file.delete();
+                    }
                 }
             }
         });
@@ -125,7 +114,7 @@ public class MediaHelper {
             }
         });
 
-        mMediaRecorder.setMaxDuration(5000);
+        mMediaRecorder.setMaxDuration(mediaRecorderMaxDuration);
     }
 
     private File getOutputMediaFile(int type) {

@@ -26,8 +26,7 @@ public class Keystore {
 
         editor = SP.edit();
         editor.putString(key, value);
-       // editor.commit(); // Stop everything and do an immediate save!
-         editor.apply();//Keep going and save when you are not busy - Available only in APIs 9 and above.  This is the preferred way of saving.
+        editor.apply();//Keep going and save when you are not busy - Available only in APIs 9 and above.  This is the preferred way of saving.
     }
 
     public String get(String key) {//Log.v("Keystore","GET from "+key);
