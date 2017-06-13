@@ -16,7 +16,7 @@ import android.widget.Button;
 import triangle.triangleapp.R;
 
 public class MainActivity extends AppCompatActivity {
-    private final int PERMISSION_REQUEST_CODE = 123;
+    private static final int PERMISSION_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +39,22 @@ public class MainActivity extends AppCompatActivity {
      */
     private void requestPermissions() {
         // Ask for the permissions
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE
-        }, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this,
+            new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            },
+        PERMISSION_REQUEST_CODE);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
-            case PERMISSION_REQUEST_CODE: {
+            case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 3) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                             grantResults[1] == PackageManager.PERMISSION_GRANTED &&
@@ -81,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            }
+            default:
+                break;
         }
     }
 
@@ -91,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
      * @return true if we have the required permissions else false.
      */
     private boolean hasRequiredPermissions() {
-        int hasCameraPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA);
+        int hasCameraPermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.CAMERA);
         int hasWriteStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int hasReadStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -99,10 +106,7 @@ public class MainActivity extends AppCompatActivity {
         int hasMicrophonePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.RECORD_AUDIO);
 
-        return PackageManager.PERMISSION_GRANTED == hasCameraPermission
-                && PackageManager.PERMISSION_GRANTED == hasWriteStoragePermission
-                && PackageManager.PERMISSION_GRANTED == hasReadStoragePermission
-                && PackageManager.PERMISSION_GRANTED == hasMicrophonePermission;
+        return PackageManager.PERMISSION_GRANTED == hasCameraPermission && PackageManager.PERMISSION_GRANTED == hasWriteStoragePermission && PackageManager.PERMISSION_GRANTED == hasReadStoragePermission && PackageManager.PERMISSION_GRANTED == hasMicrophonePermission;
     }
 
     /**

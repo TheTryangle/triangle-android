@@ -15,11 +15,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private final String TAG = "CameraPreview";
     private SurfaceHolder mHolder;
     private Camera mCamera;
+    private int mDisplayOrientation;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;
-
+        mDisplayOrientation = 90;
         mHolder = getHolder();
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mHolder.addCallback(this);
@@ -51,7 +52,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
         try{
-            mCamera.setDisplayOrientation(90);
+            mCamera.setDisplayOrientation(mDisplayOrientation);
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
         }

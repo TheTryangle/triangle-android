@@ -12,10 +12,19 @@ import android.util.Log;
 public class CameraHelper {
     private static final String TAG = "CameraHelper";
 
+    /**
+     * Check camera exists in hardware.
+     * @param context, The context of the application.
+     * @return State of exists of hardware.
+     */
     public static boolean checkCameraHardware(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
+    /**
+     * Open the camera and get the camera instance.
+     * @return Opened camera instance
+     */
     public static Camera getCameraInstance(){
         Camera c = null;
         try{

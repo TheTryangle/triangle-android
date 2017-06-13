@@ -3,13 +3,8 @@ package triangle.triangleapp.helpers;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import triangle.triangleapp.view.CameraPreview;
 
 /**
@@ -17,36 +12,45 @@ import triangle.triangleapp.view.CameraPreview;
  */
 
 public class MediaHelper {
-    private final String TAG = "MediaHelper";
-    private boolean isRecording;
+    private static final String TAG = "MediaHelper";
+    private boolean mIsRecording;
     private MediaRecorder mMediaRecorder;
+    private MediaFileHelper mMediaFileHelper;
     private CameraPreview mCameraPreview;
     private Camera mCamera;
-    private final int MEDIA_TYPE_IMAGE = 1;
-    private final int MEDIA_TYPE_VIDEO = 2;
-    private WebSocket webSocket;
-    private String url;
-    private String protocol;
-    private int mediaRecorderMaxDuration;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int MEDIA_TYPE_VIDEO = 2;
+    private WebSocket mWebSocket;
+    private String mUrl;
+    private String mProtocol;
+    private int mMediaRecorderMaxDuration;
 
     public MediaHelper(CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
-        isRecording = false;
-        mediaRecorderMaxDuration = 5000;
-        url = "ws://145.49.35.215:1234/send";
-        protocol = "ws";
-        webSocket = new WebSocket(url, protocol);
+        mIsRecording = false;
+        mMediaRecorderMaxDuration = 5000;
+        mMediaFileHelper = new MediaFileHelper();
+        mUrl = "ws://145.49.35.215:1234/send";
+        mProtocol = "ws";
+        mWebSocket = new WebSocket(mUrl, mProtocol);
     }
 
+    /**
+     * Start or stop record of stream.
+     */
     public void record(){
-        if (isRecording) {
-            isRecording = false;
+        if (mIsRecording) {
+            mIsRecording = false;
             stopStreaming(true);
         } else {
             startStreaming(true);
         }
     }
 
+    /**
+     * Initializing mediarecorder, set settings and send stream via web socket.
+     * @param firstInit, Check initializing on first time.
+     */
     private void initializeVideoRecorder(boolean firstInit) {
         if (firstInit) {
             mCamera = CameraHelper.getCameraInstance();
@@ -65,8 +69,7 @@ public class MediaHelper {
         mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
         // Step 4: Set output file
-        final String fileName = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
-        mMediaRecorder.setOutputFile(fileName);
+        mMediaRecorder.setOutputFile(mMediaFileHelper.getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
 
         // Step 5: Set the preview output
         mMediaRecorder.setPreviewDisplay(mCameraPreview.getHolder().getSurface());
@@ -79,29 +82,13 @@ public class MediaHelper {
                     stopStreaming(false);
                     startStreaming(true);
 
-                    if (webSocket.isConnected()) {
-                        File file = new File(fileName);
-
-                        int size = (int) file.length();
-                        byte bytes[] = new byte[size];
-                        byte tmpBuff[] = new byte[size];
+                    if (mWebSocket.isConnected()) {
                         try {
-                            FileInputStream fis = new FileInputStream(file);
-
-                            int read = fis.read(bytes, 0, size);
-                            if (read < size) {
-                                int remain = size - read;
-                                while (remain > 0) {
-                                    read = fis.read(tmpBuff, 0, remain);
-                                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-                                    remain -= read;
-                                }
-                            }
-                        } catch (IOException e) {
-                            Log.e(TAG, "IoExc", e);
+                            mWebSocket.sendStream(mMediaFileHelper.getBytesFromFile(mMediaFileHelper.getOutputMediaFile(MEDIA_TYPE_VIDEO).toString()));
                         }
-                        webSocket.sendStream(bytes);
-                        file.delete();
+                        catch (Exception ex){
+                            Log.e(TAG, "Error while send stream to server.", ex);
+                        }
                     }
                 }
             }
@@ -114,31 +101,13 @@ public class MediaHelper {
             }
         });
 
-        mMediaRecorder.setMaxDuration(mediaRecorderMaxDuration);
+        mMediaRecorder.setMaxDuration(mMediaRecorderMaxDuration);
     }
 
-    private File getOutputMediaFile(int type) {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MyCameraApp");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile = null;
-        switch (type) {
-            case MEDIA_TYPE_IMAGE:
-                mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-                break;
-            case MEDIA_TYPE_VIDEO:
-                mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
-                break;
-        }
-        return mediaFile;
-    }
-
+    /**
+     * Start streaming from camera to server.
+     * @param firstStart, Check if videorecorder is started for the first time.
+     */
     private void startStreaming(boolean firstStart) {
         initializeVideoRecorder(firstStart);
 
@@ -152,9 +121,13 @@ public class MediaHelper {
         } catch (Exception ex) {
             Log.e(TAG, "Error during start", ex);
         }
-        isRecording = true;
+        mIsRecording = true;
     }
 
+    /**
+     * Stop streaming from camera to server.
+     * @param fullStop, To release mediarecorder when it is stopped.
+     */
     private void stopStreaming(boolean fullStop) {
         // stop recording and release camera
         mMediaRecorder.stop();  // stop the recording
@@ -165,6 +138,10 @@ public class MediaHelper {
         mCamera.lock();         // take camera access back from MediaRecorder
     }
 
+    /**
+     * Prepare mediarecorder to record.
+     * @return, return state of preparation.
+     */
     private boolean prepareVideoRecorder() {
         // Step 6: Prepare configured MediaRecorder
         try {
@@ -181,6 +158,9 @@ public class MediaHelper {
         return true;
     }
 
+    /**
+     * Release and reset the mediarecorder. Locking the camera.
+     */
     private void releaseMediaRecorder() {
         if (mMediaRecorder != null) {
             mMediaRecorder.reset();   // clear recorder configuration

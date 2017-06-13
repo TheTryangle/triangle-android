@@ -17,7 +17,6 @@ import triangle.triangleapp.helpers.MediaHelper;
  */
 
 public class CameraActivity extends AppCompatActivity{
-    private Button btnCapture;
     private CameraPreview cameraPreview;
     private Camera mCamera;
     private MediaHelper mediaHelper;
@@ -35,7 +34,7 @@ public class CameraActivity extends AppCompatActivity{
 
         mediaHelper = new MediaHelper(cameraPreview);
 
-        btnCapture = (Button) findViewById(R.id.btnCapture);
+        Button btnCapture = (Button) findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
