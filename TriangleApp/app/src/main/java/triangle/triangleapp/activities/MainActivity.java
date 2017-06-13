@@ -17,11 +17,14 @@ import triangle.triangleapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 123;
+    private int grantResultAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        grantResultAmount = 3;
 
         // Check if we have all the required permissions
         boolean hasPermissions = hasRequiredPermissions();
@@ -54,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 3) {
+                if (grantResults.length > grantResultAmount) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[1] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[2] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[3] == PackageManager.PERMISSION_GRANTED) {
+                            grantResults[grantResultAmount - 2] == PackageManager.PERMISSION_GRANTED &&
+                            grantResults[grantResultAmount - 1] == PackageManager.PERMISSION_GRANTED &&
+                            grantResults[grantResultAmount] == PackageManager.PERMISSION_GRANTED) {
                         // All the permissions have been granted, we can continue normally
                         initialize();
                     } else {
