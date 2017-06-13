@@ -12,23 +12,31 @@ import java.io.IOException;
  */
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private final String TAG = "CameraPreview";
+    private static final String TAG = "CameraPreview";
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    private int mDisplayOrientation;
+    private int mDisplayOrientation = 90;
 
+    /**
+     * Initialize CameraPreview
+     * @param context, Context of the application
+     * @param camera, Camera to use for preview
+     */
     public CameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;
-        mDisplayOrientation = 90;
         mHolder = getHolder();
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mHolder.addCallback(this);
     }
 
+    /**
+     * Create preview from surface, setPreviewDisplay and start Preview
+     * @param holder, The holder of the surface
+     */
     public void surfaceCreated(SurfaceHolder holder) {
         try {
-            mCamera.setDisplayOrientation(90);
+            mCamera.setDisplayOrientation(mDisplayOrientation);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         } catch (IOException ioe) {
@@ -36,9 +44,20 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    /**
+     * Destroy preview from surface
+     * @param holder, The holder of the surface
+     */
     public void surfaceDestroyed(SurfaceHolder holder) {
     }
 
+    /**
+     * Change preview from surface
+     * @param holder, The holder of surface
+     * @param format, The format of surface
+     * @param w, The width of the surface
+     * @param h, The height of the surface
+     */
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         if (mHolder.getSurface() == null){
             return;
