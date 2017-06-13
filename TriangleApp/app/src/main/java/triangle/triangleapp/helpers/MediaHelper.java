@@ -24,15 +24,15 @@ public class MediaHelper {
     private Camera mCamera;
     private final int MEDIA_TYPE_IMAGE = 1;
     private final int MEDIA_TYPE_VIDEO = 2;
-    private CameraHelper mCameraHelper;
     private WebSocket webSocket;
     private String url;
     private String protocol;
+    private int mediaRecorderMaxDuration;
 
-    public MediaHelper(CameraHelper cameraHelper, CameraPreview cameraPreview) {
+    public MediaHelper(CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
-        mCameraHelper = cameraHelper;
         isRecording = false;
+        mediaRecorderMaxDuration = 5000;
         url = "ws://145.49.35.215:1234/send";
         protocol = "ws";
         webSocket = new WebSocket(url, protocol);
@@ -47,16 +47,10 @@ public class MediaHelper {
         }
     }
 
-    public boolean isRecording() {
-        return isRecording;
-    }
-
     private void initializeVideoRecorder(boolean firstInit) {
         if (firstInit) {
             mCamera = CameraHelper.getCameraInstance();
             mMediaRecorder = new MediaRecorder();
-
-            mCamera.setDisplayOrientation(90);
 
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
@@ -120,7 +114,7 @@ public class MediaHelper {
             }
         });
 
-        mMediaRecorder.setMaxDuration(5000);
+        mMediaRecorder.setMaxDuration(mediaRecorderMaxDuration);
     }
 
     private File getOutputMediaFile(int type) {
