@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
      * Requests the required permissions for this app.
      */
     private void requestPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                },
-                PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this
+                ,new String[]{
+                        Manifest.permission.CAMERA
+                        ,Manifest.permission.RECORD_AUDIO
+                        ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ,Manifest.permission.READ_EXTERNAL_STORAGE
+                }
+                ,PERMISSION_REQUEST_CODE);
     }
 
     @Override
