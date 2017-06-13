@@ -13,59 +13,59 @@ import java.security.NoSuchAlgorithmException;
 public class HashHelper_Test {
     private static final byte[] DATA;
     private static String salt = "1ac2";
-
+    private static final int DATA_SIZE = 64;
     static {
-        DATA = new byte[64];
-        for (byte i = 0; i < 64; i++) {
+        DATA = new byte[DATA_SIZE];
+        for (byte i = 0; i < DATA_SIZE; i++) {
             DATA[i] = i;
         }
     }
 
+    /**
+     * Hashes string, unsalted
+     */
     @Test
-    public void validateTests(){
-        Assert.assertEquals(3,2+1);
-    }
-    @Test
-    public void hashString(){
+    public void hashStringNoSalt(){
         HashHelper hh = new HashHelper();
         String expectedHash="";
         try {
             expectedHash = hh.hashStringNoSalt("test");
-        }catch (NoSuchAlgorithmException nsae){
-            //sha alghortihm doesnt work
-        }catch(UnsupportedEncodingException ueex){
-            //invalid encoding
-        }
-        Assert.assertEquals("a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", expectedHash);
+        }catch (NoSuchAlgorithmException nsae){}
+        catch(UnsupportedEncodingException ueex){}
+        Assert.assertEquals("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", expectedHash);
     }
+
+    /**
+     * Hases byte array, unsalted
+     */
     @Test
-    public void hashByteArray(){
+    public void hashByteArrayNoSalt(){
         HashHelper hh = new HashHelper();
         String expectedHash="";
-        //data raw hash: c6138d514ffa2135bfce0ed0b8fac65669917ec7
-        //data.tosting hash: 0d57d4d01e8ecc1643ffbee9ad4d25355d58f5f8
         try {
             expectedHash = hh.hashByteArrayNoSalt(DATA);
-        }catch (NoSuchAlgorithmException nsae){
-            //sha alghortihm doesnt work
-        }
-        Assert.assertEquals("c6138d514ffa2135bfce0ed0b8fac65669917ec7", expectedHash);
+        }catch (NoSuchAlgorithmException nsae){}
+        Assert.assertEquals("fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108", expectedHash);
     }
+
+    /**
+     * Hashes string, appends salt after hashing
+     */
     @Test
     public void HashStringSaltAfter(){
         HashHelper hh = new HashHelper();
         String expectedHash="";
-
         try {
             expectedHash = hh.hashStringAndSaltAfterHash("test",salt);
             System.out.println("string salt after: "+expectedHash);
-        }catch (NoSuchAlgorithmException nsae){
-            //sha alghortihm doesnt work
-        }catch(UnsupportedEncodingException ueex){
-            //invalid encoding
-        }
-        Assert.assertEquals("a94a8fe5ccb19ba61c4c0873d391e987982fbbd31ac2", expectedHash);
+        }catch (NoSuchAlgorithmException nsae){}
+        catch(UnsupportedEncodingException ueex){}
+        Assert.assertEquals("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a081ac2", expectedHash);
     }
+
+    /**
+     * appends salt to string then hashes them.
+     */
     @Test
     public void HashStringSaltBefore(){
         HashHelper hh = new HashHelper();
@@ -73,22 +73,21 @@ public class HashHelper_Test {
         try {
             expectedHash = hh.hashStringAndSaltBeforeHash("test",salt);
             System.out.println("string salt before: "+expectedHash);
-        }catch (NoSuchAlgorithmException nsae){
-            //sha alghortihm doesnt work
-        }catch(UnsupportedEncodingException ueex){
-            //invalid encoding
-        }
-        Assert.assertEquals("fb56a08de4048cca6b480a6f28f6ee0301963044", expectedHash);
+        }catch (NoSuchAlgorithmException nsae){}
+        catch(UnsupportedEncodingException ueex){}
+        Assert.assertEquals("dc96c319f268f33c3d1f1a6fd80e3d953469a851b12839e030e74bc4be639bc4", expectedHash);
     }
+
+    /**
+     * hashes byte array then appends salt
+     */
     @Test
     public void hashByteArraySaltAfter(){
         HashHelper hh = new HashHelper();
         String expectedHash="";
         try {
             expectedHash = hh.hashByteArrayAndSaltAfterHash(DATA,salt);
-        }catch (NoSuchAlgorithmException nsae){
-            //sha alghortihm doesnt work
-        }
-        Assert.assertEquals("c6138d514ffa2135bfce0ed0b8fac65669917ec71ac2", expectedHash);
+        }catch (NoSuchAlgorithmException nsae){}
+        Assert.assertEquals("fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d91511081ac2", expectedHash);
     }
 }
