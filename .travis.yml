@@ -1,5 +1,12 @@
 language: android
 jdk: oraclejdk8
+sudo: false
+
+env:
+    matrix:
+        - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
+    global:
+        - ADB_INSTALL_TIMEOUT=10    #Time out to 10 mins
 android:
   components:
     - tools
@@ -13,10 +20,23 @@ android:
     - android-25
 
     - extra-android-m2repository
-before_script: cd TriangleApp
+
+    - sys-img-armeabi-v7a-android-25
+before_script: 
+    - cd TriangleApp
+    - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI    #Create AVD for given api
+    - emulator -avd test -no-skin -no-audio -no-window &    #Start emulator
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
+script:
+    - echo "Travis branch is $TRAVIS_BRANCH"
+    - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
+    - android-wait-for-emulator
+    - adb devices   #Display list of devices
+    - adb shell input keyevent 82 &
+    - ./gradlew connectedCheck -PdisablePreDex --stacktrace
+    
 cache:
   directories:      #Cache all dirs under .gradle folder
     - $HOME/.gradle/daemon      #Cache daemon logs
