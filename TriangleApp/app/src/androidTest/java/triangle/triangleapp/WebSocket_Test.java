@@ -23,7 +23,7 @@ public class WebSocket_Test {
         String protocol = "ws";
           try {
         WebSocket webSocket = new WebSocket(url, protocol);
-           //returns null because async
+
               if( webSocket.isConnected()!=false){
                   Assert.assertTrue(true);
               }
