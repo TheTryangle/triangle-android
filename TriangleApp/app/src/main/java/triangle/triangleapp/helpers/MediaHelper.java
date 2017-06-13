@@ -32,6 +32,10 @@ public class MediaHelper {
         mCameraPreview = cameraPreview;
         mCameraHelper = cameraHelper;
         isRecording = false;
+
+        String url = "ws://145.49.35.215:1234/send";
+        String protocol = "ws";
+        webSocket = new WebSocket(url, protocol);
     }
 
     public void record(){
@@ -69,7 +73,7 @@ public class MediaHelper {
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
         // Step 4: Set output file
         final String fileName = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
@@ -86,34 +90,30 @@ public class MediaHelper {
                     stopStreaming(false);
                     startStreaming(true);
 
-//                    String url = "ws://145.49.35.215:1234/send";
-//                    String protocol = "ws";
-//                    webSocket = new WebSocket(url, protocol);
-//
-//                    if (webSocket.isConnected()) {
-//                        File file = new File(fileName);
-//
-//                        int size = (int) file.length();
-//                        byte bytes[] = new byte[size];
-//                        byte tmpBuff[] = new byte[size];
-//                        try {
-//                            FileInputStream fis = new FileInputStream(file);
-//
-//                            int read = fis.read(bytes, 0, size);
-//                            if (read < size) {
-//                                int remain = size - read;
-//                                while (remain > 0) {
-//                                    read = fis.read(tmpBuff, 0, remain);
-//                                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-//                                    remain -= read;
-//                                }
-//                            }
-//                        } catch (IOException e) {
-//                            Log.e(TAG, "IoExc", e);
-//                        }
-//                        webSocket.sendStream(bytes);
-//                        file.delete();
-//                    }
+                    if (webSocket.isConnected()) {
+                        File file = new File(fileName);
+
+                        int size = (int) file.length();
+                        byte bytes[] = new byte[size];
+                        byte tmpBuff[] = new byte[size];
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+
+                            int read = fis.read(bytes, 0, size);
+                            if (read < size) {
+                                int remain = size - read;
+                                while (remain > 0) {
+                                    read = fis.read(tmpBuff, 0, remain);
+                                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                                    remain -= read;
+                                }
+                            }
+                        } catch (IOException e) {
+                            Log.e(TAG, "IoExc", e);
+                        }
+                        webSocket.sendStream(bytes);
+                        file.delete();
+                    }
                 }
             }
         });
