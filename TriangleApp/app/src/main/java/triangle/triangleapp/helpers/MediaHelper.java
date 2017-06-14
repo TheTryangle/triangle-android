@@ -31,7 +31,7 @@ public class MediaHelper {
         mIsRecording = false;
         mMediaRecorderMaxDuration = 5000;
         mMediaFileHelper = new MediaFileHelper();
-        String mUrl = "ws://145.49.35.215:1234/send";
+        String mUrl = "ws://145.49.30.113:1234/send";
         String mProtocol = "ws";
         mWebSocket = new WebSocket(mUrl, mProtocol);
     }
@@ -85,7 +85,11 @@ public class MediaHelper {
 
                     if (mWebSocket.isConnected()) {
                         try {
-                            mWebSocket.sendStream(mMediaFileHelper.getBytesFromFile(mMediaFileHelper.getOutputMediaFile(MEDIA_TYPE_VIDEO).toString()));
+
+                           byte[] streamBytes = mMediaFileHelper.getBytesFromFile(mMediaFileHelper.getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+                          if(streamBytes!=null) {
+                              mWebSocket.sendStream(streamBytes);
+                          }
                         } catch (Exception ex){
                             Log.e(TAG, "Error while send stream to server.", ex);
                         }

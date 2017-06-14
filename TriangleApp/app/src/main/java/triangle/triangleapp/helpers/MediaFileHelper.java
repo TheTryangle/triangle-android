@@ -47,6 +47,7 @@ public class MediaFileHelper {
         return mediaFile;
     }
 
+    //FIXME: during run, IOexc is called while trying to read .jpg file. why is this even trying to acces .jpg files?
     /**
      * Convert filename to byte array.
      * @param fileName path to filename.
