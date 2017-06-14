@@ -41,8 +41,7 @@ public class MediaFileHelper {
                 default:
                     throw new IllegalArgumentException("Unsupported file type.");
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex){
             Log.e(TAG, "Error occured while get output media file.", ex);
         }
         return mediaFile;
