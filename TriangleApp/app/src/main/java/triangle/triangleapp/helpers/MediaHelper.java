@@ -4,9 +4,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
-
 import java.io.IOException;
-
 import triangle.triangleapp.view.CameraPreview;
 
 /**
@@ -21,7 +19,9 @@ public class MediaHelper {
     private CameraPreview mCameraPreview;
     private Camera mCamera;
     private WebSocket mWebSocket;
-    private int mMediaRecorderMaxDuration;
+    private int mMediaRecorderMaxDuration = 5000;
+    private String mUrl = "ws://145.49.30.86:1234/send";
+    private String mProtocol = "ws";
 
     /**
      * Initializing the camera preview.
@@ -31,10 +31,7 @@ public class MediaHelper {
     public MediaHelper(CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
         mIsRecording = false;
-        mMediaRecorderMaxDuration = 5000;
         mMediaFileHelper = new MediaFileHelper();
-        String mUrl = "ws://145.49.30.86:1234/send";
-        String mProtocol = "ws";
         mWebSocket = new WebSocket(mUrl, mProtocol);
     }
 
