@@ -12,7 +12,7 @@ import java.util.Formatter;
 public class HashHelper {
 
     //Default value for hashing algorithm
-    public String hashAlgorithm ="SHA-256";
+    private String hashAlgorithm ="SHA-256";
 
     /**
      * Gets the aslgorithm used for hashing, default is SHA-256
@@ -24,7 +24,7 @@ public class HashHelper {
 
     /**
      * sets the hash algorithm used for hashing, default is SHA-256
-     * @param hashAlgorithm
+     * @param hashAlgorithm String hash algorithm, default SHA-256
      */
     public void setHashAlgorithm(String hashAlgorithm) {
         this.hashAlgorithm = hashAlgorithm;
@@ -35,8 +35,8 @@ public class HashHelper {
      * @param text string to be hashed
      * @param salt salt to be used
      * @return hash with salt appended
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException encoding invalid
+     * @throws NoSuchAlgorithmException algorithm not valid
      */
     public String hashStringAndSaltAfterHash(String text, String salt) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String saltedHash = hashStringNoSalt(text)+salt;
@@ -48,8 +48,8 @@ public class HashHelper {
      * @param text string to be hashed
      * @param salt salt to be used
      * @return salted hash
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException encoding invalid
+     * @throws NoSuchAlgorithmException algorithm not valid
      */
     public String hashStringAndSaltBeforeHash(String text, String salt) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String saltedHash = hashStringNoSalt(text+salt);
@@ -61,7 +61,7 @@ public class HashHelper {
      * @param toBeHashed byte array to be hashed
      * @param salt to make hash more difficult to crack
      * @return salted hash from byte array
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     public String hashByteArrayAndSaltAfterHash(byte[] toBeHashed, String salt) throws NoSuchAlgorithmException {
         String saltedHash = hashByteArrayNoSalt(toBeHashed)+salt;
@@ -73,7 +73,7 @@ public class HashHelper {
      * @param toBeHashed byte array which to hash
      * @param salt to salt hash
      * @return hashed string of byte array
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     public String hashByteArrayAndSaltBeforeHash(byte[] toBeHashed, String salt) throws NoSuchAlgorithmException {
         //Note: the salt will not be hashed with the bytestream here
@@ -85,7 +85,7 @@ public class HashHelper {
      * Hashes a byte array without salting it.
      * @param toBeHashed byte array that is to be hashed
      * @return Unsalted Hashed String
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     public String hashByteArrayNoSalt(byte[] toBeHashed) throws NoSuchAlgorithmException {
         String strash= SHAsum(toBeHashed);
@@ -96,8 +96,8 @@ public class HashHelper {
      * Hashes a string without salting it.
      * @param text String that is to be hashed
      * @return Unsalted hashed String
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException hashing algorithm not supported
+     * @throws UnsupportedEncodingException encoding invalid
      */
     public String hashStringNoSalt(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
@@ -110,7 +110,7 @@ public class HashHelper {
      * Is called upon by other functions to hash byte-arrays with the SHA-1 algorithm
      * @param convertme byte array that will be hashed
      * @return SHA-1 digest
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     private String SHAsum(byte[] convertme) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
