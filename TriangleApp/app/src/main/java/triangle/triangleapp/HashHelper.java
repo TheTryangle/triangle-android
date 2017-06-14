@@ -11,7 +11,7 @@ import java.util.Formatter;
 
 public class HashHelper {
 
-    //Default value
+    //Default value for hashing algorithm
     public String hashAlgorithm ="SHA-256";
 
     /**
