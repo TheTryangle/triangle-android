@@ -76,8 +76,7 @@ public class MediaFileHelper {
                 Log.e(TAG, "IoExc", e);
             }
             file.delete();
-        }
-        catch (Exception ex){
+        } catch (Exception ex){
             Log.e(TAG, "Error occured while get bytes from file.", ex);
         }
         return bytes;
