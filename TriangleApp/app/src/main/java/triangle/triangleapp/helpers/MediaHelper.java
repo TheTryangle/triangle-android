@@ -18,20 +18,21 @@ public class MediaHelper {
     private MediaFileHelper mMediaFileHelper;
     private CameraPreview mCameraPreview;
     private Camera mCamera;
-    private static final int MEDIA_TYPE_IMAGE = 1;
-    private static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int MEDIA_TYPE_VIDEO = 1;
     private WebSocket mWebSocket;
-    private String mUrl;
-    private String mProtocol;
     private int mMediaRecorderMaxDuration;
 
+    /**
+     * Initializing the camera preview.
+     * @param cameraPreview The placeholder of the camera.
+     */
     public MediaHelper(CameraPreview cameraPreview) {
         mCameraPreview = cameraPreview;
         mIsRecording = false;
         mMediaRecorderMaxDuration = 5000;
         mMediaFileHelper = new MediaFileHelper();
-        mUrl = "ws://145.49.35.215:1234/send";
-        mProtocol = "ws";
+        String mUrl = "ws://145.49.35.215:1234/send";
+        String mProtocol = "ws";
         mWebSocket = new WebSocket(mUrl, mProtocol);
     }
 
@@ -85,8 +86,7 @@ public class MediaHelper {
                     if (mWebSocket.isConnected()) {
                         try {
                             mWebSocket.sendStream(mMediaFileHelper.getBytesFromFile(mMediaFileHelper.getOutputMediaFile(MEDIA_TYPE_VIDEO).toString()));
-                        }
-                        catch (Exception ex){
+                        } catch (Exception ex){
                             Log.e(TAG, "Error while send stream to server.", ex);
                         }
                     }
@@ -129,13 +129,17 @@ public class MediaHelper {
      * @param fullStop To release mediarecorder when it is stopped.
      */
     private void stopStreaming(boolean fullStop) {
-        // stop recording and release camera
-        mMediaRecorder.stop();  // stop the recording
+        // stop recording
+        mMediaRecorder.stop();
         mMediaRecorder.reset();
+
+        // release the MediaRecorder object
         if (fullStop) {
-            releaseMediaRecorder(); // release the MediaRecorder object
+            releaseMediaRecorder();
         }
-        mCamera.lock();         // take camera access back from MediaRecorder
+
+        // take camera access back from MediaRecorder
+        mCamera.lock();
     }
 
     /**
@@ -163,10 +167,15 @@ public class MediaHelper {
      */
     private void releaseMediaRecorder() {
         if (mMediaRecorder != null) {
-            mMediaRecorder.reset();   // clear recorder configuration
-            mMediaRecorder.release(); // release the recorder object
+            // clear recorder configuration
+            mMediaRecorder.reset();
+
+            // release the recorder object
+            mMediaRecorder.release();
             mMediaRecorder = null;
-            mCamera.lock();           // lock camera for later use
+
+            // lock camera for later use
+            mCamera.lock();
         }
     }
 }
