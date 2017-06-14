@@ -17,14 +17,12 @@ import triangle.triangleapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 123;
-    private int grantResultAmount;
+    private static final int GRANT_RESULT_AMOUNT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        grantResultAmount = 3;
 
         // Check if we have all the required permissions
         boolean hasPermissions = hasRequiredPermissions();
@@ -41,14 +39,12 @@ public class MainActivity extends AppCompatActivity {
      * Requests the required permissions for this app.
      */
     private void requestPermissions() {
-        ActivityCompat.requestPermissions(this
-                ,new String[]{
-                        Manifest.permission.CAMERA
-                        ,Manifest.permission.RECORD_AUDIO
-                        ,Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        ,Manifest.permission.READ_EXTERNAL_STORAGE
-                }
-                ,PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        }, PERMISSION_REQUEST_CODE);
     }
 
     @Override
@@ -57,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > grantResultAmount) {
+                if (grantResults.length > GRANT_RESULT_AMOUNT) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[grantResultAmount - 2] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[grantResultAmount - 1] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[grantResultAmount] == PackageManager.PERMISSION_GRANTED) {
+                            grantResults[GRANT_RESULT_AMOUNT - 2] == PackageManager.PERMISSION_GRANTED &&
+                            grantResults[GRANT_RESULT_AMOUNT - 1] == PackageManager.PERMISSION_GRANTED &&
+                            grantResults[GRANT_RESULT_AMOUNT] == PackageManager.PERMISSION_GRANTED) {
                         // All the permissions have been granted, we can continue normally
                         initialize();
                     } else {

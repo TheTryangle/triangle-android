@@ -14,6 +14,7 @@ public class CameraHelper {
 
     /**
      * Check camera exists in hardware.
+     *
      * @param context The context of the application.
      * @return State of exists of hardware.
      */
@@ -23,14 +24,14 @@ public class CameraHelper {
 
     /**
      * Open the camera and get the camera instance.
+     *
      * @return Opened camera instance
      */
-    public static Camera getCameraInstance(){
+    public static Camera getCameraInstance() {
         Camera c = null;
-        try{
+        try {
             c = Camera.open();
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(TAG, "Error occured while open camera.", ex);
         }
         return c;

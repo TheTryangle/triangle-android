@@ -2,7 +2,6 @@ package triangle.triangleapp.helpers;
 
 import android.os.Environment;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,25 +14,20 @@ import java.util.Date;
 
 public class MediaFileHelper {
     private static final String TAG = "MediaFileHelper";
-
-    public MediaFileHelper(){
-
-    }
+    private static final String SAVE_LOCATION = "TriangleApp";
 
     /**
      * Obtain media file from storage.
      * @param type 1: .jpg, 2: .mp4.
-     * @return
+     * @return The file of directory
      */
     public File getOutputMediaFile(int type) {
         File mediaFile = null;
         try {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MyCameraApp");
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    Log.d("MyCameraApp", "failed to create directory");
-                    return null;
-                }
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), SAVE_LOCATION);
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+                Log.d(TAG, "failed to create directory");
+                return null;
             }
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -44,6 +38,8 @@ public class MediaFileHelper {
                 case 2:
                     mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
                     break;
+                default:
+                    throw new IllegalArgumentException("Unsupported file type.");
             }
         }
         catch (Exception ex){

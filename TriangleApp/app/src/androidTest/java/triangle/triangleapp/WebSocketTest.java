@@ -15,21 +15,24 @@ import triangle.triangleapp.helpers.WebSocket;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class WebSocket_Test {
+public class WebSocketTest {
 
+    /**
+     * Test connection between websocket and server.
+     */
     @Test
-    public void Websocket_test() {
+    public void WebSocketTest() {
         String url = "ws://145.49.30.113:1234/send";
         String protocol = "ws";
-          try {
-        WebSocket webSocket = new WebSocket(url, protocol);
+        try {
+            WebSocket webSocket = new WebSocket(url, protocol);
 
-              if( webSocket.isConnected()!=false){
-                  Assert.assertTrue(true);
-              }
-          } catch (Exception ex) {
-             Assert.assertTrue(false);
-          }
+            if (!webSocket.isConnected()) {
+                Assert.assertTrue(true);
+            }
+        } catch (Exception ex) {
+            Assert.assertTrue(false);
+        }
 
     }
 }
