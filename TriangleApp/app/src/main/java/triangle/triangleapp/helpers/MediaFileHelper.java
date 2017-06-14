@@ -18,10 +18,9 @@ public class MediaFileHelper {
 
     /**
      * Obtain media file from storage.
-     * @param type 1: .jpg, 2: .mp4.
      * @return The file of directory
      */
-    public File getOutputMediaFile(int type) {
+    public File getOutputMediaFile() {
         File mediaFile = null;
         try {
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), SAVE_LOCATION);
@@ -31,16 +30,8 @@ public class MediaFileHelper {
             }
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            switch (type) {
-                case 1:
-                    mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-                    break;
-                case 2:
-                    mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported file type.");
-            }
+
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
         } catch (Exception ex){
             Log.e(TAG, "Error occured while get output media file.", ex);
         }
