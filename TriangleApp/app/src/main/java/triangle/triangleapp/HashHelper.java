@@ -11,6 +11,24 @@ import java.util.Formatter;
 
 public class HashHelper {
 
+    //Default value
+    public String hashAlgorithm ="SHA-256";
+
+    /**
+     * Gets the aslgorithm used for hashing, default is SHA-256
+     * @return String with hash algorithm
+     */
+    public String getHashAlgorithm() {
+        return hashAlgorithm;
+    }
+
+    /**
+     * sets the hash algorithm used for hashing, default is SHA-256
+     * @param hashAlgorithm
+     */
+    public void setHashAlgorithm(String hashAlgorithm) {
+        this.hashAlgorithm = hashAlgorithm;
+    }
 
     /**
      * Hashes a string then appends salt to it. salts appended this way should be randomly generated.
@@ -82,7 +100,7 @@ public class HashHelper {
      * @throws UnsupportedEncodingException
      */
     public String hashStringNoSalt(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
         md.update(text.getBytes("iso-8859-1"), 0, text.length());
         byte[] sha1hash = md.digest();
         return byteArray2Hex(sha1hash);
@@ -95,7 +113,7 @@ public class HashHelper {
      * @throws NoSuchAlgorithmException
      */
     private String SHAsum(byte[] convertme) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
         return byteArray2Hex(md.digest(convertme));
     }
 
