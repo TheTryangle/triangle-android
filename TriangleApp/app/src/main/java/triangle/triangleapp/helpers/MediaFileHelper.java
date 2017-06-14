@@ -22,7 +22,7 @@ public class MediaFileHelper {
 
     /**
      * Obtain media file from storage.
-     * @param type, 1: .jpg, 2: .mp4.
+     * @param type 1: .jpg, 2: .mp4.
      * @return
      */
     public File getOutputMediaFile(int type) {
@@ -54,8 +54,8 @@ public class MediaFileHelper {
 
     /**
      * Convert filename to byte array.
-     * @param fileName, path to filename.
-     * @return     *
+     * @param fileName path to filename.
+     * @return fileName in String
      */
     public byte[] getBytesFromFile(String fileName){
         byte[] bytes = null;

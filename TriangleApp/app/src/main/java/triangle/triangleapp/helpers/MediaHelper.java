@@ -49,7 +49,7 @@ public class MediaHelper {
 
     /**
      * Initializing mediarecorder, set settings and send stream via web socket.
-     * @param firstInit, Check initializing on first time.
+     * @param firstInit Check initializing on first time.
      */
     private void initializeVideoRecorder(boolean firstInit) {
         if (firstInit) {
@@ -106,7 +106,7 @@ public class MediaHelper {
 
     /**
      * Start streaming from camera to server.
-     * @param firstStart, Check if videorecorder is started for the first time.
+     * @param firstStart Check if videorecorder is started for the first time.
      */
     private void startStreaming(boolean firstStart) {
         initializeVideoRecorder(firstStart);
@@ -126,7 +126,7 @@ public class MediaHelper {
 
     /**
      * Stop streaming from camera to server.
-     * @param fullStop, To release mediarecorder when it is stopped.
+     * @param fullStop To release mediarecorder when it is stopped.
      */
     private void stopStreaming(boolean fullStop) {
         // stop recording and release camera
@@ -140,7 +140,7 @@ public class MediaHelper {
 
     /**
      * Prepare mediarecorder to record.
-     * @return, return state of preparation.
+     * @return return state of preparation.
      */
     private boolean prepareVideoRecorder() {
         // Step 6: Prepare configured MediaRecorder

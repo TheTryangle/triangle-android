@@ -14,7 +14,7 @@ public class CameraHelper {
 
     /**
      * Check camera exists in hardware.
-     * @param context, The context of the application.
+     * @param context The context of the application.
      * @return State of exists of hardware.
      */
     public static boolean checkCameraHardware(Context context) {
