@@ -21,7 +21,7 @@ public class WebSocketTest {
      * Test connection between websocket and server.
      */
     @Test
-    public void WebSocketTest() {
+    public void testWebSocketConnection() {
         String url = "ws://145.49.30.113:1234/send";
         String protocol = "ws";
         try {
