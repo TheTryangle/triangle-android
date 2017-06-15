@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        methodRequiresPermissions();
+        requiresPermission();
 
         Button btnStart = (Button) findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
                     startActivity(cameraIntent);
                 } else {
-                    methodRequiresPermissions();
+                    requiresPermission();
                 }
             }
         });
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      * Check if app has all the required permissions
      */
     @AfterPermissionGranted(PERMISSION_REQUEST_CODE)
-    private void methodRequiresPermissions() {
+    private void requiresPermission() {
         String[] perms = {  Manifest.permission.CAMERA,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         // This will display a dialog directing them to enable the permission in app settings.
         new AppSettingsDialog.Builder(this)
-            .setNegativeButton("Close App", new DialogInterface.OnClickListener() {
+            .setNegativeButton(getString(R.string.close_app), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     MainActivity.this.finish();
                 }
