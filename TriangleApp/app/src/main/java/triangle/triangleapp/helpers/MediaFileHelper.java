@@ -20,7 +20,7 @@ public class MediaFileHelper {
      * Obtain media file from storage.
      * @return The file of directory
      */
-    public File getOutputMediaFile() {
+    public static File getOutputMediaFile() {
         File mediaFile = null;
         try {
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), SAVE_LOCATION);
