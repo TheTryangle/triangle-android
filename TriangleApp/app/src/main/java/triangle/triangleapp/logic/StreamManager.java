@@ -2,7 +2,13 @@ package triangle.triangleapp.logic;
 
 import android.view.Surface;
 import android.view.SurfaceView;
+
+import java.io.File;
+
+import triangle.triangleapp.helpers.MediaFileHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
+import triangle.triangleapp.persistence.StreamAdapter;
+import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -12,9 +18,15 @@ public class StreamManager {
     private Livestream mLivestream;
     private boolean mIsStreaming;
     private Surface mPreviewView;
+    private StreamAdapter streamAdapter;
+    private String mUrl;
+    private String mProtocol;
 
     public StreamManager() {
+        mUrl = "";
+        mProtocol = "ws";
         mLivestream = new CameraLiveStream();
+        streamAdapter = new WebSocketStream(mUrl, mProtocol);
     }
 
     public void setPreviewView(Surface view) {
@@ -29,11 +41,10 @@ public class StreamManager {
             mLivestream.start(new FileRecordedCallback() {
                 @Override
                 public void recordCompleted(String fileName) {
-                    // call sendFile from Persistence
+                    streamAdapter.sendFile(fileName);
                 }
             });
         }
-
         mIsStreaming = !mIsStreaming;
     }
 }

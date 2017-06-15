@@ -44,7 +44,7 @@ public class MediaFileHelper {
      * @param fileName path to filename.
      * @return fileName in String
      */
-    public byte[] getBytesFromFile(String fileName){
+    public static byte[] getBytesFromFile(String fileName){
         byte[] bytes = null;
         try {
             File file = new File(fileName);
