@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">TriangleApp</string>
+
     <string name="permission_denied_error_title">Some required permissions were denied. Please grant the required permissions to use this application.</string>
     <string name="permission_cancel">Cancel</string>
     <string name="permission_grant">Grant</string>
     <string name="permission_request">Permissions</string>
+
+    <string name="permissions_required">"The asked permissions are required for this app to work."</string>
+
+    <string name="camera_start">Start Camera</string>
+    <string name="camera_capture">Capture</string>
+
+    <string name="close_app">Close App</string>
 </resources>

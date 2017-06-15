@@ -5,88 +5,90 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
+import java.util.List;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 import triangle.triangleapp.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+
+    private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 123;
-    private static final int GRANT_RESULT_AMOUNT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check if we have all the required permissions
-        boolean hasPermissions = hasRequiredPermissions();
+        requestPermissions();
 
-        if (hasPermissions) {
-            // Flow can continue as normal
-            initialize();
-        } else {
-            requestPermissions();
+        Button btnStart = (Button) findViewById(R.id.btnStart);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (hasRequiredPermissions()) {
+                    Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+                    startActivity(cameraIntent);
+                } else {
+                    requestPermissions();
+                }
+            }
+        });
+    }
+
+    /**
+     * Check if app has all the required permissions
+     */
+    @AfterPermissionGranted(PERMISSION_REQUEST_CODE)
+    private void requestPermissions() {
+        String[] perms = {  Manifest.permission.CAMERA,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.permissions_required), PERMISSION_REQUEST_CODE, perms);
         }
     }
 
     /**
-     * Requests the required permissions for this app.
+     * Requests the required permissions for this app
      */
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }, PERMISSION_REQUEST_CODE);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > GRANT_RESULT_AMOUNT) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[GRANT_RESULT_AMOUNT - 2] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[GRANT_RESULT_AMOUNT - 1] == PackageManager.PERMISSION_GRANTED &&
-                            grantResults[GRANT_RESULT_AMOUNT] == PackageManager.PERMISSION_GRANTED) {
-                        // All the permissions have been granted, we can continue normally
-                        initialize();
-                    } else {
-                        // Some permissions where denied
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
 
-                        // Create and show an alert to re-request.
-                        AlertDialog alertDialog = new AlertDialog.Builder(this)
-                                .setTitle(R.string.permission_request)
-                                .setMessage(R.string.permission_denied_error_title)
-                                .setPositiveButton(R.string.permission_grant, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        requestPermissions();
-                                    }
-                                })
-                                .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).create();
+    }
 
-                        alertDialog.show();
-                    }
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+
+        // This will display a dialog directing them to enable the permission in app settings.
+        new AppSettingsDialog.Builder(this)
+            .setNegativeButton(getString(R.string.close_app), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    MainActivity.this.finish();
                 }
-                break;
-            default:
-                break;
-        }
+            })
+            .build()
+            .show();
     }
 
     /**
@@ -105,19 +107,5 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.RECORD_AUDIO);
 
         return PackageManager.PERMISSION_GRANTED == hasCameraPermission && PackageManager.PERMISSION_GRANTED == hasWriteStoragePermission && PackageManager.PERMISSION_GRANTED == hasReadStoragePermission && PackageManager.PERMISSION_GRANTED == hasMicrophonePermission;
-    }
-
-    /**
-     * Continues the initialization flow.
-     */
-    private void initialize() {
-        Button btnStart = (Button) findViewById(R.id.btnStart);
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
-                startActivity(cameraIntent);
-            }
-        });
     }
 }
