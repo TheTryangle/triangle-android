@@ -11,8 +11,8 @@ import triangle.triangleapp.persistence.StreamAdapter;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private String mUrl;
-    private String mProtocol;
+    private static final String URL = "ws://145.49.30.86:1234/send";
+    private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 
@@ -20,10 +20,8 @@ public class WebSocketStream implements StreamAdapter {
      * makes an async websocket connection
      */
     public WebSocketStream(){
-        mUrl = "";
-        mProtocol = "ws";
         AsyncHttpClient.getDefaultInstance()
-                .websocket(mUrl, mProtocol, new AsyncHttpClient.WebSocketConnectCallback() {
+                .websocket(URL, PROTOCOL, new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override
                     public void onCompleted(Exception ex, WebSocket webSocket) {
                         mIsConnected = true;
