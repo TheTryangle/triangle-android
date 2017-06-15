@@ -3,8 +3,6 @@ package triangle.triangleapp.persistence.impl;
 import android.util.Log;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
-import java.io.File;
-
 import triangle.triangleapp.helpers.MediaFileHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 
@@ -20,12 +18,10 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * makes an async websocket connection
-     * @param url url to connect to
-     * @param protocol protocol to be used
      */
-    public WebSocketStream(String url, String protocol){
-        mUrl = url;
-        mProtocol = protocol;
+    public WebSocketStream(){
+        mUrl = "";
+        mProtocol = "ws";
         AsyncHttpClient.getDefaultInstance()
                 .websocket(mUrl, mProtocol, new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override

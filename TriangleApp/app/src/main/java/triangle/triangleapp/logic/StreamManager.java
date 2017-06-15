@@ -19,14 +19,10 @@ public class StreamManager {
     private boolean mIsStreaming;
     private Surface mPreviewView;
     private StreamAdapter streamAdapter;
-    private String mUrl;
-    private String mProtocol;
 
     public StreamManager() {
-        mUrl = "";
-        mProtocol = "ws";
         mLivestream = new CameraLiveStream();
-        streamAdapter = new WebSocketStream(mUrl, mProtocol);
+        streamAdapter = new WebSocketStream();
     }
 
     public void setPreviewView(Surface view) {
