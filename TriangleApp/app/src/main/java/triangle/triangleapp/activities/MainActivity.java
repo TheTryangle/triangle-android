@@ -3,7 +3,9 @@ package triangle.triangleapp.activities;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,8 +32,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
-                startActivity(cameraIntent);
+
+                if (hasRequiredPermissions()) {
+                    Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+                    startActivity(cameraIntent);
+                } else {
+                    methodRequiresPermissions();
+                }
             }
         });
     }
@@ -82,5 +89,23 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             })
             .build()
             .show();
+    }
+
+    /**
+     * Checks if this application has all the required permissions
+     *
+     * @return true if we have the required permissions else false.
+     */
+    private boolean hasRequiredPermissions() {
+        int hasCameraPermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.CAMERA);
+        int hasWriteStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasReadStoragePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasMicrophonePermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.RECORD_AUDIO);
+
+        return PackageManager.PERMISSION_GRANTED == hasCameraPermission && PackageManager.PERMISSION_GRANTED == hasWriteStoragePermission && PackageManager.PERMISSION_GRANTED == hasReadStoragePermission && PackageManager.PERMISSION_GRANTED == hasMicrophonePermission;
     }
 }
