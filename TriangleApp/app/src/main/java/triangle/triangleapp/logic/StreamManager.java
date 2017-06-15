@@ -13,13 +13,13 @@ import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 public class StreamManager {
     private static final String TAG = "StreamManager";
-    private Livestream mLivestream;
+    private LiveStream mLiveStream;
     private boolean mIsStreaming;
     private Surface mPreviewView;
     private StreamAdapter streamAdapter;
 
     public StreamManager() {
-        mLivestream = new CameraLiveStream();
+        mLiveStream = new CameraLiveStream();
         streamAdapter = new WebSocketStream();
     }
 
@@ -29,10 +29,10 @@ public class StreamManager {
 
     public boolean stream() {
         if (mIsStreaming) {
-            mLivestream.stop();
+            mLiveStream.stop();
         } else {
-            mLivestream.setPreviewView(mPreviewView);
-            mLivestream.start(new FileRecordedCallback() {
+            mLiveStream.setPreviewView(mPreviewView);
+            mLiveStream.start(new FileRecordedCallback() {
                 @Override
                 public void recordCompleted(String fileName) {
                     Log.i(TAG, "File completed, " + fileName);

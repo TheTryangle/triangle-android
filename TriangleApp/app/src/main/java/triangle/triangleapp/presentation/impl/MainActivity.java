@@ -1,4 +1,4 @@
-package triangle.triangleapp.activities;
+package triangle.triangleapp.presentation.impl;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 
 import triangle.triangleapp.R;
-import triangle.triangleapp.presentation.impl.StreamActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 123;

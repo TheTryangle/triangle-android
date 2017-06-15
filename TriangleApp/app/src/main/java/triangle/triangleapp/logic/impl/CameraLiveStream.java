@@ -5,22 +5,17 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.Surface;
-import android.view.SurfaceView;
-
 import java.io.IOException;
-
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.helpers.MediaFileHelper;
-import triangle.triangleapp.helpers.WebSocket;
 import triangle.triangleapp.logic.FileRecordedCallback;
-import triangle.triangleapp.logic.Livestream;
-import triangle.triangleapp.view.CameraPreview;
+import triangle.triangleapp.logic.LiveStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
  */
 
-public class CameraLiveStream implements Livestream {
+public class CameraLiveStream implements LiveStream {
     private static final String TAG = "CameraLive";
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
