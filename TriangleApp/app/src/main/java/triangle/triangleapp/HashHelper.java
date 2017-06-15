@@ -52,8 +52,7 @@ public class HashHelper {
      * @throws NoSuchAlgorithmException algorithm not valid
      */
     public String hashStringAndSaltBeforeHash(String text, String salt) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String saltedHash = hashStringNoSalt(text+salt);
-        return saltedHash;
+        return hashStringNoSalt(text+salt);
     }
 
     /**
@@ -64,8 +63,7 @@ public class HashHelper {
      * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     public String hashByteArrayAndSaltAfterHash(byte[] toBeHashed, String salt) throws NoSuchAlgorithmException {
-        String saltedHash = hashByteArrayNoSalt(toBeHashed)+salt;
-        return saltedHash;
+        return hashByteArrayNoSalt(toBeHashed)+salt;
     }
 
     /**
@@ -77,8 +75,7 @@ public class HashHelper {
      */
     public String hashByteArrayAndSaltBeforeHash(byte[] toBeHashed, String salt) throws NoSuchAlgorithmException {
         //Note: the salt will not be hashed with the bytestream here
-        String saltedHash = salt+hashByteArrayNoSalt(toBeHashed);
-        return saltedHash;
+        return salt+hashByteArrayNoSalt(toBeHashed);
     }
 
     /**
@@ -88,8 +85,7 @@ public class HashHelper {
      * @throws NoSuchAlgorithmException hashing algorithm not supported
      */
     public String hashByteArrayNoSalt(byte[] toBeHashed) throws NoSuchAlgorithmException {
-        String strash= SHAsum(toBeHashed);
-        return strash;
+        return SHAsum(toBeHashed);
     }
 
     /**

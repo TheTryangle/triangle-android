@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.security.cert.Certificate;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
