@@ -42,50 +42,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         methodRequiresPermissions();
 
-        Context context = getApplicationContext();
-
-//        MultiplePermissionsListener dialogMultiplePermissionsListener =
-//                DialogOnAnyDeniedMultiplePermissionsListener.Builder
-//                        .withContext(context)
-//                        .withTitle("Camera & audio permission")
-//                        .withMessage("Both camera and audio permission are needed to take pictures of your cat")
-//                        .withButtonText(android.R.string.ok)
-//                        .withIcon(R.mipmap.ic_launcher)
-//                        .build();
-//
-//
-//        Dexter.withActivity(this)
-//                .withPermissions(
-//                        Manifest.permission.CAMERA,
-//                        Manifest.permission.RECORD_AUDIO,
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE
-//                ).withListener(new MultiplePermissionsListener() {
-//                    @Override public void onPermissionsChecked(MultiplePermissionsReport report) {
-//                        Context context = getApplicationContext();
-//                        CharSequence text = "onPermissionsChecked!";
-//                        int duration = Toast.LENGTH_SHORT;
-//
-//                        Toast toast = Toast.makeText(context, text, duration);
-//                        toast.show();
-//                    }
-//
-//                    @Override public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-//                        token.continuePermissionRequest();
-//                    }
-//                })
-//                .withErrorListener(new PermissionRequestErrorListener() {
-//                    @Override public void onError(DexterError error) {
-//                        Log.e("Dexter", "There was an error: " + error.toString());
-//                    }
-//                })
-//                .check();
-    }
-
-    /**
-     * Continues the initialization flow.
-     */
-    private void initialize() {
         Button btnStart = (Button) findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         });
     }
 
+    /**
+     * Continues the initialization flow.
+     */
     @AfterPermissionGranted(PERMISSION_REQUEST_CODE)
     private void methodRequiresPermissions() {
         String[] perms = {  Manifest.permission.CAMERA,
@@ -119,16 +78,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        initialize();
+
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
 
-        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
         // This will display a dialog directing them to enable the permission in app settings.
-//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this)
                 .setNegativeButton("Close App", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -137,6 +94,5 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 })
                 .build()
                 .show();
-//        }
     }
 }
