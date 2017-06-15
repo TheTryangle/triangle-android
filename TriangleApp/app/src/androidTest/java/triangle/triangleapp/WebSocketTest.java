@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import triangle.triangleapp.helpers.WebSocket;
+import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
  * Created by D2110175 on 13-6-2017.
@@ -22,10 +22,8 @@ public class WebSocketTest {
      */
     @Test
     public void testWebSocketConnection() {
-        String url = "ws://145.49.30.113:1234/send";
-        String protocol = "ws";
         try {
-            WebSocket webSocket = new WebSocket(url, protocol);
+            WebSocketStream webSocket = new WebSocketStream();
 
             if (!webSocket.isConnected()) {
                 Assert.assertTrue(true);

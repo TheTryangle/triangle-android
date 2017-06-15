@@ -1,7 +1,9 @@
 package triangle.triangleapp.helpers;
 
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,15 +14,16 @@ import java.util.Date;
  * Created by Kevin Ly on 6/13/2017.
  */
 
-public class MediaFileHelper {
-    private static final String TAG = "MediaFileHelper";
+public class FileHelper {
+    private static final String TAG = "FileHelper";
     private static final String SAVE_LOCATION = "TriangleApp";
 
     /**
      * Obtain media file from storage.
+     *
      * @return The file of directory
      */
-    public File getOutputMediaFile() {
+    public static File getOutputMediaFile() {
         File mediaFile = null;
         try {
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), SAVE_LOCATION);
@@ -32,19 +35,19 @@ public class MediaFileHelper {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
             mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(TAG, "Error occured while get output media file.", ex);
         }
         return mediaFile;
     }
 
-    //FIXME: during run, IOexc is called while trying to read .jpg file. why is this even trying to acces .jpg files?
     /**
      * Convert filename to byte array.
+     *
      * @param fileName path to filename.
      * @return fileName in String
      */
-    public byte[] getBytesFromFile(String fileName){
+    public static byte[] getBytesFromFile(@NonNull String fileName) {
         byte[] bytes = null;
         try {
             File file = new File(fileName);
@@ -68,7 +71,7 @@ public class MediaFileHelper {
                 Log.e(TAG, "IoExc", e);
             }
             file.delete();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(TAG, "Error occured while get bytes from file.", ex);
         }
         return bytes;

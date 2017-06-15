@@ -1,23 +1,27 @@
-package triangle.triangleapp.activities;
+package triangle.triangleapp.presentation.impl;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import java.util.List;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import triangle.triangleapp.R;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
-
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 123;
 
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             public void onClick(View v) {
 
                 if (hasRequiredPermissions()) {
-                    Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+                    Intent cameraIntent = new Intent(MainActivity.this, StreamActivity.class);
                     startActivity(cameraIntent);
                 } else {
                     requestPermissions();
@@ -48,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      */
     @AfterPermissionGranted(PERMISSION_REQUEST_CODE)
     private void requestPermissions() {
-        String[] perms = {  Manifest.permission.CAMERA,
-                            Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] perms = {Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
 
         if (!EasyPermissions.hasPermissions(this, perms)) {
 
@@ -82,13 +86,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         // This will display a dialog directing them to enable the permission in app settings.
         new AppSettingsDialog.Builder(this)
-            .setNegativeButton(getString(R.string.close_app), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    MainActivity.this.finish();
-                }
-            })
-            .build()
-            .show();
+                .setNegativeButton(getString(R.string.close_app), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .build()
+                .show();
     }
 
     /**

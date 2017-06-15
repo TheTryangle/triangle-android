@@ -5,11 +5,11 @@
     <string name="permission_cancel">Cancel</string>
     <string name="permission_grant">Grant</string>
     <string name="permission_request">Permissions</string>
-
     <string name="permissions_required">"The asked permissions are required for this app to work."</string>
-
+    <string name="btn_start_streaming">Start streaming</string>
+    <string name="btn_stop_streaming">Stop streaming</string>
+    <string name="notify_streaming_stopped">Streaming stopped</string>
+    <string name="notify_streaming_started">Streaming started</string>
     <string name="camera_start">Start Camera</string>
-    <string name="camera_capture">Capture</string>
-
     <string name="close_app">Close App</string>
 </resources>
