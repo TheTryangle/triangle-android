@@ -18,8 +18,14 @@ public class StreamPresenter {
     }
 
     public void stream() {
-        mManager.setPreviewView(mView.getPreviewView());
-        mManager.stream();
+        mManager.setPreviewView(mView.getPreviewSurface());
+        boolean isStreaming = mManager.stream();
+
+        if (isStreaming) {
+            mView.streamStarted();
+        } else {
+            mView.streamStopped();
+        }
     }
 
 }

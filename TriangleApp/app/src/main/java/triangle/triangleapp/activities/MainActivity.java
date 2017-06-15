@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.presentation.impl.StreamActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 123;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
+                Intent cameraIntent = new Intent(MainActivity.this, StreamActivity.class);
                 startActivity(cameraIntent);
             }
         });

@@ -1,11 +1,8 @@
 package triangle.triangleapp.logic;
 
+import android.util.Log;
 import android.view.Surface;
-import android.view.SurfaceView;
 
-import java.io.File;
-
-import triangle.triangleapp.helpers.MediaFileHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.impl.WebSocketStream;
@@ -15,6 +12,7 @@ import triangle.triangleapp.persistence.impl.WebSocketStream;
  */
 
 public class StreamManager {
+    private static final String TAG = "StreamManager";
     private Livestream mLivestream;
     private boolean mIsStreaming;
     private Surface mPreviewView;
@@ -29,7 +27,7 @@ public class StreamManager {
         this.mPreviewView = view;
     }
 
-    public void stream() {
+    public boolean stream() {
         if (mIsStreaming) {
             mLivestream.stop();
         } else {
@@ -37,10 +35,13 @@ public class StreamManager {
             mLivestream.start(new FileRecordedCallback() {
                 @Override
                 public void recordCompleted(String fileName) {
+                    Log.i(TAG, "File completed, " + fileName);
                     streamAdapter.sendFile(fileName);
                 }
             });
         }
         mIsStreaming = !mIsStreaming;
+
+        return mIsStreaming;
     }
 }

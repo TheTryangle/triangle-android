@@ -8,7 +8,9 @@ import android.view.SurfaceView;
  */
 
 public interface StreamView {
-    void showPreview();
+    void streamStarted();
+
+    void streamStopped();
 
     Surface getPreviewSurface();
 }
