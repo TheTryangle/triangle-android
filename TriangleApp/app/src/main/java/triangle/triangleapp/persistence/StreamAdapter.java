@@ -10,7 +10,7 @@ public interface StreamAdapter {
     /**
      * Called when a new file should be sent
      *
-     * @param fileName The file to send
+     * @param fileInBytes File in bytes
      */
-    void sendFile(@NonNull String fileName);
+    void sendFile(@NonNull byte[] fileInBytes);
 }

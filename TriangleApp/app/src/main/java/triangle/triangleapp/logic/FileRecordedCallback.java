@@ -10,7 +10,7 @@ public interface FileRecordedCallback {
     /**
      * Occurs when an recording has been completed
      *
-     * @param fileName The fileName that has been recorded to
+     * @param fileInBytes File in byte array
      */
-    void recordCompleted(@NonNull String fileName);
+    void recordCompleted(@NonNull byte[] fileInBytes);
 }

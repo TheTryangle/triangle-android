@@ -41,14 +41,13 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * sends the stream using websocket
-     * @param fileName name of file
+     * @param fileInBytes file in bytes
      */
     @Override
-    public void sendFile(@NonNull String fileName) {
+    public void sendFile(@NonNull byte[] fileInBytes) {
         try{
             if (mIsConnected){
-                byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
-                mWebSocket.send(bytesToSend);
+                mWebSocket.send(fileInBytes);
             }
         }catch (Exception ex){
             Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
