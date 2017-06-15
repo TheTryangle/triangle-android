@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.helpers.FileHelper;
@@ -25,6 +28,8 @@ public class CameraLiveStream implements LiveStream {
     private Camera mCamera;
     private FileRecordedCallback mCallback;
     private Surface mPreviewSurface;
+    private RandomAccessFile raf;
+    private File tmpFile;
 
     @Override
     public void start(@NonNull FileRecordedCallback fileRecordedCallback) {
@@ -55,6 +60,12 @@ public class CameraLiveStream implements LiveStream {
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
             mMediaRecorder.setCamera(mCamera);
+            try {
+                this.tmpFile = File.createTempFile("tmpvid_livestream_345853", "tmp");
+//            this.outputFile = new RandomAccessFile(tmpFile, "rw");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         // Step 2: Set sources
@@ -64,9 +75,19 @@ public class CameraLiveStream implements LiveStream {
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
         mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
-        final String fileName = FileHelper.getOutputMediaFile().toString();
         // Step 4: Set output file
-        mMediaRecorder.setOutputFile(fileName);
+        final String fileName = FileHelper.getOutputMediaFile().toString();
+        try {
+            raf = new RandomAccessFile(tmpFile, "rw");
+            mMediaRecorder.setOutputFile(raf.getFD());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            mMediaRecorder.setOutputFile(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            mMediaRecorder.setOutputFile(fileName);
+        }
+
 
         // Step 5: Set the preview output
         mMediaRecorder.setPreviewDisplay(mPreviewSurface);
@@ -77,9 +98,33 @@ public class CameraLiveStream implements LiveStream {
                 // Handle the on duration exceeded
                 if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
                     stopStreaming(false);
+                    new Thread(new Runnable() {
+                        public void run() {
+                            byte[] streamBytes = new byte[0];
+
+                            try {
+
+                                byte[] document = new byte[(int) raf.length()];
+                                Log.e(TAG,"reading raf");
+                                raf.seek(0);
+                                raf.readFully(document);
+                                Log.e(TAG,"done reading raf");
+                                streamBytes=document;
+                                Log.e(TAG,streamBytes.toString());
+                                if (streamBytes != null) {
+                                    mCallback.recordCompleted(streamBytes);
+                                }
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
                     startStreaming(true);
 
-                    mCallback.recordCompleted(fileName);
+
                 }
             }
         });
