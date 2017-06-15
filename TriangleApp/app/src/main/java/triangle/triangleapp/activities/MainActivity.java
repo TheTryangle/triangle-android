@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestPermission();
+        requestPermissions();
 
         Button btnStart = (Button) findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     Intent cameraIntent = new Intent(MainActivity.this, CameraActivity.class);
                     startActivity(cameraIntent);
                 } else {
-                    requestPermission();
+                    requestPermissions();
                 }
             }
         });
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      * Check if app has all the required permissions
      */
     @AfterPermissionGranted(PERMISSION_REQUEST_CODE)
-    private void requestPermission() {
+    private void requestPermissions() {
         String[] perms = {  Manifest.permission.CAMERA,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
