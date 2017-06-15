@@ -6,8 +6,10 @@
     <string name="permission_grant">Grant</string>
     <string name="permission_request">Permissions</string>
 
-    <string name="close_app">Close App</string>
+    <string name="permissions_required">"The asked permissions are required for this app to work."</string>
 
     <string name="camera_start">Start Camera</string>
     <string name="camera_capture">Capture</string>
+
+    <string name="close_app">Close App</string>
 </resources>

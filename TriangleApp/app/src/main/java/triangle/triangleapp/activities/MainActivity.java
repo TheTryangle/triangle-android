@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         if (!EasyPermissions.hasPermissions(this, perms)) {
 
             // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(this, "The asked permissions are required for this app to work.", PERMISSION_REQUEST_CODE, perms);
+            EasyPermissions.requestPermissions(this, getString(R.string.permissions_required), PERMISSION_REQUEST_CODE, perms);
         }
     }
 
