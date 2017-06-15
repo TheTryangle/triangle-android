@@ -119,8 +119,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        // Some permissions have been granted
-        // ...
+        initialize();
     }
 
     @Override
