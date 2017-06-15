@@ -3,11 +3,14 @@ package triangle.triangleapp.logic.impl;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
+
 import java.io.IOException;
+
 import triangle.triangleapp.helpers.CameraHelper;
-import triangle.triangleapp.helpers.MediaFileHelper;
+import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.logic.FileRecordedCallback;
 import triangle.triangleapp.logic.LiveStream;
 
@@ -16,15 +19,15 @@ import triangle.triangleapp.logic.LiveStream;
  */
 
 public class CameraLiveStream implements LiveStream {
-    private static final String TAG = "CameraLive";
+    private static final String TAG = "CameraStream";
+    private static final int MAX_RECORD_DURATION = 5000;
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
-    private int mMediaRecorderMaxDuration = 5000;
     private FileRecordedCallback mCallback;
     private Surface mPreviewSurface;
 
     @Override
-    public void start(FileRecordedCallback fileRecordedCallback) {
+    public void start(@NonNull FileRecordedCallback fileRecordedCallback) {
         mCallback = fileRecordedCallback;
         startStreaming(true);
     }
@@ -32,16 +35,15 @@ public class CameraLiveStream implements LiveStream {
     @Override
     public void stop() {
         stopStreaming(true);
-
     }
 
     @Override
-    public void setPreviewView(Surface surface) {
+    public void setPreviewView(@NonNull Surface surface) {
         mPreviewSurface = surface;
     }
 
     /**
-     * Initializing mediarecorder, set settings and send stream via web socket.
+     * Initializing mediarecorder, set settings
      *
      * @param firstInit Check initializing on first time.
      */
@@ -62,7 +64,7 @@ public class CameraLiveStream implements LiveStream {
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
         mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
-        final String fileName = MediaFileHelper.getOutputMediaFile().toString();
+        final String fileName = FileHelper.getOutputMediaFile().toString();
         // Step 4: Set output file
         mMediaRecorder.setOutputFile(fileName);
 
@@ -89,7 +91,7 @@ public class CameraLiveStream implements LiveStream {
             }
         });
 
-        mMediaRecorder.setMaxDuration(mMediaRecorderMaxDuration);
+        mMediaRecorder.setMaxDuration(MAX_RECORD_DURATION);
     }
 
     /**
@@ -125,6 +127,7 @@ public class CameraLiveStream implements LiveStream {
         // release the MediaRecorder object
         if (fullStop) {
             releaseMediaRecorder();
+            mCamera.stopPreview();
         }
 
         // take camera access back from MediaRecorder
@@ -132,7 +135,7 @@ public class CameraLiveStream implements LiveStream {
     }
 
     /**
-     * Prepare mediarecorder to record.
+     * Prepare media recorder to record.
      *
      * @return return state of preparation.
      */
@@ -140,20 +143,17 @@ public class CameraLiveStream implements LiveStream {
         // Step 6: Prepare configured MediaRecorder
         try {
             mMediaRecorder.prepare();
-        } catch (IllegalStateException e) {
-            Log.e(TAG, "IllegalStateException preparing MediaRecorder", e);
-            releaseMediaRecorder();
-            return false;
-        } catch (IOException e) {
-            Log.e(TAG, "IOException preparing MediaRecorder", e);
+        } catch (Exception e) {
+            Log.e(TAG, "Error preparing MediaRecorder", e);
             releaseMediaRecorder();
             return false;
         }
+
         return true;
     }
 
     /**
-     * Release and reset the mediarecorder. Locking the camera.
+     * Release and reset the media recorder. Locking the camera.
      */
     private void releaseMediaRecorder() {
         if (mMediaRecorder != null) {
@@ -163,9 +163,6 @@ public class CameraLiveStream implements LiveStream {
             // release the recorder object
             mMediaRecorder.release();
             mMediaRecorder = null;
-
-            // lock camera for later use
-            mCamera.lock();
         }
     }
 }

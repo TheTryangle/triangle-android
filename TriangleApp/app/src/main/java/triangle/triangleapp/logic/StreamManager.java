@@ -1,5 +1,6 @@
 package triangle.triangleapp.logic;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
@@ -23,10 +24,20 @@ public class StreamManager {
         streamAdapter = new WebSocketStream();
     }
 
-    public void setPreviewView(Surface view) {
-        this.mPreviewView = view;
+    /**
+     * Sets the preview view to use for previews
+     *
+     * @param surface The surface to use for preview
+     */
+    public void setPreviewView(@NonNull Surface surface) {
+        this.mPreviewView = surface;
     }
 
+    /**
+     * Starts or stops the streaming
+     *
+     * @return True if the streaming started, else returns false
+     */
     public boolean stream() {
         if (mIsStreaming) {
             mLiveStream.stop();

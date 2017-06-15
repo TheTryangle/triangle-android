@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class StreamActivity extends AppCompatActivity implements StreamView {
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
-    private Button mButtonCapture;
+    private Button mButtonStream;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +30,9 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
 
         mPresenter = new StreamPresenter(this);
 
-        mCameraSurfaceView = (SurfaceView) findViewById(R.id.camera_preview);
-        mButtonCapture = (Button) findViewById(R.id.btnCapture);
-        mButtonCapture.setOnClickListener(new View.OnClickListener() {
+        mCameraSurfaceView = (SurfaceView) findViewById(R.id.surface_camera_preview);
+        mButtonStream = (Button) findViewById(R.id.btn_stream);
+        mButtonStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Start or stop the stream
@@ -43,14 +43,25 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
 
     @Override
     public void streamStarted() {
-        mButtonCapture.setText("Stop streaming");
-        Toast.makeText(this, "Streaming started", Toast.LENGTH_SHORT).show();
+        mButtonStream.setText(R.string.btn_stop_streaming);
+        Toast.makeText(this, R.string.notify_streaming_started, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void streamStopped() {
-        mButtonCapture.setText("Start streaming");
-        Toast.makeText(this, "Streaming stopped", Toast.LENGTH_SHORT).show();
+        mButtonStream.setText(R.string.btn_start_streaming);
+        Toast.makeText(this, R.string.notify_streaming_stopped, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPreview() {
+        mCameraSurfaceView.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void hidePreview() {
+        mCameraSurfaceView.setVisibility(View.INVISIBLE);
     }
 
     @Override

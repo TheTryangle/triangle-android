@@ -1,5 +1,6 @@
 package triangle.triangleapp.logic;
 
+import android.support.annotation.NonNull;
 import android.view.Surface;
 
 /**
@@ -7,7 +8,22 @@ import android.view.Surface;
  */
 
 public interface LiveStream {
-    void start(FileRecordedCallback fileRecordedCallback);
+    /**
+     * Called when the stream should start recording
+     *
+     * @param fileRecordedCallback Callback that is called when a new file is recorded
+     */
+    void start(@NonNull FileRecordedCallback fileRecordedCallback);
+
+    /**
+     * Called when the stream should stop
+     */
     void stop();
-    void setPreviewView(Surface view);
+
+    /**
+     * Called when the preview view is available.
+     *
+     * @param surface The surface to use for preview
+     */
+    void setPreviewView(@NonNull Surface surface);
 }

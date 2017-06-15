@@ -17,13 +17,18 @@ public class StreamPresenter {
         mManager = new StreamManager();
     }
 
+    /**
+     * Starts or stops the streaming
+     */
     public void stream() {
+        mView.showPreview();
         mManager.setPreviewView(mView.getPreviewSurface());
         boolean isStreaming = mManager.stream();
 
         if (isStreaming) {
             mView.streamStarted();
         } else {
+            mView.hidePreview();
             mView.streamStopped();
         }
     }

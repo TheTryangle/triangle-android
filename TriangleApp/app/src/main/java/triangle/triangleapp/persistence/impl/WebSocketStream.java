@@ -1,9 +1,10 @@
 package triangle.triangleapp.persistence.impl;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
-import triangle.triangleapp.helpers.MediaFileHelper;
+import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 
 /**
@@ -43,10 +44,10 @@ public class WebSocketStream implements StreamAdapter {
      * @param fileName name of file
      */
     @Override
-    public void sendFile(String fileName) {
+    public void sendFile(@NonNull String fileName) {
         try{
             if (mIsConnected){
-                byte[] bytesToSend = MediaFileHelper.getBytesFromFile(fileName);
+                byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
                 mWebSocket.send(bytesToSend);
             }
         }catch (Exception ex){
