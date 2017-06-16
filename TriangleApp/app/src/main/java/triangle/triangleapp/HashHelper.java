@@ -12,7 +12,7 @@ import java.util.Formatter;
 public class HashHelper {
 
     //Default value for hashing algorithm
-    private String hashAlgorithm ="SHA-256";
+    private String hashAlgorithm =Keystore.getExistingInstance().get("hash_algorithm");
 
     /**
      * Gets the aslgorithm used for hashing, default is SHA-256
