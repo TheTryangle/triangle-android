@@ -54,10 +54,7 @@ public class WebSocketStream implements StreamAdapter {
             e.printStackTrace();
         }
         String pubKey = stringWriter.toString();
-
-        
-
-        mWebSocket.send("PUBKEY:" + stringWriter.toString());
+        mWebSocket.send("PUBKEY:" + pubKey);
     }
 
     @Override
