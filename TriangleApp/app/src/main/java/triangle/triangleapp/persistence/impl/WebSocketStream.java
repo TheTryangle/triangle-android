@@ -40,7 +40,7 @@ public class WebSocketStream implements StreamAdapter {
         StringWriter stringWriter = new StringWriter();
         JcaPEMWriter writer = new JcaPEMWriter(stringWriter);
         try {
-            writer.writeObject((RSAPublicKey) publicKey);
+            writer.writeObject(publicKey);
             writer.flush();
         } catch (Exception e) {
             e.printStackTrace();
