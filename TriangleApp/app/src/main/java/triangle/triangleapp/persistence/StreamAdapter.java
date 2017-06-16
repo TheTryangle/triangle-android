@@ -4,12 +4,15 @@ import android.support.annotation.NonNull;
 
 import org.spongycastle.crypto.params.AsymmetricKeyParameter;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 /**
  * Created by Kevin Ly on 6/15/2017.
  */
 
 public interface StreamAdapter {
-    void sendPublicKey(AsymmetricKeyParameter publicKey);
+    void sendPublicKey(PublicKey publicKey);
 
     void connect(WebSocketCallback callback);
 
@@ -18,5 +21,5 @@ public interface StreamAdapter {
      *
      * @param fileName The file to send
      */
-    void sendFile(AsymmetricKeyParameter privateKey, @NonNull String fileName);
+    void sendFile(PrivateKey privateKey, @NonNull String fileName);
 }

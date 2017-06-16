@@ -2,14 +2,21 @@ package triangle.triangleapp.persistence.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.Xml;
+
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
 
 import org.spongycastle.crypto.params.AsymmetricKeyParameter;
+import org.spongycastle.crypto.params.RSAKeyParameters;
+import org.spongycastle.crypto.util.PrivateKeyFactory;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 import triangle.triangleapp.helpers.CertifcateHelper;
@@ -29,22 +36,26 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * gets boolean isConnected, default null, can never return false
+     *
      * @return connectionstate
      */
-    public boolean isConnected(){
+    public boolean isConnected() {
         return mIsConnected;
     }
 
     @Override
-    public void sendPublicKey(AsymmetricKeyParameter publicKey) {
+    public void sendPublicKey(PublicKey publicKey) {
         StringWriter stringWriter = new StringWriter();
         JcaPEMWriter writer = new JcaPEMWriter(stringWriter);
         try {
             writer.writeObject(publicKey);
-            writer.flush();
+            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String pubKey = stringWriter.toString();
+
+        
 
         mWebSocket.send("PUBKEY:" + stringWriter.toString());
     }
@@ -65,20 +76,21 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * sends the stream using websocket
+     *
      * @param fileName name of file
      */
     @Override
-    public void sendFile(AsymmetricKeyParameter privateKey, @NonNull String fileName) {
-        try{
-            if (mIsConnected){
+    public void sendFile(PrivateKey privateKey, @NonNull String fileName) {
+        try {
+            if (mIsConnected) {
                 byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
 
-                String hash = CertifcateHelper.encrypt(privateKey, bytesToSend);
+                /*String hash = CertifcateHelper.encrypt(privateKey, bytesToSend);
 
-                mWebSocket.send("HASH:" + hash);
+                mWebSocket.send("HASH:" + hash);*/
                 mWebSocket.send(bytesToSend);
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
         }
     }

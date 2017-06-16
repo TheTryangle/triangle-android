@@ -5,11 +5,19 @@ import org.spongycastle.crypto.engines.RSAEngine;
 import org.spongycastle.crypto.generators.RSAKeyPairGenerator;
 import org.spongycastle.crypto.params.AsymmetricKeyParameter;
 import org.spongycastle.crypto.params.RSAKeyGenerationParameters;
+import org.spongycastle.jce.provider.BouncyCastleProvider;
 
 
 import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
+import java.security.Security;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 /**
  * Created by marco on 15-6-2017.
@@ -18,24 +26,24 @@ import java.security.SecureRandom;
 public class CertifcateHelper {
     private static final String TAG = "CertificateHelper";
 
-    public static AsymmetricCipherKeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        RSAKeyPairGenerator generator = new RSAKeyPairGenerator();
-        generator.init(new RSAKeyGenerationParameters
-                (
-                        new BigInteger("10001", 16),//publicExponent
-                        SecureRandom.getInstance("SHA1PRNG"),//prng
-                        1024,//strength
-                        80//certainty
-                ));
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+        Security.addProvider(new BouncyCastleProvider());
+
+        return generateRSAKeyPair();
+    }
+
+    private static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException, NoSuchProviderException {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        generator.initialize(1024);
 
         return generator.generateKeyPair();
     }
 
-    public static String encrypt(AsymmetricKeyParameter privateKey, byte[] data) throws Exception {
+    public static String encrypt(PrivateKey privateKey, byte[] data) throws Exception {
         //Security.addProvider(new BouncyCastleProvider());
 
         RSAEngine engine = new RSAEngine();
-        engine.init(true, privateKey); //true if encrypt
+        //engine.init(true, privateKey); //true if encrypt
 
         byte[] hexEncodedCipher = engine.processBlock(data, 0, data.length);
 

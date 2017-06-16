@@ -5,8 +5,13 @@ import android.util.Log;
 import android.view.Surface;
 
 import org.spongycastle.crypto.AsymmetricCipherKeyPair;
+import org.spongycastle.crypto.CipherParameters;
+import org.spongycastle.crypto.params.RSAKeyParameters;
 
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
 
 import triangle.triangleapp.helpers.CertifcateHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
@@ -24,7 +29,7 @@ public class StreamManager {
     private boolean mIsStreaming;
     private Surface mPreviewView;
     private StreamAdapter streamAdapter;
-    private AsymmetricCipherKeyPair mKeyPair;
+    private KeyPair mKeyPair;
 
     public StreamManager() {
         mLiveStream = new CameraLiveStream();
@@ -32,13 +37,16 @@ public class StreamManager {
 
         try {
             mKeyPair = CertifcateHelper.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         streamAdapter.connect(new WebSocketCallback() {
             @Override
             public void onConnected() {
-                streamAdapter.sendPublicKey(mKeyPair.getPublic());
+                PublicKey pub = mKeyPair.getPublic();
+
+
+                streamAdapter.sendPublicKey(pub);
             }
         });
 
