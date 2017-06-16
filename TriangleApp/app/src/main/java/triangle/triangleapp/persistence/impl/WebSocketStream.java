@@ -53,8 +53,8 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        mWebSocket.send("PUBKEY:" + stringWriter.toString());
+        String pubKey = stringWriter.toString();
+        mWebSocket.send("PUBKEY:" + pubKey);
     }
 
     @Override
