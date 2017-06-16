@@ -28,6 +28,10 @@ public class Keystore {
         return store;
     }
 
+    public static Keystore getExistingInstance(){
+        return store;
+    }
+
     /**
      * puts string key-value pair in config, overwrites existing key-value pair if existing
      * @param key string key value
