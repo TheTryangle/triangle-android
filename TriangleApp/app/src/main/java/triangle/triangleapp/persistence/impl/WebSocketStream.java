@@ -13,9 +13,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import triangle.triangleapp.helpers.IntegrityHelper;
-import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
-import triangle.triangleapp.persistence.WebSocketCallback;
+import triangle.triangleapp.persistence.ConnectionCallback;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -28,9 +27,9 @@ public class WebSocketStream implements StreamAdapter {
     private boolean mIsConnected;
 
     /**
-     * gets boolean isConnected, default null, can never return false
+     * Determines if the WebSocket is connected.
      *
-     * @return connectionstate
+     * @return True if connected else false
      */
     public boolean isConnected() {
         return mIsConnected;
@@ -51,7 +50,7 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     @Override
-    public void connect(final WebSocketCallback callback) {
+    public void connect(final ConnectionCallback callback) {
         AsyncHttpClient.getDefaultInstance()
                 .websocket(URL, PROTOCOL, new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override
@@ -66,12 +65,13 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * sends the stream using websocket
+     *
      * @param fileInBytes file in bytes
      */
     @Override
-    public void sendFile(@NonNull byte[] fileInBytes) {
-        try{
-            if (mIsConnected){
+    public void sendFile(@NonNull byte[] fileInBytes, PrivateKey privateKey) {
+        try {
+            if (mIsConnected) {
                 String hash = IntegrityHelper.sign(fileInBytes, privateKey);
                 mWebSocket.send("HASH:" + hash);
                 mWebSocket.send(fileInBytes);

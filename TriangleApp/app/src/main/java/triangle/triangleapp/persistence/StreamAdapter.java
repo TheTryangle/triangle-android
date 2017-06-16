@@ -2,8 +2,6 @@ package triangle.triangleapp.persistence;
 
 import android.support.annotation.NonNull;
 
-import org.spongycastle.crypto.params.AsymmetricKeyParameter;
-
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -14,12 +12,12 @@ import java.security.PublicKey;
 public interface StreamAdapter {
     void sendPublicKey(PublicKey publicKey);
 
-    void connect(WebSocketCallback callback);
+    void connect(ConnectionCallback callback);
 
     /**
      * Called when a new file should be sent
      *
      * @param fileInBytes File in bytes
      */
-    void sendFile(@NonNull byte[] fileInBytes);
+    void sendFile(@NonNull byte[] fileInBytes, PrivateKey privateKey);
 }

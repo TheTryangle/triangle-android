@@ -10,7 +10,7 @@ import java.security.PublicKey;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.StreamAdapter;
-import triangle.triangleapp.persistence.WebSocketCallback;
+import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
@@ -34,7 +34,7 @@ public class StreamManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        streamAdapter.connect(new WebSocketCallback() {
+        streamAdapter.connect(new ConnectionCallback() {
             @Override
             public void onConnected() {
                 PublicKey pub = mKeyPair.getPublic();
@@ -65,9 +65,9 @@ public class StreamManager {
             mLiveStream.setPreviewView(mPreviewView);
             mLiveStream.start(new FileRecordedCallback() {
                 @Override
-                public void recordCompleted(byte[] fileInBytes) {
+                public void recordCompleted(@NonNull byte[] fileInBytes) {
                     Log.i(TAG, "File completed");
-                    streamAdapter.sendFile(fileInBytes);
+                    streamAdapter.sendFile(fileInBytes, mKeyPair.getPrivate());
                 }
             });
         }
