@@ -65,10 +65,9 @@ public class StreamManager {
             mLiveStream.setPreviewView(mPreviewView);
             mLiveStream.start(new FileRecordedCallback() {
                 @Override
-                public void recordCompleted(String fileName) {
-                    Log.i(TAG, "File completed, " + fileName);
-
-                    streamAdapter.sendFile(mKeyPair.getPrivate(), fileName);
+                public void recordCompleted(byte[] fileInBytes) {
+                    Log.i(TAG, "File completed");
+                    streamAdapter.sendFile(fileInBytes);
                 }
             });
         }

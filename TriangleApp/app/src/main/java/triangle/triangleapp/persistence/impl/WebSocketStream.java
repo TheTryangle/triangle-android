@@ -22,7 +22,7 @@ import triangle.triangleapp.persistence.WebSocketCallback;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.35.215:1234/send";
+    private static final String URL = "ws://145.49.30.113:1234/send";
     private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
@@ -66,19 +66,15 @@ public class WebSocketStream implements StreamAdapter {
 
     /**
      * sends the stream using websocket
-     *
-     * @param fileName name of file
+     * @param fileInBytes file in bytes
      */
     @Override
-    public void sendFile(PrivateKey privateKey, @NonNull String fileName) {
-        try {
-            if (mIsConnected) {
-                byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
-
-                String hash = IntegrityHelper.sign(bytesToSend, privateKey);
-
+    public void sendFile(@NonNull byte[] fileInBytes) {
+        try{
+            if (mIsConnected){
+                String hash = IntegrityHelper.sign(fileInBytes, privateKey);
                 mWebSocket.send("HASH:" + hash);
-                mWebSocket.send(bytesToSend);
+                mWebSocket.send(fileInBytes);
             }
         } catch (Exception ex) {
             Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
