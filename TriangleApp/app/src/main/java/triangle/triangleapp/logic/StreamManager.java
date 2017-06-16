@@ -4,16 +4,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
-import org.spongycastle.crypto.AsymmetricCipherKeyPair;
-import org.spongycastle.crypto.CipherParameters;
-import org.spongycastle.crypto.params.RSAKeyParameters;
-
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 
-import triangle.triangleapp.helpers.CertifcateHelper;
+import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.WebSocketCallback;
@@ -36,7 +30,7 @@ public class StreamManager {
         streamAdapter = new WebSocketStream();
 
         try {
-            mKeyPair = CertifcateHelper.generateKeyPair();
+            mKeyPair = IntegrityHelper.generateKeyPair();
         } catch (Exception e) {
             e.printStackTrace();
         }

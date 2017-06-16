@@ -2,24 +2,17 @@ package triangle.triangleapp.persistence.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.Xml;
 
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
 
-import org.spongycastle.crypto.params.AsymmetricKeyParameter;
-import org.spongycastle.crypto.params.RSAKeyParameters;
-import org.spongycastle.crypto.util.PrivateKeyFactory;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 
-import triangle.triangleapp.helpers.CertifcateHelper;
+import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.WebSocketCallback;
@@ -82,7 +75,7 @@ public class WebSocketStream implements StreamAdapter {
             if (mIsConnected) {
                 byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
 
-                String hash = CertifcateHelper.encrypt(privateKey, bytesToSend);
+                String hash = IntegrityHelper.sign(bytesToSend, privateKey);
 
                 mWebSocket.send("HASH:" + hash);
                 mWebSocket.send(bytesToSend);
