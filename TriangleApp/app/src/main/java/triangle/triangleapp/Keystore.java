@@ -28,6 +28,10 @@ public class Keystore {
         return store;
     }
 
+    /**
+     * gets an existing instance, should only be used after instance is made
+     * @return Keystore
+     */
     public static Keystore getExistingInstance(){
         return store;
     }

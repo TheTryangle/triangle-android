@@ -16,17 +16,20 @@ public class InitializationHelper {
     private Keystore store;
     private Context c;
     private String TAG= "InitializationHelper";
-    //TODO: checks version, if version is newer than current version in config, or if config is empty then set default values
-    // Update this file with every update if necessary(ie. new IP's)
 
+    /**
+     * Constructor
+     * @param c a context
+     */
     public InitializationHelper(Context c){
         this.c=c;
         store = Keystore.getInstance(c);
         checkVersion();
-
-
     }
 
+    /**
+     * Checks the app version, if different from config version, calls setConfigValues
+     */
     private void checkVersion(){
         try {
             VERSION_CODE = BuildConfig.VERSION_CODE;
@@ -38,11 +41,12 @@ public class InitializationHelper {
         }
 
         int configCode =store.getInt("version_code");
-        Log.e(TAG,configCode+"");
+        if(VERSION_NAME=="failed"){
+            //app cant get own runtime variables, i'd say a crash is approperiate?
+            Log.e(TAG,"App cannot load version, crash approperiate?");
+        }
         if(VERSION_CODE!=configCode||configCode==0){
-            //VERSIONS DIFFERENT or config is 0
-            Log.e(TAG,"diff versions: "+VERSION_CODE+" & "+store.getInt("version_code"));
-            //TODO: re-init config function here
+            Log.i(TAG,"diff versions: "+VERSION_CODE+" & "+store.getInt("version_code"));
             setConfigValues();
         }else{
             String socketIp =store.get("destination_video_stream_websocket");
@@ -55,6 +59,9 @@ public class InitializationHelper {
 
     }
 
+    /**
+     * sets default config values, runs after cache is cleared, clean install, version changes and possibly after device reboots
+     */
     private void setConfigValues(){
         store.putInt("version_code",VERSION_CODE);
         store.put("version_name",VERSION_NAME);
