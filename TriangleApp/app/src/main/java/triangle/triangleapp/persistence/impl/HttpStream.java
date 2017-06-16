@@ -3,61 +3,79 @@ package triangle.triangleapp.persistence.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
 
 /**
  * Created by Kevin Ly on 6/16/2017.
  */
 
-public class HttpStream implements StreamAdapter{
+public class HttpStream implements StreamAdapter {
     private static final String TAG = "HttpStream";
-    private static final String URL = "ws://145.49.30.113:1234/send";
+    private static final String URL = "http://145.49.44.137:9000/api/";
     private RequestQueue mRequestQueue;
+    private String id;
 
-    public HttpStream(Context context){
+    public HttpStream(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);
+    }
+
+    @Override
+    public void connect(final ConnectionCallback callback) {
+        final String completeUrl = URL + "stream/connect";
+
+        StringRequest idRequest = new StringRequest(Request.Method.GET, completeUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                id = response.substring(1, response.length() - 1);
+                Log.i(TAG, "ID = " + id);
+                callback.onConnected();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error getting ID", error);
+            }
+        });
+
+        mRequestQueue.add(idRequest);
     }
 
     @Override
     public void sendFile(@NonNull final byte[] fileInBytes) {
         try {
-            StringRequest request = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+            final String completeUrl = URL + "stream/send/" + id;
+
+            MultipartRequest multipartRequest = new MultipartRequest(completeUrl, null, "application/octet-stream", fileInBytes, new Response.Listener<NetworkResponse>() {
                 @Override
-                public void onResponse(String response) {
-                    Log.i(TAG, response);
+                public void onResponse(NetworkResponse response) {
+                    Log.i(TAG, "Done sending data");
+
                 }
             }, new Response.ErrorListener() {
-
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, error.getMessage());
+                    Log.e(TAG, "Error sending data", error);
                 }
-            }) {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
+            });
 
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    try {
-                        return fileInBytes;
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Error occured while get bytes.", ex);
-                        return null;
-                    }
-                }
-            };
+            mRequestQueue.add(multipartRequest);
 
-            mRequestQueue.add(request);
-        } catch (Exception ex){
+
+        } catch (Exception ex) {
             Log.e(TAG, "Error occured while send request via Volley", ex);
         }
     }

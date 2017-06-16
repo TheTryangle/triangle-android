@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
  */
 
 public interface StreamAdapter {
+    void connect(ConnectionCallback callback);
+
     /**
      * Called when a new file should be sent
      *

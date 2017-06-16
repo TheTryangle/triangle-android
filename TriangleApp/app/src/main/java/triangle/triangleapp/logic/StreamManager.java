@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.Surface;
 
 import triangle.triangleapp.logic.impl.CameraLiveStream;
+import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.impl.HttpStream;
-import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -24,6 +24,14 @@ public class StreamManager {
     public StreamManager(Context context) {
         mLiveStream = new CameraLiveStream();
         streamAdapter = new HttpStream(context);
+
+        streamAdapter.connect(new ConnectionCallback() {
+            @Override
+            public void onConnected() {
+                // Connected
+                Log.i(TAG, "Connected!");
+            }
+        });
     }
 
     /**
