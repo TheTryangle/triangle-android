@@ -62,7 +62,6 @@ public class CameraLiveStream implements LiveStream {
             mMediaRecorder.setCamera(mCamera);
             try {
                 this.tmpFile = File.createTempFile("tmpvid_livestream_345853", "tmp");
-//            this.outputFile = new RandomAccessFile(tmpFile, "rw");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,31 +99,19 @@ public class CameraLiveStream implements LiveStream {
                     stopStreaming(false);
                     new Thread(new Runnable() {
                         public void run() {
-                            byte[] streamBytes = new byte[0];
-
                             try {
-
-                                byte[] document = new byte[(int) raf.length()];
-                                Log.e(TAG,"reading raf");
+                                byte[] streamBytes = new byte[(int) raf.length()];
                                 raf.seek(0);
-                                raf.readFully(document);
-                                Log.e(TAG,"done reading raf");
-                                streamBytes=document;
-                                Log.e(TAG,streamBytes.toString());
+                                raf.readFully(streamBytes);
                                 if (streamBytes != null) {
                                     mCallback.recordCompleted(streamBytes);
                                 }
-
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }).start();
                     startStreaming(true);
-
-
                 }
             }
         });
