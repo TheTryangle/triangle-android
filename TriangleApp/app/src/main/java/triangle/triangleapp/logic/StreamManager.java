@@ -1,11 +1,13 @@
 package triangle.triangleapp.logic;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.StreamAdapter;
+import triangle.triangleapp.persistence.impl.HttpStream;
 import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
@@ -19,9 +21,9 @@ public class StreamManager {
     private Surface mPreviewView;
     private StreamAdapter streamAdapter;
 
-    public StreamManager() {
+    public StreamManager(Context context) {
         mLiveStream = new CameraLiveStream();
-        streamAdapter = new WebSocketStream();
+        streamAdapter = new HttpStream(context);
     }
 
     /**

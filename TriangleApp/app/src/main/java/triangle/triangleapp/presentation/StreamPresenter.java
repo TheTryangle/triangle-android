@@ -1,5 +1,6 @@
 package triangle.triangleapp.presentation;
 
+import android.content.Context;
 import android.view.SurfaceView;
 
 import triangle.triangleapp.logic.StreamManager;
@@ -12,9 +13,9 @@ public class StreamPresenter {
     private StreamView mView;
     private StreamManager mManager;
 
-    public StreamPresenter(StreamView streamView) {
+    public StreamPresenter(StreamView streamView, Context context) {
         mView = streamView;
-        mManager = new StreamManager();
+        mManager = new StreamManager(context);
     }
 
     /**
