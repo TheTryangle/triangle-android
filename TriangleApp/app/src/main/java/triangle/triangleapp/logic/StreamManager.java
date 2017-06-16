@@ -44,8 +44,6 @@ public class StreamManager {
             @Override
             public void onConnected() {
                 PublicKey pub = mKeyPair.getPublic();
-
-
                 streamAdapter.sendPublicKey(pub);
             }
         });

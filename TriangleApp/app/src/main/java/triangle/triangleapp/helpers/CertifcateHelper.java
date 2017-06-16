@@ -1,23 +1,16 @@
 package triangle.triangleapp.helpers;
 
-import org.spongycastle.crypto.AsymmetricCipherKeyPair;
-import org.spongycastle.crypto.engines.RSAEngine;
-import org.spongycastle.crypto.generators.RSAKeyPairGenerator;
-import org.spongycastle.crypto.params.AsymmetricKeyParameter;
-import org.spongycastle.crypto.params.RSAKeyGenerationParameters;
+import android.util.Base64;
+
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 
-
-import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
 import java.security.Security;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+import java.security.Signature;
 
 /**
  * Created by marco on 15-6-2017.
@@ -40,22 +33,16 @@ public class CertifcateHelper {
     }
 
     public static String encrypt(PrivateKey privateKey, byte[] data) throws Exception {
-        //Security.addProvider(new BouncyCastleProvider());
+        Signature dsa = Signature.getInstance("SHA1withRSA");
+        dsa.initSign(privateKey);
+        dsa.update(data, 0, data.length);
+        byte[] signedData = dsa.sign();
 
-        RSAEngine engine = new RSAEngine();
-        //engine.init(true, privateKey); //true if encrypt
-
-        byte[] hexEncodedCipher = engine.processBlock(data, 0, data.length);
-
-        return getHexString(hexEncodedCipher);
+        return getBase64String(signedData);
     }
 
-    public static String getHexString(byte[] b) throws Exception {
-        String result = "";
-        for (int i = 0; i < b.length; i++) {
-            result += Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1);
-        }
-        return result;
+    public static String getBase64String(byte[] b) throws Exception {
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
 }

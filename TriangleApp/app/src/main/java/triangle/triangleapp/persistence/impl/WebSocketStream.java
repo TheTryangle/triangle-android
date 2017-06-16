@@ -53,9 +53,6 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String pubKey = stringWriter.toString();
-
-        
 
         mWebSocket.send("PUBKEY:" + stringWriter.toString());
     }
@@ -85,9 +82,9 @@ public class WebSocketStream implements StreamAdapter {
             if (mIsConnected) {
                 byte[] bytesToSend = FileHelper.getBytesFromFile(fileName);
 
-                /*String hash = CertifcateHelper.encrypt(privateKey, bytesToSend);
+                String hash = CertifcateHelper.encrypt(privateKey, bytesToSend);
 
-                mWebSocket.send("HASH:" + hash);*/
+                mWebSocket.send("HASH:" + hash);
                 mWebSocket.send(bytesToSend);
             }
         } catch (Exception ex) {
