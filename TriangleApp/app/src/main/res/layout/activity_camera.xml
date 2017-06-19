@@ -11,6 +11,11 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               tools:context="triangle.triangleapp.presentation.impl.MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/viewers_null"/>
+
     <SurfaceView
         android:id="@+id/surface_camera_preview"
         android:layout_width="match_parent"

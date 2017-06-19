@@ -2,17 +2,17 @@ package triangle.triangleapp.persistence.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
-import triangle.triangleapp.helpers.FileHelper;
-import triangle.triangleapp.persistence.StreamAdapter;
 
 /**
- * Created by Kevin Ly on 6/15/2017.
+ * Created by Koen on 16-06-17.
  */
 
-public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.26.75:1234/send";
+public class WebSocketViewers {
+
+    private static final String URL = "ws://145.49.26.75:1234/ViewCount";
     private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
@@ -20,7 +20,7 @@ public class WebSocketStream implements StreamAdapter {
     /**
      * makes an async websocket connection
      */
-    public WebSocketStream(){
+    public WebSocketViewers(){
         AsyncHttpClient.getDefaultInstance()
             .websocket(URL, PROTOCOL, new AsyncHttpClient.WebSocketConnectCallback() {
                 @Override
@@ -43,20 +43,8 @@ public class WebSocketStream implements StreamAdapter {
      * sends the stream using websocket
      * @param fileInBytes file in bytes
      */
-    @Override
-    public void sendFile(@NonNull byte[] fileInBytes) {
-        try{
-            if (mIsConnected){
-                mWebSocket.send(fileInBytes);
-            }
-        }catch (Exception ex){
-            Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
-        }
-    }
-
-
+//    @Override
+//    public void getViewCount() {
+//
+//    }
 }
-
-
-
-
