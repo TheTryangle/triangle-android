@@ -13,17 +13,18 @@ import triangle.triangleapp.Keystore;
 public class InitializationHelper {
     private static int VERSION_CODE;
     private static String VERSION_NAME;
+    // Cannot be final because they cannot be initialized yet.
     private Keystore store;
-    private Context c;
-    private String TAG= "InitializationHelper";
+    private Context context;
+    private final String TAG= "InitializationHelper";
 
     /**
      * Constructor
      * @param c a context
      */
     public InitializationHelper(Context c){
-        this.c=c;
-        store = Keystore.getInstance(c);
+        this.context=c;
+        store = Keystore.getInstance(context);
         checkVersion();
     }
 
@@ -41,7 +42,7 @@ public class InitializationHelper {
         }
 
         int configCode =store.getInt("version_code");
-        if(VERSION_NAME=="failed"){
+        if(VERSION_NAME.equals("failed")){
             //app cant get own runtime variables, i'd say a crash is approperiate?
             Log.e(TAG,"App cannot load version, crash approperiate?");
         }
@@ -50,10 +51,8 @@ public class InitializationHelper {
             setConfigValues();
         }else{
             String socketIp =store.get("destination_video_stream_websocket");
-            if(socketIp!=null||socketIp!=""){
-                //everything OK
-            }else{
-                setConfigValues();//secondary check
+            if (socketIp == null || socketIp == "") {
+                setConfigValues();
             }
         }
 
