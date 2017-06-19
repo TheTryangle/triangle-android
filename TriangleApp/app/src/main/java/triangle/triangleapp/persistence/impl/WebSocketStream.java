@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
+
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 
@@ -12,8 +14,8 @@ import triangle.triangleapp.persistence.StreamAdapter;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.30.113:1234/send";
-    private static final String PROTOCOL = "ws";
+    private static final String URL = ConfigHelper.getInstance().get("destination_video_stream_websocket");
+    private static final String PROTOCOL = ConfigHelper.getInstance().get("websocket_protocol");
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 
