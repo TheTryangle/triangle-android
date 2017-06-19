@@ -2,9 +2,6 @@ package triangle.triangleapp;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-
-import com.koushikdutta.async.http.WebSocket;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

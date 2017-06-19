@@ -1,8 +1,9 @@
 package triangle.triangleapp.persistence.impl;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,9 +11,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import org.spongycastle.openssl.jcajce.JcaPEMWriter;
+import java.io.StringWriter;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
 
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -37,7 +41,37 @@ public class HttpStream implements StreamAdapter {
 
     @Override
     public void sendPublicKey(@NonNull PublicKey publicKey) {
+        StringWriter stringWriter = new StringWriter();
+        JcaPEMWriter writer = new JcaPEMWriter(stringWriter);
+        try {
+            writer.writeObject(publicKey);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        final String pubKey = stringWriter.toString();
+        final String completeUrl = URL + "stream/sendKey/";
 
+        StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "Done with sending public key to server.");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error while sending public key to server.", error);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("pubKey", pubKey);
+                return params;
+            }
+        };
+
+        mRequestQueue.add(keyRequest);
     }
 
     @Override
