@@ -21,11 +21,11 @@ public class InitializationHelper {
     private final String TAG= "InitializationHelper";
     private final String VERSION_INVALID="failed";
 
-    private final String KEY_VERSION_CODE="version_code";
-    private final String KEY_VERSION_NAME="version_name";
-    private final String KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET= "destination_video_stream_websocket";
-    private final String KEY_WEBSOCKET_PROTOCOL="websocket_protocol";
-    private final String KEY_HASH_ALGORITHM="hash_algorithm";
+    private static final String KEY_VERSION_CODE="version_code";
+    private static final String KEY_VERSION_NAME="version_name";
+    private static final String KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET= "destination_video_stream_websocket";
+    private static final String KEY_WEBSOCKET_PROTOCOL="websocket_protocol";
+    private static final String KEY_HASH_ALGORITHM="hash_algorithm";
 
 
     /**

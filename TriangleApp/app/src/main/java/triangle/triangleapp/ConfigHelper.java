@@ -19,7 +19,7 @@ public class ConfigHelper {
     /**
      * gets an instance
      * @param context activity context
-     * @return static keystore object
+     * @return static configHelper instance
      */
     public static ConfigHelper getInstance(Context context) {
         if (store == null) {
@@ -30,7 +30,7 @@ public class ConfigHelper {
 
     /**
      * should be used only after instance is created somewhere
-     * @return
+     * @return static configHelper instance
      */
     public static ConfigHelper getInstance() {
         return store;
