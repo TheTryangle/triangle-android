@@ -5,8 +5,7 @@ import android.util.Log;
 import com.koushikdutta.async.http.AsyncHttpClient;
 import com.koushikdutta.async.http.WebSocket;
 
-import triangle.triangleapp.Keystore;
-import triangle.triangleapp.helpers.FileHelper;
+import triangle.triangleapp.SharedPreferencesHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 
 /**
@@ -14,8 +13,8 @@ import triangle.triangleapp.persistence.StreamAdapter;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = Keystore.getExistingInstance().get("destination_video_stream_websocket");
-    private static final String PROTOCOL = Keystore.getExistingInstance().get("websocket_protocol");
+    private static final String URL = SharedPreferencesHelper.getExistingInstance().get("destination_video_stream_websocket");
+    private static final String PROTOCOL = SharedPreferencesHelper.getExistingInstance().get("websocket_protocol");
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 

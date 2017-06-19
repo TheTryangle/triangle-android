@@ -3,8 +3,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-public class Keystore {
-    private static Keystore store;
+public class SharedPreferencesHelper {
+    private static SharedPreferencesHelper store;
     private SharedPreferences SP;
     private static String filename="Keys";
 
@@ -12,7 +12,7 @@ public class Keystore {
      * sets variables, internal constructor called from getinstance
      * @param context activity context
      */
-    private Keystore(Context context) {
+    private SharedPreferencesHelper(Context context) {
         SP = context.getApplicationContext().getSharedPreferences(filename,0);
     }
 
@@ -21,18 +21,18 @@ public class Keystore {
      * @param context activity context
      * @return static keystore object
      */
-    public static Keystore getInstance(Context context) {
+    public static SharedPreferencesHelper getInstance(Context context) {
         if (store == null) {
-            store = new Keystore(context);
+            store = new SharedPreferencesHelper(context);
         }
         return store;
     }
 
     /**
      * gets an existing instance, should only be used after instance is made
-     * @return Keystore
+     * @return SharedPreferencesHelper
      */
-    public static Keystore getExistingInstance(){
+    public static SharedPreferencesHelper getExistingInstance(){
         return store;
     }
 
@@ -110,9 +110,9 @@ public class Keystore {
     /*
     usage:
 
-    private Keystore store;//Holds our key pairs
+    private SharedPreferencesHelper store;//Holds our key pairs
      public void test(Context context){
-        store = Keystore.getInstance(context);//Creates or Gets our key pairs.  You MUST have access to current context!
+        store = SharedPreferencesHelper.getInstance(context);//Creates or Gets our key pairs.  You MUST have access to current context!
 
         store.putInt("initial_int",5);
         store.put("initial_string","initstring");

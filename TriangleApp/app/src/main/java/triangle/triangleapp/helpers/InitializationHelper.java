@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import triangle.triangleapp.BuildConfig;
-import triangle.triangleapp.Keystore;
+import triangle.triangleapp.SharedPreferencesHelper;
 
 /**
  * Created by D2110175 on 16-6-2017.
@@ -14,7 +14,7 @@ public class InitializationHelper {
     private static int VERSION_CODE;
     private static String VERSION_NAME;
     // Cannot be final because they cannot be initialized yet.
-    private Keystore store;
+    private SharedPreferencesHelper store;
     private Context context;
     private final String TAG= "InitializationHelper";
 
@@ -24,7 +24,7 @@ public class InitializationHelper {
      */
     public InitializationHelper(Context c){
         this.context=c;
-        store = Keystore.getInstance(context);
+        store = SharedPreferencesHelper.getInstance(context);
         checkVersion();
     }
 
