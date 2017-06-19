@@ -56,6 +56,7 @@ public class CameraLiveStream implements LiveStream {
         if (firstInit) {
             mCamera = CameraHelper.getCameraInstance();
             mMediaRecorder = new MediaRecorder();
+            mCamera.setDisplayOrientation(90);
 
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
