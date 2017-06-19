@@ -1,26 +1,48 @@
 package triangle.triangleapp.helpers;
 
+import android.content.Context;
+import android.security.KeyPairGeneratorSpec;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.util.Calendar;
+
+import javax.security.auth.x500.X500Principal;
+
+import triangle.triangleapp.TriangleApplication;
 
 /**
  * Created by marco on 15-6-2017.
  */
 
 public class IntegrityHelper {
-    public static final String KEY_ALGORITHM = "RSA";
-    public static final String SIGN_ALGORITHM = "SHA1withRSA";
-    public static final int KEY_SIZE = 1024;
-
     private static final String TAG = "IntegrityHelper";
+
+    private static final String KEY_ALGORITHM = "RSA";
+    private static final String SIGN_ALGORITHM = "SHA1withRSA";
+    private static final int KEY_SIZE = 1024;
+    private static final String KEY_ALIAS = "TriangleKey";
+    private static final String KEY_STORE = "AndroidKeyStore";
 
 
     /**
@@ -28,17 +50,58 @@ public class IntegrityHelper {
      *
      * @return Generated KeyPair using the algorithm
      */
-    public static KeyPair generateKeyPair() {
-        KeyPairGenerator generator;
+    @Nullable
+    public static KeyPair getKeyPair() {
+        KeyPair keyPair = null;
+        KeyStore keyStore;
         try {
-            generator = KeyPairGenerator.getInstance(KEY_ALGORITHM);
-            generator.initialize(KEY_SIZE);
-            return generator.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "Error getting KeyPairGenerator instance", e);
+            keyStore = KeyStore.getInstance(KEY_STORE);
+            keyStore.load(null);
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
+            Log.e(TAG, "Error getting key store instance!", e);
+            return null;
         }
 
-        return null;
+        try {
+            if (!keyStore.containsAlias(KEY_ALIAS)) {
+                KeyPairGenerator generator;
+                try {
+                    Log.i(TAG, "Generating key.");
+
+                    Calendar start = Calendar.getInstance();
+                    Calendar end = Calendar.getInstance();
+                    end.add(Calendar.YEAR, 30);
+
+                    generator = KeyPairGenerator.getInstance(KEY_ALGORITHM, KEY_STORE);
+                    KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(TriangleApplication.getAppContext())
+                            .setAlias(KEY_ALIAS)
+                            .setSubject(new X500Principal("CN=" + KEY_ALIAS))
+                            .setSerialNumber(BigInteger.TEN)
+                            .setStartDate(start.getTime())
+                            .setEndDate(end.getTime())
+                            .setKeySize(KEY_SIZE)
+                            .build();
+                    generator.initialize(spec);
+                    keyPair = generator.generateKeyPair();
+
+                    Log.i(TAG, "Key generation completed");
+                } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
+                    Log.e(TAG, "Error during key generation", e);
+                }
+            } else {
+                Log.i(TAG, "Key already in store.");
+                KeyStore.PrivateKeyEntry keyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEY_ALIAS, null);
+                PrivateKey privateKey = keyEntry.getPrivateKey();
+                PublicKey publicKey = keyEntry.getCertificate().getPublicKey();
+
+                keyPair = new KeyPair(publicKey, privateKey);
+                Log.i(TAG, "Loaded key from store.");
+            }
+        } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableEntryException e) {
+            Log.e(TAG, "Error checking keyStore for aliases!");
+        }
+
+        return keyPair;
     }
 
     /**

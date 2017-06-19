@@ -55,12 +55,15 @@ public class WebSocketStream implements StreamAdapter {
                 .websocket(URL, PROTOCOL, new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override
                     public void onCompleted(Exception ex, WebSocket webSocket) {
-                        mIsConnected = true;
-                        mWebSocket = webSocket;
-                        callback.onConnected();
+                        if (ex == null) {
+                            mIsConnected = true;
+                            mWebSocket = webSocket;
+                            callback.onConnected();
+                        } else {
+                            callback.onError(ex);
+                        }
                     }
                 });
-
     }
 
     /**

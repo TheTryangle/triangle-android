@@ -1,5 +1,6 @@
 package triangle.triangleapp.logic;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
@@ -22,23 +23,31 @@ public class StreamManager {
     private LiveStream mLiveStream;
     private boolean mIsStreaming;
     private Surface mPreviewView;
-    private StreamAdapter streamAdapter;
+    private StreamAdapter mStreamAdapter;
     private KeyPair mKeyPair;
 
     public StreamManager() {
         mLiveStream = new CameraLiveStream();
-        streamAdapter = new WebSocketStream();
+        mStreamAdapter = new WebSocketStream();
+
+        // Try to get the keypair from the store else we generate
 
         try {
-            mKeyPair = IntegrityHelper.generateKeyPair();
+            mKeyPair = IntegrityHelper.getKeyPair();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        streamAdapter.connect(new ConnectionCallback() {
+        mStreamAdapter.connect(new ConnectionCallback() {
             @Override
             public void onConnected() {
                 PublicKey pub = mKeyPair.getPublic();
-                streamAdapter.sendPublicKey(pub);
+                mStreamAdapter.sendPublicKey(pub);
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                // TODO: Display an error message!
+                Log.e(TAG, "Error occurred during connecting", ex);
             }
         });
 
@@ -67,7 +76,7 @@ public class StreamManager {
                 @Override
                 public void recordCompleted(@NonNull byte[] fileInBytes) {
                     Log.i(TAG, "File completed");
-                    streamAdapter.sendFile(fileInBytes, mKeyPair.getPrivate());
+                    mStreamAdapter.sendFile(fileInBytes, mKeyPair.getPrivate());
                 }
             });
         }
