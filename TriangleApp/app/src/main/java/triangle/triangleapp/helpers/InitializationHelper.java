@@ -43,7 +43,7 @@ public class InitializationHelper {
 
         int configCode =store.getInt("version_code");
         if(VERSION_NAME.equals("failed")){
-            //app cant get own runtime variables, i'd say a crash is approperiate?
+            // App cant get own runtime variables, i'd say a crash is approperiate?
             Log.e(TAG,"App cannot load version, crash approperiate?");
         }
         if(VERSION_CODE!=configCode||configCode==0){
