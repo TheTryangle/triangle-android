@@ -23,11 +23,10 @@ public class StreamManager {
 
     /**
      * Initialize the stream manager (constructor)
-     * @param context The context of the application
      */
-    public StreamManager(Context context) {
+    public StreamManager() {
         mLiveStream = new CameraLiveStream();
-        streamAdapter = new HttpStream(context);
+        streamAdapter = new HttpStream();
 
         streamAdapter.connect(new ConnectionCallback() {
             @Override

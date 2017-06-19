@@ -13,9 +13,9 @@ public class StreamPresenter {
     private StreamView mView;
     private StreamManager mManager;
 
-    public StreamPresenter(StreamView streamView, Context context) {
+    public StreamPresenter(StreamView streamView) {
         mView = streamView;
-        mManager = new StreamManager(context);
+        mManager = new StreamManager();
     }
 
     /**

@@ -10,6 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
 
@@ -25,10 +27,9 @@ public class HttpStream implements StreamAdapter {
 
     /**
      * Initializing HttpStream
-     * @param context The context of the application
      */
-    public HttpStream(Context context) {
-        mRequestQueue = Volley.newRequestQueue(context);
+    public HttpStream() {
+        mRequestQueue = Volley.newRequestQueue(TriangleApplication.getAppContext());
     }
 
     @Override
