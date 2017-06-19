@@ -91,6 +91,7 @@ public class CameraLiveStream implements LiveStream {
 
         // Step 5: Set the preview output
         mMediaRecorder.setPreviewDisplay(mPreviewSurface);
+        mMediaRecorder.setOrientationHint(90);
 
         mMediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
             @Override
