@@ -28,7 +28,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        mPresenter = new StreamPresenter(this, getApplicationContext());
+        mPresenter = new StreamPresenter(this);
 
         mCameraSurfaceView = (SurfaceView) findViewById(R.id.surface_camera_preview);
         mButtonStream = (Button) findViewById(R.id.btn_stream);
