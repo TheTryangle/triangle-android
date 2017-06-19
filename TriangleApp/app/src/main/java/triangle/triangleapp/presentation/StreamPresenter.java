@@ -1,7 +1,5 @@
 package triangle.triangleapp.presentation;
 
-import android.view.SurfaceView;
-
 import triangle.triangleapp.logic.StreamManager;
 
 /**

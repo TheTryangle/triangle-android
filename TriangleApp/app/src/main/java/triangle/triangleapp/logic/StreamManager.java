@@ -4,7 +4,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
+import java.security.KeyPair;
+import java.security.PublicKey;
+
+import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
+import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.impl.WebSocketStream;
 
@@ -17,11 +22,33 @@ public class StreamManager {
     private LiveStream mLiveStream;
     private boolean mIsStreaming;
     private Surface mPreviewView;
-    private StreamAdapter streamAdapter;
+    private StreamAdapter mStreamAdapter;
+    private KeyPair mKeyPair;
 
     public StreamManager() {
         mLiveStream = new CameraLiveStream();
-        streamAdapter = new WebSocketStream();
+        mStreamAdapter = new WebSocketStream();
+
+        // Try to get the keypair from the store else we generate
+
+        try {
+            mKeyPair = IntegrityHelper.getKeyPair();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mStreamAdapter.connect(new ConnectionCallback() {
+            @Override
+            public void onConnected() {
+                PublicKey pub = mKeyPair.getPublic();
+                mStreamAdapter.sendPublicKey(pub);
+            }
+
+            @Override
+            public void onError(@NonNull Exception ex) {
+                Log.e(TAG, "Error occurred during connecting", ex);
+            }
+        });
+
     }
 
     /**
@@ -45,8 +72,9 @@ public class StreamManager {
             mLiveStream.setPreviewView(mPreviewView);
             mLiveStream.start(new FileRecordedCallback() {
                 @Override
-                public void recordCompleted(byte[] fileInBytes) {
-                    streamAdapter.sendFile(fileInBytes);
+                public void recordCompleted(@NonNull byte[] fileInBytes) {
+                    Log.i(TAG, "File completed");
+                    mStreamAdapter.sendFile(fileInBytes, mKeyPair.getPrivate());
                 }
             });
         }
