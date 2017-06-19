@@ -22,12 +22,13 @@ public interface StreamAdapter {
      *
      * @param callback The callback on which returns are called.
      */
-    void connect(@NonNull final ConnectionCallback callback);
+    void connect(@NonNull ConnectionCallback callback);
 
     /**
      * Called when a new file should be sent
      *
      * @param fileInBytes File in bytes
+     * @param privateKey The private key to use for signing
      */
     void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey);
 }

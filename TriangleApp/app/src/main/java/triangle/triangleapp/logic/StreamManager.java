@@ -1,6 +1,5 @@
 package triangle.triangleapp.logic;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
@@ -10,8 +9,8 @@ import java.security.PublicKey;
 
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
-import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.impl.WebSocketStream;
 
 /**
