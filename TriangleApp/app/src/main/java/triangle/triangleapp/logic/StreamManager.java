@@ -45,8 +45,7 @@ public class StreamManager {
             }
 
             @Override
-            public void onError(Exception ex) {
-                // TODO: Display an error message!
+            public void onError(@NonNull Exception ex) {
                 Log.e(TAG, "Error occurred during connecting", ex);
             }
         });

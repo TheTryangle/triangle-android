@@ -36,7 +36,7 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     @Override
-    public void sendPublicKey(PublicKey publicKey) {
+    public void sendPublicKey(@NonNull PublicKey publicKey) {
         StringWriter stringWriter = new StringWriter();
         JcaPEMWriter writer = new JcaPEMWriter(stringWriter);
         try {
@@ -50,7 +50,7 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     @Override
-    public void connect(final ConnectionCallback callback) {
+    public void connect(@NonNull final ConnectionCallback callback) {
         AsyncHttpClient.getDefaultInstance()
                 .websocket(URL, PROTOCOL, new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override
@@ -67,12 +67,13 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     /**
-     * sends the stream using websocket
+     * Sends a byte array that is signed with the privateKey
      *
      * @param fileInBytes file in bytes
+     * @param privateKey  The private key to use for signing
      */
     @Override
-    public void sendFile(@NonNull byte[] fileInBytes, PrivateKey privateKey) {
+    public void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey) {
         try {
             if (mIsConnected) {
                 String hash = IntegrityHelper.sign(fileInBytes, privateKey);

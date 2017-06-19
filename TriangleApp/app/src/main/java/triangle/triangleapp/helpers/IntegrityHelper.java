@@ -1,9 +1,6 @@
 package triangle.triangleapp.helpers;
 
-import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
@@ -24,7 +21,6 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
-import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.Calendar;
 
 import javax.security.auth.x500.X500Principal;
@@ -43,6 +39,7 @@ public class IntegrityHelper {
     private static final int KEY_SIZE = 1024;
     private static final String KEY_ALIAS = "TriangleKey";
     private static final String KEY_STORE = "AndroidKeyStore";
+    private static final int CERT_END_DATE_INCREMENT = 30;
 
 
     /**
@@ -70,7 +67,7 @@ public class IntegrityHelper {
 
                     Calendar start = Calendar.getInstance();
                     Calendar end = Calendar.getInstance();
-                    end.add(Calendar.YEAR, 30);
+                    end.add(Calendar.YEAR, CERT_END_DATE_INCREMENT);
 
                     generator = KeyPairGenerator.getInstance(KEY_ALGORITHM, KEY_STORE);
                     KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(TriangleApplication.getAppContext())

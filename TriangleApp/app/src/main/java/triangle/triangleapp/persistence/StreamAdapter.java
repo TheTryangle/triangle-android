@@ -10,14 +10,24 @@ import java.security.PublicKey;
  */
 
 public interface StreamAdapter {
-    void sendPublicKey(PublicKey publicKey);
+    /**
+     * Sends the public key to the stream
+     *
+     * @param publicKey The public key to send
+     */
+    void sendPublicKey(@NonNull PublicKey publicKey);
 
-    void connect(ConnectionCallback callback);
+    /**
+     * Starts connecting to the stream adapter
+     *
+     * @param callback The callback on which returns are called.
+     */
+    void connect(@NonNull final ConnectionCallback callback);
 
     /**
      * Called when a new file should be sent
      *
      * @param fileInBytes File in bytes
      */
-    void sendFile(@NonNull byte[] fileInBytes, PrivateKey privateKey);
+    void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey);
 }
