@@ -30,11 +30,5 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.impl.StreamActivity"/>
-
-        <!--<receiver android:name=".logic.NetworkManager">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
     </application>
 </manifest>

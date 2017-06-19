@@ -1,5 +1,12 @@
 package triangle.triangleapp.presentation;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+
+import triangle.triangleapp.TriangleApplication;
+import triangle.triangleapp.logic.NetworkBroadcastReceiver;
+import triangle.triangleapp.logic.NetworkChangeCallback;
 import triangle.triangleapp.logic.StreamManager;
 
 /**
@@ -13,6 +20,22 @@ public class StreamPresenter {
     public StreamPresenter(StreamView streamView) {
         mView = streamView;
         mManager = new StreamManager();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        NetworkBroadcastReceiver broadcastReceiver = new NetworkBroadcastReceiver();
+        broadcastReceiver.setNetworkChangeCallback(new NetworkChangeCallback() {
+            @Override
+            public void onConnected() {
+                mView.networkConnectivityChanged(ConnectionState.CONNECTED);
+            }
+
+            @Override
+            public void onDisconnected() {
+                mView.networkConnectivityChanged(ConnectionState.DISCONNECTED);
+            }
+        });
+        TriangleApplication.getAppContext().registerReceiver(broadcastReceiver, filter);
     }
 
     /**
@@ -30,7 +53,6 @@ public class StreamPresenter {
             mView.streamStopped();
         }
     }
-
 
 
 }
