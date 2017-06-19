@@ -24,6 +24,7 @@ import triangle.triangleapp.logic.LiveStream;
 public class CameraLiveStream implements LiveStream {
     private static final String TAG = "CameraStream";
     private static final int MAX_RECORD_DURATION = 5000;
+    private static final int SET_ORIENTATION = 90;
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
     private FileRecordedCallback mCallback;
@@ -56,7 +57,7 @@ public class CameraLiveStream implements LiveStream {
         if (firstInit) {
             mCamera = CameraHelper.getCameraInstance();
             mMediaRecorder = new MediaRecorder();
-            mCamera.setDisplayOrientation(90);
+            mCamera.setDisplayOrientation(SET_ORIENTATION);
 
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
@@ -91,6 +92,7 @@ public class CameraLiveStream implements LiveStream {
 
         // Step 5: Set the preview output
         mMediaRecorder.setPreviewDisplay(mPreviewSurface);
+        mMediaRecorder.setOrientationHint(SET_ORIENTATION);
 
         mMediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
             @Override
