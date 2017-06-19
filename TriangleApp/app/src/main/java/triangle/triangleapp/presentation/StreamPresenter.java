@@ -3,6 +3,7 @@ package triangle.triangleapp.presentation;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.annotation.Nullable;
 
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.logic.NetworkBroadcastReceiver;
@@ -27,12 +28,12 @@ public class StreamPresenter {
         broadcastReceiver.setNetworkChangeCallback(new NetworkChangeCallback() {
             @Override
             public void onConnected() {
-                mView.networkConnectivityChanged(ConnectionState.CONNECTED);
+                mView.networkConnectivityChanged(ConnectionState.CONNECTED, null);
             }
 
             @Override
-            public void onDisconnected() {
-                mView.networkConnectivityChanged(ConnectionState.DISCONNECTED);
+            public void onDisconnected(@Nullable String reason) {
+                mView.networkConnectivityChanged(ConnectionState.DISCONNECTED, reason);
             }
         });
         TriangleApplication.getAppContext().registerReceiver(broadcastReceiver, filter);

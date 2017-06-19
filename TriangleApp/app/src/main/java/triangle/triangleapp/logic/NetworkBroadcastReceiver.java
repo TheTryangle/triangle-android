@@ -23,6 +23,8 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean isConnected = isDeviceConnected(context);
 
+        String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+
         if (isConnected) {
             Log.i(TAG, "Connection established");
             if (mCallback != null) {
@@ -31,7 +33,7 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
         } else {
             Log.i(TAG, "Connection lost");
             if (mCallback != null) {
-                mCallback.onDisconnected();
+                mCallback.onDisconnected(reason);
             }
         }
     }

@@ -1,6 +1,7 @@
 package triangle.triangleapp.presentation.impl;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -74,14 +75,14 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void networkConnectivityChanged(@ConnectionState int state) {
+    public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
         switch (state) {
             case ConnectionState.CONNECTED: {
-                Toast.makeText(getApplicationContext(), "Connection established!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Connection established!", Toast.LENGTH_SHORT).show();
                 break;
             }
             case ConnectionState.DISCONNECTED: {
-                Toast.makeText(getApplicationContext(), "Connection lost!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Connection lost!, reason=" + reason, Toast.LENGTH_LONG).show();
                 break;
             }
             case ConnectionState.UNKNOWN: {
