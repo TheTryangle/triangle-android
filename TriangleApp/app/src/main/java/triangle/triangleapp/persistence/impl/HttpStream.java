@@ -11,6 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
@@ -30,6 +33,11 @@ public class HttpStream implements StreamAdapter {
      */
     public HttpStream() {
         mRequestQueue = Volley.newRequestQueue(TriangleApplication.getAppContext());
+    }
+
+    @Override
+    public void sendPublicKey(@NonNull PublicKey publicKey) {
+
     }
 
     @Override
@@ -54,7 +62,7 @@ public class HttpStream implements StreamAdapter {
     }
 
     @Override
-    public void sendFile(@NonNull final byte[] fileInBytes) {
+    public void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey) {
         try {
             final String completeUrl = URL + "stream/send/" + id;
 

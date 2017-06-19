@@ -1,6 +1,5 @@
 package triangle.triangleapp.logic;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
@@ -31,7 +30,7 @@ public class StreamManager {
      */
     public StreamManager() {
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new WebSocketStream();
+        mStreamAdapter = new HttpStream();
 
         // Try to get the keypair from the store else we generate
 
