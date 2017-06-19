@@ -7,6 +7,10 @@ import android.support.annotation.NonNull;
  */
 
 public interface StreamAdapter {
+    /**
+     * Called when connection is established.
+     * @param callback The callback which send to.
+     */
     void connect(ConnectionCallback callback);
 
     /**

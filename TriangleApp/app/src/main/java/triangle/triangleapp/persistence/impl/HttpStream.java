@@ -3,8 +3,6 @@ package triangle.triangleapp.persistence.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,10 +10,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
 
@@ -29,6 +23,10 @@ public class HttpStream implements StreamAdapter {
     private RequestQueue mRequestQueue;
     private String id;
 
+    /**
+     * Initializing HttpStream
+     * @param context The context of the application
+     */
     public HttpStream(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);
     }

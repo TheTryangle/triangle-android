@@ -21,6 +21,15 @@ public class MultipartRequest extends Request<NetworkResponse> {
     private final String mMimeType;
     private final byte[] mMultipartBody;
 
+    /**
+     * Request object to create MultiPart
+     * @param url The destination Url to call
+     * @param headers The headers of the request
+     * @param mimeType The expected content type of the request
+     * @param multipartBody The body of the request in multipart
+     * @param listener The callback to send the response to it
+     * @param errorListener The callback to send the error to it
+     */
     public MultipartRequest(String url, Map<String, String> headers, String mimeType, byte[] multipartBody, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener) {
         super(Method.PUT, url, errorListener);
         this.mListener = listener;

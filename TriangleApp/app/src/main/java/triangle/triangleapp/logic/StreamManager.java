@@ -21,6 +21,10 @@ public class StreamManager {
     private Surface mPreviewView;
     private StreamAdapter streamAdapter;
 
+    /**
+     * Initialize the stream manager (constructor)
+     * @param context The context of the application
+     */
     public StreamManager(Context context) {
         mLiveStream = new CameraLiveStream();
         streamAdapter = new HttpStream(context);

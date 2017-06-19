@@ -5,5 +5,8 @@ package triangle.triangleapp.persistence;
  */
 
 public interface ConnectionCallback {
+    /**
+     * Notify when connection is established.
+     */
     void onConnected();
 }
