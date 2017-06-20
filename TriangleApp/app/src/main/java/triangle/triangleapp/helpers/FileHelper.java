@@ -10,13 +10,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import triangle.triangleapp.ConfigHelper;
+
 /**
  * Created by Kevin Ly on 6/13/2017.
  */
 
 public class FileHelper {
     private static final String TAG = "FileHelper";
-    private static final String SAVE_LOCATION = "TriangleApp";
+    private static final String SAVE_LOCATION = ConfigHelper.getInstance().get("file_helper_save_location");
 
     /**
      * Obtain media file from storage.
