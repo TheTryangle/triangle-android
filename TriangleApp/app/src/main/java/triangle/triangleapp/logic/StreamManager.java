@@ -82,4 +82,15 @@ public class StreamManager {
 
         return mIsStreaming;
     }
+
+    /**
+     * Stops the streaming
+     *
+     * @return True if the streaming started, else returns false
+     */
+    public void stopStream() {
+        if (mIsStreaming) {
+            mLiveStream.stop();
+        }
+    }
 }

@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import static android.net.ConnectivityManager.EXTRA_EXTRA_INFO;
+
 /**
  * Created by marco on 19-6-2017.
  */
@@ -23,7 +25,16 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean isConnected = isDeviceConnected(context);
 
-        String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+        String reason = "";
+
+        try {
+            reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Log.e(TAG, reason+"ijn");
+        }
+
 
         if (isConnected) {
             Log.i(TAG, "Connection established");

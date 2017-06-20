@@ -3,6 +3,7 @@ package triangle.triangleapp.presentation.impl;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.presentation.ConnectionState;
 import triangle.triangleapp.presentation.StreamPresenter;
 import triangle.triangleapp.presentation.StreamView;
@@ -23,6 +25,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
     private Button mButtonStream;
+    private StreamManager mManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +79,37 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
 
     @Override
     public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
+
+        String text = "Connection lost!";
+
+        boolean isStreaming = mManager.stream();
+
+
+
         switch (state) {
             case ConnectionState.CONNECTED: {
-                //Toast.makeText(getApplicationContext(), "Connection established!", Toast.LENGTH_SHORT).show();
+                text = "Connection established!";
+                Log.e("CONNECITON MADE", "CONNECTION MADE!!!!!!!!!!!!!");
                 break;
             }
             case ConnectionState.DISCONNECTED: {
-                Toast.makeText(getApplicationContext(), "Connection lost!, reason=" + reason, Toast.LENGTH_LONG).show();
-                break;
-            }
-            case ConnectionState.UNKNOWN: {
+
+                // if streaming
+                if (isStreaming) {
+                mManager.stopStream();
+                    text = "Connection lost! Streaming has stopped.";
+                    Log.e("CONNECTIION LOST", "CONNECTION LOST");
+                    // stop streaming
+                    mManager.stream();
+
+                // if reason is provided
+                } else if (reason != null) {
+                    text = "Connection lost! Reason: "+reason;
+                }
                 break;
             }
         }
 
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 }
