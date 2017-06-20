@@ -12,8 +12,8 @@ import triangle.triangleapp.ConfigHelper;
  */
 
 public class InitializationHelper {
-    private static int VERSION_CODE;
-    private static String VERSION_NAME;
+    private static int versionCode;
+    private static String versionName;
     // Cannot be final because they cannot be initialized yet.
 
     private ConfigHelper store;
@@ -21,8 +21,8 @@ public class InitializationHelper {
     private final String TAG= "InitializationHelper";
     private final String VERSION_INVALID="failed";
 
-    private static final String KEY_VERSION_CODE="version_code";
-    private static final String KEY_VERSION_NAME="version_name";
+    private static final String KEY_VERSION_CODE="versionCode";
+    private static final String KEY_VERSION_NAME="versionName";
 
     private static final String KEY_USERNAME = "username";
     private static final String KEY_WEBSOCKET_PROTOCOL="websocket_protocol";
@@ -52,22 +52,15 @@ public class InitializationHelper {
      * Checks the app version, if different from config version, calls setConfigValues
      */
     private void checkVersion(){
-        try {
-            VERSION_CODE = BuildConfig.VERSION_CODE;
-            VERSION_NAME = BuildConfig.VERSION_NAME;
-        }catch (Exception ex){
-            ex.printStackTrace();
-            VERSION_CODE = 0;
-            VERSION_NAME=VERSION_INVALID;
-        }
+
+            versionCode = BuildConfig.VERSION_CODE;
+            versionName = BuildConfig.VERSION_NAME;
+       
 
         int configCode =store.getInt(KEY_VERSION_CODE);
-        if(VERSION_NAME.equals(VERSION_INVALID)){
-            // App cant get own runtime variables, i'd say a crash is approperiate?
-            Log.e(TAG,"App cannot load version, crash approperiate?");
-        }
-        if(VERSION_CODE!=configCode||configCode==0){
-            Log.i(TAG,"diff versions: "+VERSION_CODE+" & "+store.getInt(KEY_VERSION_CODE));
+
+        if(versionCode!=configCode||configCode==0){
+            Log.i(TAG,"diff versions: "+versionCode+" & "+store.getInt(KEY_VERSION_CODE));
             setConfigValues();
         }else{
             String socketIp =store.get(KEY_WEBSOCKET_PROTOCOL);
@@ -82,8 +75,8 @@ public class InitializationHelper {
      * sets default config values, runs after cache is cleared, clean install, version changes and possibly after device reboots
      */
     private void setConfigValues(){
-        store.putInt(KEY_VERSION_CODE,VERSION_CODE);
-        store.put(KEY_VERSION_NAME,VERSION_NAME);
+        store.putInt(KEY_VERSION_CODE,versionCode);
+        store.put(KEY_VERSION_NAME,versionName);
         store.put(KEY_WEBSOCKET_PROTOCOL,"ws");
 
         store.put(KEY_USERNAME,"anoniem");

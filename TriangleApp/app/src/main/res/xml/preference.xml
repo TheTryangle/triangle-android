@@ -2,122 +2,102 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Identity"
+        android:title="@string/category_id"
         android:key="category_identity">
-
-        <!--<CheckBoxPreference-->
-            <!--android:key="perform_updates"-->
-            <!--android:summary="Enable or disable data updates"-->
-            <!--android:title="Enable updates"-->
-            <!--android:defaultValue="true"-->
-
-            <!--/>-->
 
         <EditTextPreference
             android:key="username"
-            android:title="Display name"
-            android:summary="This will be shown to other users"
-            android:dialogTitle="Display name"
-            android:dialogMessage="Fill in your name that will be shown to viewers."
+            android:title="@string/display_name"
+            android:summary="@string/username_summary"
+            android:dialogTitle="@string/display_name"
+            android:dialogMessage="@string/username_dialog_message"
             android:defaultValue="Anoniem" />
-
-        <!--<ListPreference-->
-            <!--android:key="updates_interval"-->
-            <!--android:title="Updates interval"-->
-            <!--android:summary="Define how often updates will be performed"-->
-            <!--android:defaultValue="1000"-->
-            <!--android:entries="@array/updateInterval"-->
-            <!--android:entryValues="@array/updateIntervalValues"-->
-            <!--android:dependency="perform_updates"-->
-
-            <!--/>-->
-
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Security"
+        android:title="@string/category_sec"
         android:key="category_security">
 
         <EditTextPreference
             android:key="key_algorithm"
-            android:title="Key algorithm"
-            android:summary="Set the algorithm used for key encryption"
-            android:dialogTitle="Key algorithm"
-            android:dialogMessage="Fill in a valid algorithm"
+            android:title="@string/key_algorithm_title"
+            android:summary="@string/key_algorithm_summary"
+            android:dialogTitle="@string/key_algorithm_dialog_title"
+            android:dialogMessage="@string/ka_dm"
             android:defaultValue="RSA" />
         <EditTextPreference
             android:key="sign_algorithm"
-            android:title="Signing algoritm"
-            android:summary="Set the algorithm used for signing"
-            android:dialogTitle="Sign algorithm"
-            android:dialogMessage="Fill in a valid algorithm"
+            android:title="@string/sa_title"
+            android:summary="@string/sa_summary"
+            android:dialogTitle="@string/sa_dt"
+            android:dialogMessage="@string/sa_dm"
             android:defaultValue="SHA1withRSA" />
         <EditTextPreference
             android:key="key_size"
-            android:title="Key size"
-            android:summary="Set the size of the key"
-            android:dialogTitle="Key size"
-            android:dialogMessage="Fill in the size of the key"
+            android:title="@string/ks_title"
+            android:summary="@string/ks_summary"
+            android:dialogTitle="@string/ks_dt"
+            android:dialogMessage="@string/ks_dm"
             android:numeric="integer"
             android:defaultValue="1024" />
         <EditTextPreference
             android:key="key_alias"
-            android:title="Key alias"
-            android:summary="Set the key alias"
-            android:dialogTitle="Key alias"
-            android:dialogMessage="Fill in the alias of the key"
+            android:title="@string/ka_title"
+            android:summary="@string/kas_summary"
+            android:dialogTitle="@string/kas_dt"
+            android:dialogMessage="@string/kas_dm"
             android:defaultValue="TriangleKey" />
         <EditTextPreference
             android:key="key_store"
-            android:title="Key store"
-            android:summary="Set the key store name"
-            android:dialogTitle="Key store"
-            android:dialogMessage="Fill in the name of the keystore"
+            android:title="@string/kst_title"
+            android:summary="@string/kst_summary"
+            android:dialogTitle="@string/kst_dt"
+            android:dialogMessage="@string/kst_dm"
             android:defaultValue="AndroidKeyStore" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Connection"
+        android:title="@string/category_con"
         android:key="category_connection">
 
         <EditTextPreference
             android:key="stream_destination_address"
-            android:title="Streaming server adress"
-            android:summary="Fill in the address of the server you want to connect.."
-            android:dialogTitle="Streaming server address"
-            android:dialogMessage="Fill in a valid destination address"
+            android:title="@string/sda_title"
+            android:summary="@string/sda_summary"
+            android:dialogTitle="@string/sda_dt"
+            android:dialogMessage="@string/sda_dm"
             android:defaultValue="ws://188.226.164.87/server/send"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-    android:title="Device"
+    android:title="@string/category_dev"
     android:key="category_device">
 
     <EditTextPreference
         android:key="file_helper_save_location"
-        android:title="Workspace"
-        android:summary="The app uses this folder for saving"
-        android:dialogTitle="Workspace location"
-        android:dialogMessage="Fill in a valid foldername"
+        android:title="@string/fh_title"
+        android:summary="@string/fh_summary"
+        android:dialogTitle="@string/fh_dt"
+        android:dialogMessage="@string/fh_dm"
         android:defaultValue="TriangleApp" />
 
 
      <ListPreference
          android:key="max_record_duration"
-         android:title="Record duration"
-         android:summary="Sets the length of the recording chunks"
+         android:title="@string/mrd_title"
+         android:summary="@string/mrd_summary"
          android:entries="@array/record_length_keys"
          android:entryValues="@array/record_length_values" />
 
 
         <EditTextPreference
             android:key="display_orientation"
-            android:title="Display orientation"
-            android:summary="Set the rotation of the camera"
-            android:dialogTitle="Display orientation"
-            android:dialogMessage="set the amount of degrees the camera should rotate"
+            android:title="@string/do_title"
+            android:summary="@string/do_summary"
+            android:dialogTitle="@string/do_dt"
+            android:dialogMessage="@string/do_dm"
             android:numeric="integer"
             android:defaultValue="90" />
 
