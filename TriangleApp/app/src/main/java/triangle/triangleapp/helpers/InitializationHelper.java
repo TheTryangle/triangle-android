@@ -55,7 +55,7 @@ public class InitializationHelper {
 
             versionCode = BuildConfig.VERSION_CODE;
             versionName = BuildConfig.VERSION_NAME;
-       
+
 
         int configCode =store.getInt(KEY_VERSION_CODE);
 
