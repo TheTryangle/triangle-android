@@ -11,12 +11,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.Map;
 
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -52,6 +53,13 @@ public class HttpStream implements StreamAdapter {
         final String pubKey = stringWriter.toString();
         final String completeUrl = URL + "stream/sendKey/" + id;
 
+        final JSONObject pubKeyObj = new JSONObject();
+        try {
+            pubKeyObj.put("publicKey", pubKey);
+        } catch (Exception ex){
+            Log.e(TAG, "Error while put public key in JSON object.", ex);
+        }
+
         StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -65,12 +73,17 @@ public class HttpStream implements StreamAdapter {
         }){
             @Override
             public String getBodyContentType() {
-                return "text/plain";
+                return "Application/JSON";
             }
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                return pubKey.getBytes();
+                try {
+                    return pubKeyObj.toString().getBytes("UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, "Error while get bytes from public key.", e);
+                    return null;
+                }
             }
         };
 
