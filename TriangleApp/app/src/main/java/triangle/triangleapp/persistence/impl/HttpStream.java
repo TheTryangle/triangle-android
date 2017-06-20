@@ -28,7 +28,7 @@ import triangle.triangleapp.persistence.StreamAdapter;
 
 public class HttpStream implements StreamAdapter {
     private static final String TAG = "HttpStream";
-    private static final String URL = "http://145.49.44.137:9000/api/";
+    private static final String URL = "http://145.49.44.137:5000/api/";
     private RequestQueue mRequestQueue;
     private String id;
 
@@ -50,24 +50,27 @@ public class HttpStream implements StreamAdapter {
             e.printStackTrace();
         }
         final String pubKey = stringWriter.toString();
-        final String completeUrl = URL + "stream/sendKey/";
+        final String completeUrl = URL + "stream/sendKey/" + id;
 
         StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "Done with sending public key to server.");
+                Log.i(TAG, "Done sending public key to server.");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error while sending public key to server.", error);
+                Log.e(TAG, "Error sending public key to server.", error);
             }
         }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<>();
-                params.put("pubKey", pubKey);
-                return params;
+            public String getBodyContentType() {
+                return "text/plain";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return pubKey.getBytes();
             }
         };
 
@@ -76,7 +79,7 @@ public class HttpStream implements StreamAdapter {
 
     @Override
     public void connect(final ConnectionCallback callback) {
-        final String completeUrl = URL + "stream/connect";
+        final String completeUrl = URL + "stream/connect/";
 
         StringRequest idRequest = new StringRequest(Request.Method.GET, completeUrl, new Response.Listener<String>() {
             @Override
