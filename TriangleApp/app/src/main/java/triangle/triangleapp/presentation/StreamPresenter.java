@@ -1,18 +1,23 @@
 package triangle.triangleapp.presentation;
 
+import android.support.annotation.NonNull;
+
+import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.logic.StreamManager;
+import triangle.triangleapp.logic.StreamManagerCallback;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
  */
 
-public class StreamPresenter {
+public class StreamPresenter implements StreamManagerCallback {
     private StreamView mView;
     private StreamManager mManager;
 
     public StreamPresenter(StreamView streamView) {
         mView = streamView;
-        mManager = new StreamManager();
+        mManager = new StreamManager(this);
     }
 
     /**
@@ -31,4 +36,32 @@ public class StreamPresenter {
         }
     }
 
+    @Override
+    public void chatMessageReceived(ChatMessage message) {
+        mView.showMessage(message);
+    }
+
+    @Override
+    public void streamConnected() {
+        mView.connected(AdapterType.TYPE_STREAM);
+    }
+
+    @Override
+    public void streamError(@NonNull Exception exception) {
+        mView.errorOccurred(AdapterType.TYPE_STREAM, exception);
+    }
+
+    @Override
+    public void chatConnected() {
+        mView.connected(AdapterType.TYPE_CHAT);
+    }
+
+    @Override
+    public void chatError(@NonNull Exception exception) {
+        mView.errorOccurred(AdapterType.TYPE_CHAT, exception);
+    }
+
+    public void sendMessage(@NonNull ChatMessage message) {
+        mManager.sendChatMessage(message);
+    }
 }

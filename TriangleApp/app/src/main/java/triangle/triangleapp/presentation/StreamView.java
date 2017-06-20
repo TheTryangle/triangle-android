@@ -1,7 +1,10 @@
 package triangle.triangleapp.presentation;
 
+import android.support.annotation.NonNull;
 import android.view.Surface;
-import android.view.SurfaceView;
+
+import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.helpers.AdapterType;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -30,7 +33,19 @@ public interface StreamView {
 
     /**
      * Gets the surface to be used for preview
+     *
      * @return Surface used for preview.
      */
     Surface getPreviewSurface();
+
+    /**
+     * Called when a message should be shown.
+     *
+     * @param message The message to show.
+     */
+    void showMessage(ChatMessage message);
+
+    void connected(@AdapterType int type);
+
+    void errorOccurred(@AdapterType int type, @NonNull Exception exception);
 }

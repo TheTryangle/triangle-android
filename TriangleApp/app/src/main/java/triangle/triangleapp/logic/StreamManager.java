@@ -7,11 +7,15 @@ import android.view.Surface;
 import java.security.KeyPair;
 import java.security.PublicKey;
 
+import triangle.triangleapp.domain.ChatMessage;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
+import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
-import triangle.triangleapp.persistence.StreamAdapter;
-import triangle.triangleapp.persistence.impl.WebSocketStream;
+import triangle.triangleapp.persistence.chat.ChatCallback;
+import triangle.triangleapp.persistence.stream.StreamAdapter;
+import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
+import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -23,32 +27,64 @@ public class StreamManager {
     private boolean mIsStreaming;
     private Surface mPreviewView;
     private StreamAdapter mStreamAdapter;
+    private ChatAdapter mChatAdapter;
     private KeyPair mKeyPair;
+    private StreamManagerCallback mManagerCallback;
 
-    public StreamManager() {
+    public StreamManager(StreamManagerCallback managerCallback) {
+        mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
         mStreamAdapter = new WebSocketStream();
+        mChatAdapter = new WebSocketChat();
 
         // Try to get the keypair from the store else we generate
-
         try {
             mKeyPair = IntegrityHelper.getKeyPair();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         mStreamAdapter.connect(new ConnectionCallback() {
             @Override
             public void onConnected() {
                 PublicKey pub = mKeyPair.getPublic();
                 mStreamAdapter.sendPublicKey(pub);
+                mManagerCallback.streamConnected();
             }
 
             @Override
             public void onError(@NonNull Exception ex) {
+                mManagerCallback.streamError(ex);
                 Log.e(TAG, "Error occurred during connecting", ex);
             }
         });
 
+        // TODO: Connect after connecting th estream
+        mChatAdapter.connect(new ConnectionCallback() {
+            @Override
+            public void onConnected() {
+                Log.i(TAG, "Chat Adapter has connected!");
+                mManagerCallback.chatConnected();
+                initChatCallback();
+            }
+
+            @Override
+            public void onError(@NonNull Exception ex) {
+                Log.e(TAG, "Error occurred during ChatAdapter connection.", ex);
+                mManagerCallback.chatError(ex);
+            }
+        });
+
+
+    }
+
+    private void initChatCallback() {
+        mChatAdapter.setCallback(new ChatCallback() {
+            @Override
+            public void onMessageReceived(ChatMessage message) {
+                mManagerCallback.chatMessageReceived(message);
+            }
+        });
     }
 
     /**
@@ -81,5 +117,14 @@ public class StreamManager {
         mIsStreaming = !mIsStreaming;
 
         return mIsStreaming;
+    }
+
+    /**
+     * Sends a chat message using the adapter
+     *
+     * @param chatMessage The message to be sent
+     */
+    public void sendChatMessage(@NonNull ChatMessage chatMessage) {
+        mChatAdapter.sendMessage(chatMessage);
     }
 }

@@ -3,10 +3,14 @@ package triangle.triangleapp.presentation.impl;
 import android.os.Bundle;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.presentation.StreamPresenter;
 import triangle.triangleapp.presentation.StreamView;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -71,5 +75,20 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
             return holder.getSurface();
         }
         return null;
+    }
+
+    @Override
+    public void showMessage(ChatMessage message) {
+        Log.i("StreamActivity", "Chat message received");
+    }
+
+    @Override
+    public void connected(@AdapterType int type) {
+
+    }
+
+    @Override
+    public void errorOccurred(@AdapterType int type, @NonNull Exception exception) {
+
     }
 }

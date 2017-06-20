@@ -34,4 +34,5 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.10.19'
     compile 'com.madgag.spongycastle:core:1.56.0.0'
     compile 'com.madgag.spongycastle:bcpkix-jdk15on:1.56.0.0'
+    compile 'com.google.code.gson:gson:2.8.1'
 }

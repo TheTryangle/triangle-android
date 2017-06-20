@@ -1,4 +1,4 @@
-package triangle.triangleapp.persistence.impl;
+package triangle.triangleapp.persistence.stream.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -13,7 +13,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import triangle.triangleapp.helpers.IntegrityHelper;
-import triangle.triangleapp.persistence.StreamAdapter;
+import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
 
 /**
