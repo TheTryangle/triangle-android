@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -21,8 +22,8 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.30.113:1234/send";
-    private static final String PROTOCOL = "ws";
+    private static final String URL = ConfigHelper.getInstance().get("stream_destination_address");
+    private static final String PROTOCOL = ConfigHelper.getInstance().get("websocket_protocol");
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 

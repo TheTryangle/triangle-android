@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+import java.security.InvalidKeyException;
+
 public class ConfigHelper {
     private static ConfigHelper store;
     private SharedPreferences SP;
@@ -25,6 +27,14 @@ public class ConfigHelper {
         if (store == null) {
             store = new ConfigHelper(context);
         }
+        return store;
+    }
+
+    /**
+     * gets an existing istance
+     * @return existing instance
+     */
+    public static ConfigHelper getInstance() {
         return store;
     }
 
@@ -55,7 +65,24 @@ public class ConfigHelper {
      * @return int value from key
      */
     public int getInt(String key) {
-        return SP.getInt(key, 0);
+        String tmp="";
+        int iTmp=0;
+        try{
+            iTmp=SP.getInt(key, 0);
+            if(iTmp==0){
+                throw new InvalidKeyException();
+            }
+        }catch (Exception e){
+            tmp=SP.getString(key,null);
+            try{
+                iTmp= Integer.parseInt(tmp);
+            }catch (Exception e1){
+                e1.printStackTrace();
+            }
+
+        }
+
+        return iTmp;
     }
 
     /**

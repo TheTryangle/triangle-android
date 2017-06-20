@@ -70,7 +70,7 @@ public class InitializationHelper {
             Log.i(TAG,"diff versions: "+VERSION_CODE+" & "+store.getInt(KEY_VERSION_CODE));
             setConfigValues();
         }else{
-            String socketIp =store.get(KEY_STREAM_DESTINATION_ADDRESS);
+            String socketIp =store.get(KEY_WEBSOCKET_PROTOCOL);
             if (socketIp == null || socketIp == "") {
                 setConfigValues();
             }
@@ -87,7 +87,7 @@ public class InitializationHelper {
         store.put(KEY_WEBSOCKET_PROTOCOL,"ws");
 
         store.put(KEY_USERNAME,"anoniem");
-        store.put(KEY_STREAM_DESTINATION_ADDRESS,"http://188.226.164.87/server/");
+        store.put(KEY_STREAM_DESTINATION_ADDRESS,"ws://188.226.164.87/server/send");
 
         store.put(KEY_KEY_ALGORITHM,"RSA");
         store.put(KEY_SIGN_ALGORITHM,"SHA1withRSA");

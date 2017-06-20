@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.logic.FileRecordedCallback;
@@ -23,8 +24,12 @@ import triangle.triangleapp.logic.LiveStream;
 
 public class CameraLiveStream implements LiveStream {
     private static final String TAG = "CameraStream";
+    /*
     private static final int MAX_RECORD_DURATION = 5000;
     private static final int SET_ORIENTATION = 90;
+    */
+    private static final int MAX_RECORD_DURATION = ConfigHelper.getInstance().getInt("max_record_duration");
+    private static final int SET_ORIENTATION = ConfigHelper.getInstance().getInt("display_orientation");
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
     private FileRecordedCallback mCallback;

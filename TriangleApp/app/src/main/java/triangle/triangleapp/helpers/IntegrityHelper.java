@@ -25,6 +25,7 @@ import java.util.Calendar;
 
 import javax.security.auth.x500.X500Principal;
 
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.TriangleApplication;
 
 /**
@@ -34,13 +35,20 @@ import triangle.triangleapp.TriangleApplication;
 public class IntegrityHelper {
     private static final String TAG = "IntegrityHelper";
 
+    /*
     private static final String KEY_ALGORITHM = "RSA";
     private static final String SIGN_ALGORITHM = "SHA1withRSA";
     private static final int KEY_SIZE = 1024;
     private static final String KEY_ALIAS = "TriangleKey";
     private static final String KEY_STORE = "AndroidKeyStore";
     private static final int CERT_END_DATE_INCREMENT = 30;
-
+*/
+    private static final String KEY_ALGORITHM = ConfigHelper.getInstance().get("key_algorithm");
+    private static final String SIGN_ALGORITHM = ConfigHelper.getInstance().get("sign_algorithm");
+    private static final int KEY_SIZE = ConfigHelper.getInstance().getInt("key_size");
+    private static final String KEY_ALIAS = ConfigHelper.getInstance().get("key_alias");
+    private static final String KEY_STORE = ConfigHelper.getInstance().get("key_store");
+    private static final int CERT_END_DATE_INCREMENT = 30;
 
     /**
      * Generates an keypair using the constant KEY_ALGORITHM and KEY_SIZE

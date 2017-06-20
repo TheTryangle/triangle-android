@@ -17,6 +17,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import triangle.triangleapp.R;
+import triangle.triangleapp.helpers.InitializationHelper;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MainActivity";
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        InitializationHelper initHelper = new InitializationHelper(this.getApplicationContext());
         requestPermissions();
 
         Button btnStart = (Button) findViewById(R.id.btnStart);
