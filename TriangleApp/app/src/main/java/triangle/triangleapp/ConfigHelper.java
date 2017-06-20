@@ -2,18 +2,20 @@ package triangle.triangleapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
-public class Keystore {
-    private static Keystore store;
+import java.security.InvalidKeyException;
+
+public class ConfigHelper {
+    private static ConfigHelper store;
     private SharedPreferences SP;
-    private static String filename="Keys";
 
     /**
      * sets variables, internal constructor called from getinstance
      * @param context activity context
      */
-    private Keystore(Context context) {
-        SP = context.getApplicationContext().getSharedPreferences(filename,0);
+    private ConfigHelper(Context context) {
+        SP= PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     /**
@@ -21,10 +23,18 @@ public class Keystore {
      * @param context activity context
      * @return static keystore object
      */
-    public static Keystore getInstance(Context context) {
+    public static ConfigHelper getInstance(Context context) {
         if (store == null) {
-            store = new Keystore(context);
+            store = new ConfigHelper(context);
         }
+        return store;
+    }
+
+    /**
+     * gets an existing istance
+     * @return existing instance
+     */
+    public static ConfigHelper getInstance() {
         return store;
     }
 
@@ -55,7 +65,24 @@ public class Keystore {
      * @return int value from key
      */
     public int getInt(String key) {
-        return SP.getInt(key, 0);
+        String tmp="";
+        int iTmp=0;
+        try{
+            iTmp=SP.getInt(key, 0);
+            if(iTmp==0){
+                throw new InvalidKeyException();
+            }
+        }catch (Exception e){
+            tmp=SP.getString(key,null);
+            try{
+                iTmp= Integer.parseInt(tmp);
+            }catch (Exception e1){
+                e1.printStackTrace();
+            }
+
+        }
+
+        return iTmp;
     }
 
     /**
@@ -95,16 +122,15 @@ public class Keystore {
     public void remove(){
         Editor editor;
         editor = SP.edit();
-        editor.remove(filename);
         editor.commit();
     }
 
     /*
     usage:
 
-    private Keystore store;//Holds our key pairs
+    private ConfigHelper store;//Holds our key pairs
      public void test(Context context){
-        store = Keystore.getInstance(context);//Creates or Gets our key pairs.  You MUST have access to current context!
+        store = ConfigHelper.getInstance(context);//Creates or Gets our key pairs.  You MUST have access to current context!
 
         store.putInt("initial_int",5);
         store.put("initial_string","initstring");
