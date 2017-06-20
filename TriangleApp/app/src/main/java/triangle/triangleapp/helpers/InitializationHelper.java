@@ -23,7 +23,8 @@ public class InitializationHelper {
 
     private static final String KEY_VERSION_CODE="version_code";
     private static final String KEY_VERSION_NAME="version_name";
-    private static final String KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET= "destination_video_stream_websocket";
+    private static final String KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET= "stream_destination_address";
+    private static final String KEY_USERNAME = "username";
     private static final String KEY_WEBSOCKET_PROTOCOL="websocket_protocol";
     private static final String KEY_HASH_ALGORITHM="hash_algorithm";
 
@@ -74,9 +75,10 @@ public class InitializationHelper {
     private void setConfigValues(){
         store.putInt(KEY_VERSION_CODE,VERSION_CODE);
         store.put(KEY_VERSION_NAME,VERSION_NAME);
-        store.put(KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET,"ws://145.49.30.113:1234/send");
+        store.put(KEY_DESTINATION_VIDEO_STREAM_WEBSOCKET,"http://188.226.164.87");
         store.put(KEY_WEBSOCKET_PROTOCOL,"ws");
         store.put(KEY_HASH_ALGORITHM,"SHA-256");
+        store.put(KEY_USERNAME,"anoniem");
         store.save();
     }
 }
