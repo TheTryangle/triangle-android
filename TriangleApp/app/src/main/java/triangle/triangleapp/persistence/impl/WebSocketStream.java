@@ -14,8 +14,8 @@ import triangle.triangleapp.persistence.StreamAdapter;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = ConfigHelper.getInstance().get("destination_video_stream_websocket");
-    private static final String PROTOCOL = ConfigHelper.getInstance().get("websocket_protocol");
+    private static final String URL = "127.0.0.1";
+    private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 
