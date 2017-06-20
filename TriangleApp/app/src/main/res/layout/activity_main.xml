@@ -19,12 +19,4 @@
         android:layout_weight="1"
         android:text="@string/camera_start"/>
 
-    <Button
-        android:id="@+id/btnSetting"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="OnClickSettings"
-        android:text="Settings"/>
-
 </LinearLayout>
