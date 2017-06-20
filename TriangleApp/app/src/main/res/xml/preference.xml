@@ -23,36 +23,36 @@
             android:title="@string/key_algorithm_title"
             android:summary="@string/key_algorithm_summary"
             android:dialogTitle="@string/key_algorithm_dialog_title"
-            android:dialogMessage="@string/ka_dm"
+            android:dialogMessage="@string/key_algorithm_dialog_message"
             android:defaultValue="RSA" />
         <EditTextPreference
             android:key="sign_algorithm"
-            android:title="@string/sa_title"
-            android:summary="@string/sa_summary"
-            android:dialogTitle="@string/sa_dt"
-            android:dialogMessage="@string/sa_dm"
+            android:title="@string/sign_algorithm_title"
+            android:summary="@string/sign_algorithm_summary"
+            android:dialogTitle="@string/sign_algorithm_dialog_title"
+            android:dialogMessage="@string/sign_algorithm_dialog_message"
             android:defaultValue="SHA1withRSA" />
         <EditTextPreference
             android:key="key_size"
-            android:title="@string/ks_title"
-            android:summary="@string/ks_summary"
-            android:dialogTitle="@string/ks_dt"
-            android:dialogMessage="@string/ks_dm"
+            android:title="@string/key_size_title"
+            android:summary="@string/key_size_summary"
+            android:dialogTitle="@string/key_size_dialog_title"
+            android:dialogMessage="@string/key_size_dialog_message"
             android:numeric="integer"
             android:defaultValue="1024" />
         <EditTextPreference
             android:key="key_alias"
-            android:title="@string/ka_title"
-            android:summary="@string/kas_summary"
-            android:dialogTitle="@string/kas_dt"
-            android:dialogMessage="@string/kas_dm"
+            android:title="@string/key_alias_title"
+            android:summary="@string/key_alias_summary"
+            android:dialogTitle="@string/key_alias_dialog_title"
+            android:dialogMessage="@string/key_alias_dialog_message"
             android:defaultValue="TriangleKey" />
         <EditTextPreference
             android:key="key_store"
-            android:title="@string/kst_title"
-            android:summary="@string/kst_summary"
-            android:dialogTitle="@string/kst_dt"
-            android:dialogMessage="@string/kst_dm"
+            android:title="@string/key_store_title"
+            android:summary="@string/key_store_summary"
+            android:dialogTitle="@string/key_store_dialog_title"
+            android:dialogMessage="@string/key_store_dialog_message"
             android:defaultValue="AndroidKeyStore" />
 
     </PreferenceCategory>
@@ -63,10 +63,10 @@
 
         <EditTextPreference
             android:key="stream_destination_address"
-            android:title="@string/sda_title"
-            android:summary="@string/sda_summary"
-            android:dialogTitle="@string/sda_dt"
-            android:dialogMessage="@string/sda_dm"
+            android:title="@string/stream_destination_address_title"
+            android:summary="@string/stream_destination_address_summary"
+            android:dialogTitle="@string/stream_destination_address_dialog_title"
+            android:dialogMessage="@string/stream_destination_address_dialog_message"
             android:defaultValue="ws://188.226.164.87/server/send"/>
 
     </PreferenceCategory>
@@ -77,27 +77,27 @@
 
     <EditTextPreference
         android:key="file_helper_save_location"
-        android:title="@string/fh_title"
-        android:summary="@string/fh_summary"
-        android:dialogTitle="@string/fh_dt"
-        android:dialogMessage="@string/fh_dm"
+        android:title="@string/file_helper_save_location_title"
+        android:summary="@string/file_helper_save_location_summary"
+        android:dialogTitle="@string/file_helper_save_location_dialog_title"
+        android:dialogMessage="@string/file_helper_save_location_dialog_message"
         android:defaultValue="TriangleApp" />
 
 
      <ListPreference
          android:key="max_record_duration"
-         android:title="@string/mrd_title"
-         android:summary="@string/mrd_summary"
+         android:title="@string/max_recording_duration_title"
+         android:summary="@string/max_recording_duration_summary"
          android:entries="@array/record_length_keys"
          android:entryValues="@array/record_length_values" />
 
 
         <EditTextPreference
             android:key="display_orientation"
-            android:title="@string/do_title"
-            android:summary="@string/do_summary"
-            android:dialogTitle="@string/do_dt"
-            android:dialogMessage="@string/do_dm"
+            android:title="@string/display_orientation_title"
+            android:summary="@string/display_orientation_summary"
+            android:dialogTitle="@string/display_orientation_dialog_title"
+            android:dialogMessage="@string/display_orientation_dialog_message"
             android:numeric="integer"
             android:defaultValue="90" />
 
