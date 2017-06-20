@@ -71,7 +71,7 @@ public class InitializationHelper {
             setConfigValues();
         }else{
             String socketIp =store.get(KEY_WEBSOCKET_PROTOCOL);
-            if (socketIp.equals(null) || socketIp.equals("")) {
+            if (socketIp==null || socketIp.equals("")) {
                 setConfigValues();
             }
         }
