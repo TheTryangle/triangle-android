@@ -21,7 +21,7 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.30.113:1234/send";
+    private static final String URL = "ws://188.226.164.87/server/send";
     private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
