@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         setContentView(R.layout.activity_main);
 
         InitializationHelper initHelper = new InitializationHelper(this.getApplicationContext());
+        //Auto-executes required code, no need to do this manually. so it is unused as it should!
         requestPermissions();
 
         Button btnStart = (Button) findViewById(R.id.btnStart);

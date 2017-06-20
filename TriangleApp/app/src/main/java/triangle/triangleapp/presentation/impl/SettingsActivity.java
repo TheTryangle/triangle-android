@@ -1,5 +1,4 @@
 package triangle.triangleapp.presentation.impl;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -36,6 +35,7 @@ public class SettingsActivity extends PreferenceActivity {
             case 0:
                 startActivity(new Intent(this, ShowSettingsActivity.class));
                 return true;
+            default:break;
         }
 
         return false;

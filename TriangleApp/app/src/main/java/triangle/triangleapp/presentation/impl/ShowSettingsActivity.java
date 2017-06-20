@@ -1,9 +1,7 @@
 package triangle.triangleapp.presentation.impl;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -11,12 +9,10 @@ import triangle.triangleapp.R;
 
 public class ShowSettingsActivity extends Activity {
 
-  /*  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_settings);
-    }*/
-
+    /**
+     * onCreate
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,3 +44,4 @@ public class ShowSettingsActivity extends Activity {
     }
 
 }
+
