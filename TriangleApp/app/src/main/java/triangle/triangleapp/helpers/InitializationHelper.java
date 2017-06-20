@@ -2,6 +2,7 @@ package triangle.triangleapp.helpers;
 
 import android.content.Context;
 import android.util.Log;
+
 import triangle.triangleapp.BuildConfig;
 
 import triangle.triangleapp.ConfigHelper;
@@ -18,32 +19,33 @@ public class InitializationHelper {
 
     private ConfigHelper store;
     private Context context;
-    private final String TAG= "InitializationHelper";
-    private final String VERSION_INVALID="failed";
+    private final String TAG = "InitializationHelper";
+    private final String VERSION_INVALID = "failed";
 
-    private static final String KEY_VERSION_CODE="versionCode";
-    private static final String KEY_VERSION_NAME="versionName";
+    private static final String KEY_VERSION_CODE = "versionCode";
+    private static final String KEY_VERSION_NAME = "versionName";
 
     private static final String KEY_USERNAME = "username";
-    private static final String KEY_WEBSOCKET_PROTOCOL="websocket_protocol";
+    private static final String KEY_WEBSOCKET_PROTOCOL = "websocket_protocol";
 
-    private static final String KEY_KEY_ALGORITHM="key_algorithm";
-    private static final String KEY_SIGN_ALGORITHM="sign_algorithm";
-    private static final String KEY_KEY_SIZE="key_size";
-    private static final String KEY_KEY_ALIAS="key_alias";
-    private static final String KEY_KEY_STORE="key_store";
-    private static final String KEY_STREAM_DESTINATION_ADDRESS= "stream_destination_address";
-    private static final String KEY_FILE_HELPER_SAVE_LOCATION="file_helper_save_location";
-    private static final String KEY_MAX_RECORD_DURATION="max_record_duration";
-    private static final String KEY_DISPLAY_ORIENTATION="display_orientation";
+    private static final String KEY_KEY_ALGORITHM = "key_algorithm";
+    private static final String KEY_SIGN_ALGORITHM = "sign_algorithm";
+    private static final String KEY_KEY_SIZE = "key_size";
+    private static final String KEY_KEY_ALIAS = "key_alias";
+    private static final String KEY_KEY_STORE = "key_store";
+    private static final String KEY_STREAM_DESTINATION_ADDRESS = "stream_destination_address";
+    private static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
+    private static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
+    private static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
 
 
     /**
      * Constructor
+     *
      * @param c a context
      */
-    public InitializationHelper(Context c){
-        this.context=c;
+    public InitializationHelper(Context c) {
+        this.context = c;
         store = ConfigHelper.getInstance(context);
         checkVersion();
     }
@@ -51,20 +53,20 @@ public class InitializationHelper {
     /**
      * Checks the app version, if different from config version, calls setConfigValues
      */
-    private void checkVersion(){
+    private void checkVersion() {
 
-            versionCode = BuildConfig.VERSION_CODE;
-            versionName = BuildConfig.VERSION_NAME;
+        versionCode = BuildConfig.VERSION_CODE;
+        versionName = BuildConfig.VERSION_NAME;
 
 
-        int configCode =store.getInt(KEY_VERSION_CODE);
+        int configCode = store.getInt(KEY_VERSION_CODE);
 
-        if(versionCode!=configCode||configCode==0){
-            Log.i(TAG,"diff versions: "+versionCode+" & "+store.getInt(KEY_VERSION_CODE));
+        if (versionCode != configCode || configCode == 0) {
+            Log.i(TAG, "diff versions: " + versionCode + " & " + store.getInt(KEY_VERSION_CODE));
             setConfigValues();
-        }else{
-            String socketIp =store.get(KEY_WEBSOCKET_PROTOCOL);
-            if (socketIp==null || socketIp.equals("")) {
+        } else {
+            String socketIp = store.get(KEY_WEBSOCKET_PROTOCOL);
+            if (socketIp == null || socketIp.equals("")) {
                 setConfigValues();
             }
         }
@@ -74,22 +76,22 @@ public class InitializationHelper {
     /**
      * sets default config values, runs after cache is cleared, clean install, version changes and possibly after device reboots
      */
-    private void setConfigValues(){
-        store.putInt(KEY_VERSION_CODE,versionCode);
-        store.put(KEY_VERSION_NAME,versionName);
-        store.put(KEY_WEBSOCKET_PROTOCOL,"ws");
+    private void setConfigValues() {
+        store.putInt(KEY_VERSION_CODE, versionCode);
+        store.put(KEY_VERSION_NAME, versionName);
+        store.put(KEY_WEBSOCKET_PROTOCOL, "ws");
 
-        store.put(KEY_USERNAME,"anoniem");
-        store.put(KEY_STREAM_DESTINATION_ADDRESS,"ws://188.226.164.87/server/send");
+        store.put(KEY_USERNAME, "anoniem");
+        store.put(KEY_STREAM_DESTINATION_ADDRESS, "ws://188.226.164.87/server/send");
 
-        store.put(KEY_KEY_ALGORITHM,"RSA");
-        store.put(KEY_SIGN_ALGORITHM,"SHA1withRSA");
-        store.put(KEY_KEY_SIZE,"1024");
-        store.put(KEY_KEY_ALIAS,"TriangleKey");
-        store.put(KEY_KEY_STORE,"AndroidKeyStore");
-        store.put(KEY_FILE_HELPER_SAVE_LOCATION,"TriangleApp");
-        store.put(KEY_MAX_RECORD_DURATION,"4000");
-        store.put(KEY_DISPLAY_ORIENTATION,"90");
+        store.put(KEY_KEY_ALGORITHM, "RSA");
+        store.put(KEY_SIGN_ALGORITHM, "SHA1withRSA");
+        store.put(KEY_KEY_SIZE, "1024");
+        store.put(KEY_KEY_ALIAS, "TriangleKey");
+        store.put(KEY_KEY_STORE, "AndroidKeyStore");
+        store.put(KEY_FILE_HELPER_SAVE_LOCATION, "TriangleApp");
+        store.put(KEY_MAX_RECORD_DURATION, "4000");
+        store.put(KEY_DISPLAY_ORIENTATION, "90");
         store.save();
 
 

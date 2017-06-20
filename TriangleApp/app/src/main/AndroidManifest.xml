@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.impl.StreamActivity"/>
-        <activity android:name=".presentation.impl.ShowSettingsActivity"/>
         <activity android:name=".presentation.impl.SettingsActivity"/>
 
     </application>

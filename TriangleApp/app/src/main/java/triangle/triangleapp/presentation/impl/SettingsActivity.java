@@ -1,10 +1,17 @@
 package triangle.triangleapp.presentation.impl;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import triangle.triangleapp.R;
 
@@ -19,27 +26,23 @@ public class SettingsActivity extends PreferenceActivity {
 
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
-
+        Log.i("SettingsActivity", "created activity");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
-        menu.add(Menu.NONE, 0, 0, "Show current settings");
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case 0:
-                startActivity(new Intent(this, ShowSettingsActivity.class));
-                return true;
-            default:break;
-        }
-
-        return false;
+        LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
+        Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+        root.addView(bar, 0); // insert at top
+        bar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }

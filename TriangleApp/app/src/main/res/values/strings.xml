@@ -12,7 +12,7 @@
     <string name="notify_streaming_started">Streaming started</string>
     <string name="camera_start">Start Camera</string>
     <string name="close_app">Close App</string>
-<string name="show_current_settings">Show current settings</string>
+    <string name="settings">Settings</string>
     <string name="category_id">Identity</string>
     <string name="display_name">Display name</string>
     <string name="username_summary">This will be shown to other users</string>
