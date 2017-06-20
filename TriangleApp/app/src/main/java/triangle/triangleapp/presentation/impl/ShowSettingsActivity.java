@@ -1,4 +1,5 @@
 package triangle.triangleapp.presentation.impl;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
