@@ -85,6 +85,17 @@ public class WebSocketStream implements StreamAdapter {
             Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
         }
     }
+
+    @Override
+    public void sendText(@NonNull String text){
+        try {
+            if (mIsConnected) {
+                mWebSocket.send(text);
+            }
+        } catch (Exception ex) {
+            Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
+        }
+    }
 }
 
 

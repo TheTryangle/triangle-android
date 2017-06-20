@@ -31,4 +31,11 @@ public interface StreamAdapter {
      * @param privateKey The private key to use for signing
      */
     void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey);
+
+    /**
+     * Sends text to the stream.
+     *
+     * @param text The text to send.
+     */
+    void sendText(@NonNull String text);
 }
