@@ -7,7 +7,7 @@ import android.view.Surface;
 import java.security.KeyPair;
 import java.security.PublicKey;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
@@ -50,6 +50,7 @@ public class StreamManager {
                 PublicKey pub = mKeyPair.getPublic();
                 mStreamAdapter.sendPublicKey(pub);
                 mManagerCallback.streamConnected();
+                initChat();
             }
 
             @Override
@@ -58,31 +59,29 @@ public class StreamManager {
                 Log.e(TAG, "Error occurred during connecting", ex);
             }
         });
+    }
 
-        // TODO: Connect after connecting th estream
+    private void initChat() {
         mChatAdapter.connect(new ConnectionCallback() {
             @Override
             public void onConnected() {
                 Log.i(TAG, "Chat Adapter has connected!");
                 mManagerCallback.chatConnected();
-                initChatCallback();
+
+                ChatAction action = ChatAction.join(mStreamAdapter.getId());
+                mChatAdapter.sendMessage(action);
+                mChatAdapter.setCallback(new ChatCallback() {
+                    @Override
+                    public void onMessageReceived(ChatAction message) {
+                        mManagerCallback.chatMessageReceived(message);
+                    }
+                });
             }
 
             @Override
             public void onError(@NonNull Exception ex) {
                 Log.e(TAG, "Error occurred during ChatAdapter connection.", ex);
                 mManagerCallback.chatError(ex);
-            }
-        });
-
-
-    }
-
-    private void initChatCallback() {
-        mChatAdapter.setCallback(new ChatCallback() {
-            @Override
-            public void onMessageReceived(ChatMessage message) {
-                mManagerCallback.chatMessageReceived(message);
             }
         });
     }
@@ -122,9 +121,10 @@ public class StreamManager {
     /**
      * Sends a chat message using the adapter
      *
-     * @param chatMessage The message to be sent
+     * @param chatAction The message to be sent
      */
-    public void sendChatMessage(@NonNull ChatMessage chatMessage) {
-        mChatAdapter.sendMessage(chatMessage);
+    public void sendChatMessage(@NonNull ChatAction chatAction) {
+        chatAction.setStreamId(mStreamAdapter.getId());
+        mChatAdapter.sendMessage(chatAction);
     }
 }

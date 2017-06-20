@@ -3,7 +3,7 @@ package triangle.triangleapp.presentation.impl;
 import android.os.Bundle;
 
 import triangle.triangleapp.R;
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.presentation.StreamPresenter;
 import triangle.triangleapp.presentation.StreamView;
@@ -60,7 +60,6 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void showPreview() {
         mCameraSurfaceView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -78,7 +77,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void showMessage(ChatMessage message) {
+    public void showMessage(ChatAction message) {
         Log.i("StreamActivity", "Chat message received");
     }
 

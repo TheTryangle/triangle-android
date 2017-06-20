@@ -2,7 +2,7 @@ package triangle.triangleapp.logic;
 
 import android.support.annotation.NonNull;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 
 /**
  * Created by marco on 20-6-2017.
@@ -10,11 +10,11 @@ import triangle.triangleapp.domain.ChatMessage;
 
 public interface StreamManagerCallback {
     /**
-     * Called when a ChatMessage is received
+     * Called when a ChatAction is received
      *
      * @param message The message that is received
      */
-    void chatMessageReceived(ChatMessage message);
+    void chatMessageReceived(ChatAction message);
 
     void streamConnected();
 

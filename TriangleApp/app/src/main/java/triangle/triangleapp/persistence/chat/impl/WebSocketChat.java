@@ -14,7 +14,7 @@ import com.koushikdutta.async.http.WebSocket;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -24,8 +24,8 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketChat implements ChatAdapter {
-    private static final String URL = "";
-    private static final String PROTOCOL = "";
+    private static final String URL = "ws://145.49.3.220:5000/chat";
+    private static final String PROTOCOL = "ws";
     private ChatCallback mChatCallback;
     private WebSocket mWebSocket;
     private Gson mGsonInstance;
@@ -51,10 +51,12 @@ public class WebSocketChat implements ChatAdapter {
                     public void onCompleted(Exception ex, WebSocket webSocket) {
                         if (ex == null) {
                             mWebSocket = webSocket;
+
+                            // Send the join message
                             mWebSocket.setStringCallback(new WebSocket.StringCallback() {
                                 @Override
                                 public void onStringAvailable(String s) {
-                                    ChatMessage message = mGsonInstance.fromJson(s, ChatMessage.class);
+                                    ChatAction message = mGsonInstance.fromJson(s, ChatAction.class);
                                     mChatCallback.onMessageReceived(message);
                                 }
                             });
@@ -67,7 +69,7 @@ public class WebSocketChat implements ChatAdapter {
     }
 
     @Override
-    public void sendMessage(ChatMessage message) {
+    public void sendMessage(ChatAction message) {
         String jsonChatMessage = mGsonInstance.toJson(message);
         mWebSocket.send(jsonChatMessage);
     }

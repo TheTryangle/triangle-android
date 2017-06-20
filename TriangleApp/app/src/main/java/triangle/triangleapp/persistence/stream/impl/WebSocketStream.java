@@ -21,10 +21,11 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://188.226.164.87/server/send";
+    private static final String URL = "ws://145.49.3.220:5000/server/send";
     private static final String PROTOCOL = "ws";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
+    private String mId;
 
     /**
      * Determines if the WebSocket is connected.
@@ -58,7 +59,17 @@ public class WebSocketStream implements StreamAdapter {
                         if (ex == null) {
                             mIsConnected = true;
                             mWebSocket = webSocket;
-                            callback.onConnected();
+                            mWebSocket.setStringCallback(new WebSocket.StringCallback() {
+                                @Override
+                                public void onStringAvailable(String s) {
+                                    if (s.startsWith("ID:")) {
+                                        Log.i("WebSocketStream", "Received item");
+                                        String replacedString = s.replace("ID: ", "");
+                                        mId = replacedString;
+                                        callback.onConnected();
+                                    }
+                                }
+                            });
                         } else {
                             callback.onError(ex);
                         }
@@ -83,6 +94,11 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception ex) {
             Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
         }
+    }
+
+    @Override
+    public String getId() {
+        return null;
     }
 }
 

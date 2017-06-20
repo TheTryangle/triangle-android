@@ -2,7 +2,7 @@ package triangle.triangleapp.persistence.chat;
 
 import android.support.annotation.NonNull;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.persistence.ConnectionCallback;
 
 /**
@@ -12,7 +12,7 @@ import triangle.triangleapp.persistence.ConnectionCallback;
 public interface ChatAdapter {
     void connect(@NonNull ConnectionCallback connectionCallback);
 
-    void sendMessage(ChatMessage message);
+    void sendMessage(ChatAction message);
 
     void setCallback(ChatCallback chatCallback);
 }

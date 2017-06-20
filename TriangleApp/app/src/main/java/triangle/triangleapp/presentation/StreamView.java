@@ -3,7 +3,7 @@ package triangle.triangleapp.presentation;
 import android.support.annotation.NonNull;
 import android.view.Surface;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 
 /**
@@ -43,7 +43,7 @@ public interface StreamView {
      *
      * @param message The message to show.
      */
-    void showMessage(ChatMessage message);
+    void showMessage(ChatAction message);
 
     void connected(@AdapterType int type);
 

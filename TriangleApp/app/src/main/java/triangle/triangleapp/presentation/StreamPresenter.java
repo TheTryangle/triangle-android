@@ -2,7 +2,7 @@ package triangle.triangleapp.presentation;
 
 import android.support.annotation.NonNull;
 
-import triangle.triangleapp.domain.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.logic.StreamManagerCallback;
@@ -37,7 +37,7 @@ public class StreamPresenter implements StreamManagerCallback {
     }
 
     @Override
-    public void chatMessageReceived(ChatMessage message) {
+    public void chatMessageReceived(ChatAction message) {
         mView.showMessage(message);
     }
 
@@ -61,7 +61,7 @@ public class StreamPresenter implements StreamManagerCallback {
         mView.errorOccurred(AdapterType.TYPE_CHAT, exception);
     }
 
-    public void sendMessage(@NonNull ChatMessage message) {
+    public void sendMessage(@NonNull ChatAction message) {
         mManager.sendChatMessage(message);
     }
 }
