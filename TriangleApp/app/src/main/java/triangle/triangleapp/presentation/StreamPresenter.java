@@ -1,6 +1,5 @@
 package triangle.triangleapp.presentation;
 
-import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.annotation.Nullable;
@@ -55,5 +54,10 @@ public class StreamPresenter {
         }
     }
 
-
+    /**
+     * Stops the streaming
+     */
+    public boolean isStreaming() {
+        return mManager.getIsStreaming();
+    }
 }

@@ -1,5 +1,8 @@
 package triangle.triangleapp.presentation.impl;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.logic.ConnectionManager;
+import triangle.triangleapp.logic.NetworkBroadcastReceiver;
 import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.presentation.ConnectionState;
 import triangle.triangleapp.presentation.StreamPresenter;
@@ -25,7 +30,8 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
     private Button mButtonStream;
-    private StreamManager mManager;
+    private ConnectionManager mConnectionManager;
+    private static boolean firstStart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +39,34 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
         setContentView(R.layout.activity_camera);
 
         mPresenter = new StreamPresenter(this);
+        mConnectionManager = new ConnectionManager(this);
 
         mCameraSurfaceView = (SurfaceView) findViewById(R.id.surface_camera_preview);
         mButtonStream = (Button) findViewById(R.id.btn_stream);
         mButtonStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Start or stop the stream
-                mPresenter.stream();
+
+                if (mConnectionManager.isNetworkAvailable()) {
+                    mPresenter.stream();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_SHORT);
+                }
+
+
+
+//                Toast.makeText(getApplicationContext(), "DEZE MOET DIE NIET LATEN ZIEN", Toast.LENGTH_SHORT);
+//
+//                if (isNetworkAvailable()) {
+
+                    // Start or stop the stream
+
+
+//                    Toast.makeText(getApplicationContext(), "DEZE MOET DIE OOK NIET LATEN ZIEN", Toast.LENGTH_SHORT);
+//
+//                } else {
+//
+//                }
             }
         });
     }
@@ -80,36 +106,29 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
 
-        String text = "Connection lost!";
+        // Do not execute on start
+        if (!firstStart) {
 
-        boolean isStreaming = mManager.stream();
+            switch (state) {
+                case ConnectionState.CONNECTED: {
 
+                    Toast.makeText(getApplicationContext(), R.string.notify_connected, Toast.LENGTH_LONG).show();
 
-
-        switch (state) {
-            case ConnectionState.CONNECTED: {
-                text = "Connection established!";
-                Log.e("CONNECITON MADE", "CONNECTION MADE!!!!!!!!!!!!!");
-                break;
-            }
-            case ConnectionState.DISCONNECTED: {
-
-                // if streaming
-                if (isStreaming) {
-                mManager.stopStream();
-                    text = "Connection lost! Streaming has stopped.";
-                    Log.e("CONNECTIION LOST", "CONNECTION LOST");
-                    // stop streaming
-                    mManager.stream();
-
-                // if reason is provided
-                } else if (reason != null) {
-                    text = "Connection lost! Reason: "+reason;
+                    break;
                 }
-                break;
-            }
-        }
+                case ConnectionState.DISCONNECTED: {
 
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_LONG).show();
+                    if (mPresenter.isStreaming()) {
+                        mPresenter.stream();
+                    }
+
+                    break;
+                }
+            }
+
+        } else {
+            firstStart = false;
+        }
     }
 }

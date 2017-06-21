@@ -1,5 +1,8 @@
 package triangle.triangleapp.logic;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
@@ -67,6 +70,7 @@ public class StreamManager {
      */
     public boolean stream() {
         if (mIsStreaming) {
+            Log.i("STREAMMANGER", "STREAMING STOPPING");
             mLiveStream.stop();
         } else {
             mLiveStream.setPreviewView(mPreviewView);
@@ -77,6 +81,8 @@ public class StreamManager {
                     mStreamAdapter.sendFile(fileInBytes, mKeyPair.getPrivate());
                 }
             });
+
+            Log.i("STREAMMANGER", "STREAMING STARTING");
         }
         mIsStreaming = !mIsStreaming;
 
@@ -88,9 +94,7 @@ public class StreamManager {
      *
      * @return True if the streaming started, else returns false
      */
-    public void stopStream() {
-        if (mIsStreaming) {
-            mLiveStream.stop();
-        }
+    public boolean getIsStreaming() {
+        return mIsStreaming;
     }
 }

@@ -25,17 +25,6 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean isConnected = isDeviceConnected(context);
 
-        String reason = "";
-
-        try {
-            reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Log.e(TAG, reason+"ijn");
-        }
-
-
         if (isConnected) {
             Log.i(TAG, "Connection established");
             if (mCallback != null) {
@@ -44,6 +33,7 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
         } else {
             Log.i(TAG, "Connection lost");
             if (mCallback != null) {
+                String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
                 mCallback.onDisconnected(reason);
             }
         }
