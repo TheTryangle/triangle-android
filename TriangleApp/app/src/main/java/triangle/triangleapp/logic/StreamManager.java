@@ -4,9 +4,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Surface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.KeyPair;
 import java.security.PublicKey;
 
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
@@ -49,6 +53,16 @@ public class StreamManager {
             public void onConnected() {
                 PublicKey pub = mKeyPair.getPublic();
                 mStreamAdapter.sendPublicKey(pub);
+
+                //Send username to server
+                try {
+                    String username = ConfigHelper.getInstance().get("username");
+                    JSONObject streamInfo = new JSONObject();
+                    streamInfo.put("StreamerName", username);
+                    mStreamAdapter.sendText(streamInfo.toString());
+                } catch(JSONException ex){
+                    Log.e(TAG, "An error occurred while attempting to send username to server", ex);
+                }
                 mManagerCallback.streamConnected();
                 initChat();
             }
