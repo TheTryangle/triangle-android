@@ -33,7 +33,7 @@ public class InitializationHelper {
     private static final String KEY_KEY_SIZE = "key_size";
     private static final String KEY_KEY_ALIAS = "key_alias";
     private static final String KEY_KEY_STORE = "key_store";
-    private static final String KEY_STREAM_DESTINATION_ADDRESS = "stream_destination_address";
+    private static final String KEY_WEBAPI_DESTINATION_ADDRESS = "webapi_destination_address";
     private static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
     private static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
     private static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
@@ -82,7 +82,8 @@ public class InitializationHelper {
         store.put(KEY_WEBSOCKET_PROTOCOL, "ws");
 
         store.put(KEY_USERNAME, "anoniem");
-        store.put(KEY_STREAM_DESTINATION_ADDRESS, "ws://188.226.164.87/server/send");
+
+        store.put(KEY_WEBAPI_DESTINATION_ADDRESS, "http://188.226.164.87/server/api/");
 
         store.put(KEY_KEY_ALGORITHM, "RSA");
         store.put(KEY_SIGN_ALGORITHM, "SHA1withRSA");

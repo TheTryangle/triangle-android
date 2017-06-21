@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.StreamAdapter;
@@ -29,7 +30,7 @@ import triangle.triangleapp.persistence.StreamAdapter;
 
 public class HttpStream implements StreamAdapter {
     private static final String TAG = "HttpStream";
-    private static final String URL = "http://145.49.44.137:5000/api/";
+    private static final String URL = ConfigHelper.getInstance().get("webapi_destination_address");
     private RequestQueue mRequestQueue;
     private String id;
 
@@ -73,7 +74,7 @@ public class HttpStream implements StreamAdapter {
         }){
             @Override
             public String getBodyContentType() {
-                return "Application/JSON";
+                return "application/json";
             }
 
             @Override
@@ -135,6 +136,11 @@ public class HttpStream implements StreamAdapter {
         } catch (Exception ex) {
             Log.e(TAG, "Error occured while send request via Volley", ex);
         }
+    }
+
+    @Override
+    public void sendText(@NonNull String text) {
+
     }
 
     @Override
