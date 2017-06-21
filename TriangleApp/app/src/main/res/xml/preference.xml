@@ -63,7 +63,7 @@
 
         <EditTextPreference
             android:key="webapi_destination_address"
-            android:title="@string/stream_destination_address_title"
+            android:title="@string/webapi_destination_address_title"
             android:summary="@string/webapi_destination_address_summary"
             android:dialogTitle="@string/webapi_destination_address_dialog_title"
             android:dialogMessage="@string/webapi_destination_address_dialog_message"

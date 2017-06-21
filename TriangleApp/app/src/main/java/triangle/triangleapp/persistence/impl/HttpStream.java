@@ -19,10 +19,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.TriangleApplication;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.persistence.ConnectionCallback;
-import triangle.triangleapp.persistence.StreamAdapter;
+import triangle.triangleapp.persistence.stream.StreamAdapter;
 
 /**
  * Created by Kevin Ly on 6/16/2017.
@@ -30,7 +30,7 @@ import triangle.triangleapp.persistence.StreamAdapter;
 
 public class HttpStream implements StreamAdapter {
     private static final String TAG = "HttpStream";
-    private static final String URL = ConfigHelper.getInstance().get("webapi_destination_address");
+    private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS);
     private RequestQueue mRequestQueue;
     private String id;
 
@@ -54,12 +54,16 @@ public class HttpStream implements StreamAdapter {
         final String pubKey = stringWriter.toString();
         final String completeUrl = URL + "stream/sendKey/" + id;
 
-        final JSONObject pubKeyObj = new JSONObject();
-        try {
-            pubKeyObj.put("publicKey", pubKey);
-        } catch (Exception ex){
-            Log.e(TAG, "Error while put public key in JSON object.", ex);
-        }
+
+
+//        final JSONObject pubKeyObj = new JSONObject();
+//        try {
+//            pubKeyObj.put("publicKey", pubKey);
+//        } catch (Exception ex){
+//            Log.e(TAG, "Error while put public key in JSON object.", ex);
+//        }
+
+
 
         StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
             @Override

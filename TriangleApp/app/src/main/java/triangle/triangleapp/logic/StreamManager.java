@@ -52,7 +52,7 @@ public class StreamManager {
 
                 //Send username to server
                 try {
-                    String username = ConfigHelper.getInstance().get("username");
+                    String username = ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME);
                     JSONObject streamInfo = new JSONObject();
                     streamInfo.put("StreamerName", username);
                     mStreamAdapter.sendText(streamInfo.toString());

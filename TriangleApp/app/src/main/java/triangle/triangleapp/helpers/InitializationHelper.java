@@ -20,22 +20,6 @@ public class InitializationHelper {
     private final String TAG = "InitializationHelper";
     private final String VERSION_INVALID = "failed";
 
-    private static final String KEY_VERSION_CODE = "versionCode";
-    private static final String KEY_VERSION_NAME = "versionName";
-
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_WEBSOCKET_PROTOCOL = "websocket_protocol";
-
-    private static final String KEY_KEY_ALGORITHM = "key_algorithm";
-    private static final String KEY_SIGN_ALGORITHM = "sign_algorithm";
-    private static final String KEY_KEY_SIZE = "key_size";
-    private static final String KEY_KEY_ALIAS = "key_alias";
-    private static final String KEY_KEY_STORE = "key_store";
-    private static final String KEY_WEBAPI_DESTINATION_ADDRESS = "webapi_destination_address";
-    private static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
-    private static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
-    private static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
-
 
     /**
      * Constructor
@@ -57,13 +41,13 @@ public class InitializationHelper {
         versionName = BuildConfig.VERSION_NAME;
 
 
-        int configCode = store.getInt(KEY_VERSION_CODE);
+        int configCode = store.getInt(ConfigHelper.KEY_VERSION_CODE);
 
         if (versionCode != configCode || configCode == 0) {
-            Log.i(TAG, "diff versions: " + versionCode + " & " + store.getInt(KEY_VERSION_CODE));
+            Log.i(TAG, "diff versions: " + versionCode + " & " + store.getInt(ConfigHelper.KEY_VERSION_CODE));
             setConfigValues();
         } else {
-            String socketIp = store.get(KEY_WEBSOCKET_PROTOCOL);
+            String socketIp = store.get(ConfigHelper.KEY_WEBSOCKET_PROTOCOL);
             if (socketIp == null || socketIp.equals("")) {
                 setConfigValues();
             }
@@ -75,22 +59,21 @@ public class InitializationHelper {
      * sets default config values, runs after cache is cleared, clean install, version changes and possibly after device reboots
      */
     private void setConfigValues() {
-        store.putInt(KEY_VERSION_CODE, versionCode);
-        store.put(KEY_VERSION_NAME, versionName);
-        store.put(KEY_WEBSOCKET_PROTOCOL, "ws");
+        store.putInt(ConfigHelper.KEY_VERSION_CODE, versionCode);
+        store.put(ConfigHelper.KEY_VERSION_NAME, versionName);
+        store.put(ConfigHelper.KEY_WEBSOCKET_PROTOCOL, "ws");
 
-        store.put(KEY_USERNAME, "anoniem");
+        store.put(ConfigHelper.KEY_USERNAME, "anoniem");
+        store.put(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS, "http://145.49.44.137:5000/api/");
 
-        store.put(KEY_WEBAPI_DESTINATION_ADDRESS, "http://188.226.164.87/server/api/");
-
-        store.put(KEY_KEY_ALGORITHM, "RSA");
-        store.put(KEY_SIGN_ALGORITHM, "SHA1withRSA");
-        store.put(KEY_KEY_SIZE, "1024");
-        store.put(KEY_KEY_ALIAS, "TriangleKey");
-        store.put(KEY_KEY_STORE, "AndroidKeyStore");
-        store.put(KEY_FILE_HELPER_SAVE_LOCATION, "TriangleApp");
-        store.put(KEY_MAX_RECORD_DURATION, "4000");
-        store.put(KEY_DISPLAY_ORIENTATION, "90");
+        store.put(ConfigHelper.KEY_KEY_ALGORITHM, "RSA");
+        store.put(ConfigHelper.KEY_SIGN_ALGORITHM, "SHA1withRSA");
+        store.put(ConfigHelper.KEY_KEY_SIZE, "1024");
+        store.put(ConfigHelper.KEY_KEY_ALIAS, "TriangleKey");
+        store.put(ConfigHelper.KEY_KEY_STORE, "AndroidKeyStore");
+        store.put(ConfigHelper.KEY_FILE_HELPER_SAVE_LOCATION, "TriangleApp");
+        store.put(ConfigHelper.KEY_MAX_RECORD_DURATION, "4000");
+        store.put(ConfigHelper.KEY_DISPLAY_ORIENTATION, "90");
         store.save();
 
 
