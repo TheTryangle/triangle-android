@@ -162,32 +162,4 @@ public class StreamManager {
         ChatAction chatAction = ChatAction.message(message, ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME), mStreamAdapter.getId());
         mChatAdapter.sendMessage(chatAction);
     }
-
-    public void getCurrentViewers() {
-
-        Observable.interval(1, TimeUnit.SECONDS).subscribe(new Subscriber<Long>() {
-
-            @Override
-            public void onSubscribe(Subscription s) {
-                s.request(250);
-            }
-
-            @Override
-            public void onNext(Long aLong) {
-                if (aLong == 3) {
-                }
-                System.out.println);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                t.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("Test", "Complete");
-            }
-        });
-    }
 }

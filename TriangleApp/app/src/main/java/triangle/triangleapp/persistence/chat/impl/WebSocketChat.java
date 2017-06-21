@@ -34,6 +34,8 @@ public class WebSocketChat implements ChatAdapter {
     public WebSocketChat() {
         GsonBuilder builder = new GsonBuilder();
 
+        builder.excludeFieldsWithoutExposeAnnotation();
+
         // Register an adapter to manage the date types as long values
         builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
