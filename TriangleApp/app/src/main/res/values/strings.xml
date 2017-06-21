@@ -55,5 +55,13 @@
     <string name="display_orientation_dialog_title">Display orientation</string>
     <string name="display_orientation_dialog_message">set the amount of degrees the camera should rotate</string>
 
+    <string name="err_send_pubkey">Could not send public key to server. Please check connection settings and try again.</string>
+    <string name="err_decode_server_pubkey">Server\'s public key could not be decoded.</string>
+    <string name="err_get_stream_id">Could not get stream ID from server.</string>
+    <string name="err_send_stream_file">Could not send stream to server.</string>
+    <string name="err_send_username">Could not send username to server.</string>
+    <string name="err_connect_server">Could not connect to server. Please check connection settings and try again.</string>
+    <string name="err_unknown">An unknown error occurred.</string>
+
 
 </resources>

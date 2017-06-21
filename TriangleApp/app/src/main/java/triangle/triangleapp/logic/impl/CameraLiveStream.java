@@ -128,6 +128,7 @@ public class CameraLiveStream implements LiveStream {
             @Override
             public void onError(MediaRecorder mediaRecorder, int what, int extra) {
                 Log.d(TAG, "Error in mediarecorder, " + what + ", " + extra);
+
             }
         });
 
@@ -161,7 +162,18 @@ public class CameraLiveStream implements LiveStream {
      */
     private void stopStreaming(boolean fullStop) {
         // stop recording
-        mMediaRecorder.stop();
+        try {
+            mMediaRecorder.stop();
+        } catch(RuntimeException e){
+
+            //Clean up output file
+            try {
+                raf.close();
+            } catch (IOException rafEx) {
+                Log.e(TAG, "Error while closing output file", rafEx);
+            }
+
+        }
         mMediaRecorder.reset();
 
         // release the MediaRecorder object

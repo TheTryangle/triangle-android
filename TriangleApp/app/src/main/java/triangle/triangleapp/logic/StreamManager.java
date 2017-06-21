@@ -33,7 +33,20 @@ public class StreamManager {
     public StreamManager(StreamManagerCallback managerCallback) {
         mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new HttpStream();
+
+        StreamCallback httpStreamCallback = new StreamCallback() {
+            @Override
+            public void onConnectError(Exception e, boolean fatal) {
+                mManagerCallback.streamError(e, fatal);
+            }
+
+            @Override
+            public void onSendError(Exception e, boolean fatal) {
+                mManagerCallback.streamError(e, fatal);
+            }
+        };
+
+        mStreamAdapter = new HttpStream(httpStreamCallback);
 
         // Try to get the keypair from the store else we generate
 
@@ -64,7 +77,6 @@ public class StreamManager {
             @Override
             public void onError(@NonNull Exception ex) {
                 Log.e(TAG, "Error occurred during connecting", ex);
-                mManagerCallback.streamError(ex);
             }
         });
 

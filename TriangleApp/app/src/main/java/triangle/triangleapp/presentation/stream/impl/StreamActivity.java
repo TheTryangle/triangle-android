@@ -83,7 +83,38 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void errorOccurred(@AdapterType int type, @NonNull Exception exception) {
+    public void errorOccurred(@AdapterType int type, @NonNull final Exception exception, boolean fatal) {
         Log.e(TAG, "Error adapter = " + type, exception);
+
+        //Determine error text
+        String exceptionType = exception.getClass().getSimpleName();
+
+        final String errorMsg;
+        switch(exceptionType) {
+            case "ConnectException":
+                errorMsg = getString(R.string.err_connect_server);
+                break;
+            case "PEMException":
+                errorMsg = getString(R.string.err_decode_server_pubkey);
+                break;
+            default:
+                Log.e(TAG, "Unhandled exception type: " + exceptionType);
+                errorMsg = getString(R.string.err_unknown);
+                break;
+        }
+
+        //Show toast on UI thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int toastDuration = Toast.LENGTH_LONG;
+                Toast.makeText(StreamActivity.this, errorMsg, toastDuration).show();
+            }
+        });
+
+        if(fatal)
+        {
+            this.finish();
+        }
     }
 }

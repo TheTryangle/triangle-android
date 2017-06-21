@@ -16,6 +16,7 @@ public interface StreamManagerCallback {
     /**
      * Called when an error occurs during streaming
      * @param exception The exception that occurred.
+     * @param fatal Whether the exception is fatal and should abort the stream entirely.
      */
-    void streamError(@NonNull Exception exception);
+    void streamError(@NonNull Exception exception, boolean fatal);
 }
