@@ -1,4 +1,4 @@
-package triangle.triangleapp.persistence.impl;
+package triangle.triangleapp.persistence.stream.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,7 +14,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +24,7 @@ import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.domain.KeySerializer;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.helpers.MultipartRequest;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 
 /**
@@ -60,18 +60,8 @@ public class HttpStream implements StreamAdapter {
         final String pubKey = stringWriter.toString();
         final String completeUrl = URL + "stream/sendKey/" + id;
 
-        KeySerializer keySerializer = new KeySerializer(pubKey);
-
+        KeySerializer keySerializer = new KeySerializer(pubKey, ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME));
         final String pubKeyJsonObj = mGsonInstance.toJson(keySerializer);
-
-//        final JSONObject pubKeyObj = new JSONObject();
-//        try {
-//            pubKeyObj.put("publicKey", pubKey);
-//        } catch (Exception ex){
-//            Log.e(TAG, "Error while put public key in JSON object.", ex);
-//        }
-
-
 
         StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
             @Override

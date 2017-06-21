@@ -10,7 +10,11 @@ public class KeySerializer {
     @SerializedName("publicKey")
     private String publicKey;
 
-    public KeySerializer(String publicKey){
+    @SerializedName("streamerName")
+    private String streamerName;
+
+    public KeySerializer(String publicKey, String streamerName){
         this.publicKey = publicKey;
+        this.streamerName = streamerName;
     }
 }
