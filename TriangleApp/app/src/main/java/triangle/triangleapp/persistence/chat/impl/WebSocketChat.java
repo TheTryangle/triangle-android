@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.Date;
 
 import triangle.triangleapp.domain.ChatAction;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -24,8 +25,8 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketChat implements ChatAdapter {
-    private static final String URL = "ws://145.49.3.220:5000/chat";
-    private static final String PROTOCOL = "ws";
+    private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_CHAT_ADDRESS);
+    private static final String PROTOCOL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBSOCKET_PROTOCOL);
     private ChatCallback mChatCallback;
     private WebSocket mWebSocket;
     private Gson mGsonInstance;

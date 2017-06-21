@@ -16,10 +16,7 @@ public class InitializationHelper {
     // Cannot be final because they cannot be initialized yet.
 
     private ConfigHelper store;
-    private Context context;
-    private final String TAG = "InitializationHelper";
-    private final String VERSION_INVALID = "failed";
-
+    private static final String TAG = "InitializationHelper";
 
     /**
      * Constructor
@@ -27,8 +24,7 @@ public class InitializationHelper {
      * @param c a context
      */
     public InitializationHelper(Context c) {
-        this.context = c;
-        store = ConfigHelper.getInstance(context);
+        store = ConfigHelper.getInstance(c);
         checkVersion();
     }
 
@@ -36,10 +32,8 @@ public class InitializationHelper {
      * Checks the app version, if different from config version, calls setConfigValues
      */
     private void checkVersion() {
-
         versionCode = BuildConfig.VERSION_CODE;
         versionName = BuildConfig.VERSION_NAME;
-
 
         int configCode = store.getInt(ConfigHelper.KEY_VERSION_CODE);
 
@@ -74,6 +68,7 @@ public class InitializationHelper {
         store.put(ConfigHelper.KEY_FILE_HELPER_SAVE_LOCATION, "TriangleApp");
         store.put(ConfigHelper.KEY_MAX_RECORD_DURATION, "4000");
         store.put(ConfigHelper.KEY_DISPLAY_ORIENTATION, "90");
+        store.put(ConfigHelper.KEY_CHAT_ADDRESS, "ws://188.226.164.87/server/chat");
         store.save();
 
 

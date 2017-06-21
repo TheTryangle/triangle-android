@@ -54,6 +54,9 @@
     <string name="display_orientation_summary">Set the rotation of the camera</string>
     <string name="display_orientation_dialog_title">Display orientation</string>
     <string name="display_orientation_dialog_message">set the amount of degrees the camera should rotate</string>
+    <string name="chat_address">Chat Address</string>
+    <string name="chat_address_summary">The address to connect to for chatting purposes</string>
+    <string name="chat_address_dialog_message">Setup the address to use for chatting</string>
 
 
 </resources>

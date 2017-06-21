@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.Surface;
 import android.view.SurfaceView;
 
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 
 /**
@@ -52,4 +53,11 @@ public interface StreamView {
      * @param exception The exception that occurred
      */
     void errorOccurred(@AdapterType int type, @NonNull Exception exception);
+
+    /**
+     * Called when a message should be shown.
+     *
+     * @param message The message to show.
+     */
+    void showMessage(@NonNull ChatAction message);
 }

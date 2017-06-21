@@ -29,6 +29,7 @@ public class WebSocketStream implements StreamAdapter {
     private static final String PROTOCOL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBSOCKET_PROTOCOL);
     private WebSocket mWebSocket;
     private boolean mIsConnected;
+    private String mId;
 
     /**
      * Determines if the WebSocket is connected.
@@ -62,7 +63,17 @@ public class WebSocketStream implements StreamAdapter {
                         if (ex == null) {
                             mIsConnected = true;
                             mWebSocket = webSocket;
-                            callback.onConnected();
+                            mWebSocket.setStringCallback(new WebSocket.StringCallback() {
+                                @Override
+                                public void onStringAvailable(String s) {
+                                    if (s.startsWith("ID:")) {
+                                        Log.i("WebSocketStream", "Received item");
+                                        String replacedString = s.replace("ID: ", "");
+                                        mId = replacedString;
+                                        callback.onConnected();
+                                    }
+                                }
+                            });
                         } else {
                             callback.onError(ex);
                         }
@@ -98,6 +109,11 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception ex) {
             Log.e(TAG, "Error while sending text.", ex);
         }
+    }
+
+    @Override
+    public String getId() {
+        return mId;
     }
 }
 

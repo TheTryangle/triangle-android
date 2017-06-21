@@ -14,7 +14,7 @@ public interface StreamManagerCallback {
      *
      * @param message The message that is received
      */
-    void chatMessageReceived(ChatAction message);
+    void chatMessageReceived(@NonNull ChatAction message);
 
     void streamConnected();
 

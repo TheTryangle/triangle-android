@@ -3,6 +3,7 @@ package triangle.triangleapp.presentation.stream.impl;
 import android.os.Bundle;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.presentation.stream.StreamPresenter;
 import triangle.triangleapp.presentation.stream.StreamView;
@@ -85,5 +86,10 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void errorOccurred(@AdapterType int type, @NonNull Exception exception) {
         Log.e(TAG, "Error adapter = " + type, exception);
+    }
+
+    @Override
+    public void showMessage(@NonNull ChatAction message) {
+        Log.i(TAG, "Received message");
     }
 }
