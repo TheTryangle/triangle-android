@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.logic.FileRecordedCallback;
@@ -23,8 +24,12 @@ import triangle.triangleapp.logic.LiveStream;
 
 public class CameraLiveStream implements LiveStream {
     private static final String TAG = "CameraStream";
+    /*
     private static final int MAX_RECORD_DURATION = 5000;
     private static final int SET_ORIENTATION = 90;
+    */
+    private static final int MAX_RECORD_DURATION = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_MAX_RECORD_DURATION);
+    private static final int SET_ORIENTATION = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_DISPLAY_ORIENTATION);
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
     private FileRecordedCallback mCallback;
@@ -123,6 +128,7 @@ public class CameraLiveStream implements LiveStream {
             @Override
             public void onError(MediaRecorder mediaRecorder, int what, int extra) {
                 Log.d(TAG, "Error in mediarecorder, " + what + ", " + extra);
+
             }
         });
 
@@ -156,7 +162,18 @@ public class CameraLiveStream implements LiveStream {
      */
     private void stopStreaming(boolean fullStop) {
         // stop recording
-        mMediaRecorder.stop();
+        try {
+            mMediaRecorder.stop();
+        } catch(RuntimeException e){
+
+            //Clean up output file
+            try {
+                raf.close();
+            } catch (IOException rafEx) {
+                Log.e(TAG, "Error while closing output file", rafEx);
+            }
+
+        }
         mMediaRecorder.reset();
 
         // release the MediaRecorder object

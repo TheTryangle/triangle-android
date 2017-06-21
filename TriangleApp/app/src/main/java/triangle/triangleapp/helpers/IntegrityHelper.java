@@ -34,13 +34,12 @@ import triangle.triangleapp.TriangleApplication;
 public class IntegrityHelper {
     private static final String TAG = "IntegrityHelper";
 
-    private static final String KEY_ALGORITHM = "RSA";
-    private static final String SIGN_ALGORITHM = "SHA1withRSA";
-    private static final int KEY_SIZE = 1024;
-    private static final String KEY_ALIAS = "TriangleKey";
-    private static final String KEY_STORE = "AndroidKeyStore";
+    private static final String KEY_ALGORITHM = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_ALGORITHM);
+    private static final String SIGN_ALGORITHM = ConfigHelper.getInstance().get(ConfigHelper.KEY_SIGN_ALGORITHM);
+    private static final int KEY_SIZE = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_KEY_SIZE);
+    private static final String KEY_ALIAS = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_ALIAS);
+    private static final String KEY_STORE = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_STORE);
     private static final int CERT_END_DATE_INCREMENT = 30;
-
 
     /**
      * Generates an keypair using the constant KEY_ALGORITHM and KEY_SIZE

@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class FileHelper {
     private static final String TAG = "FileHelper";
-    private static final String SAVE_LOCATION = "TriangleApp";
+    private static final String SAVE_LOCATION = ConfigHelper.getInstance().get(ConfigHelper.KEY_FILE_HELPER_SAVE_LOCATION);
 
     /**
      * Obtain media file from storage.
