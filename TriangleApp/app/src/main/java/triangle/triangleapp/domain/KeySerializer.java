@@ -1,5 +1,6 @@
 package triangle.triangleapp.domain;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,13 +8,15 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class KeySerializer {
+    @Expose
     @SerializedName("publicKey")
     private String publicKey;
 
+    @Expose
     @SerializedName("streamerName")
     private String streamerName;
 
-    public KeySerializer(String publicKey, String streamerName){
+    public KeySerializer(String publicKey, String streamerName) {
         this.publicKey = publicKey;
         this.streamerName = streamerName;
     }

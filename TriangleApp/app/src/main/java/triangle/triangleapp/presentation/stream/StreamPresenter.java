@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.logic.NetworkBroadcastReceiver;
@@ -66,6 +67,11 @@ public class StreamPresenter implements StreamManagerCallback {
     }
 
     @Override
+    public void chatMessageReceived(@NonNull ChatAction message) {
+        mView.showMessage(message);
+    }
+
+    @Override
     public void streamConnected() {
         mView.connected(AdapterType.TYPE_STREAM);
     }
@@ -73,5 +79,24 @@ public class StreamPresenter implements StreamManagerCallback {
     @Override
     public void streamError(@NonNull Exception exception, boolean fatal) {
         mView.errorOccurred(AdapterType.TYPE_STREAM, exception, fatal);
+    }
+
+    @Override
+    public void chatConnected() {
+
+    }
+
+    @Override
+    public void chatError(@NonNull Exception exception) {
+
+    }
+
+    /**
+     * Sends a chat message
+     *
+     * @param message The message to be sent
+     */
+    public void sendChatMessage(@NonNull String message) {
+        mManager.sendChatMessage(message);
     }
 }
