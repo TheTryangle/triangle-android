@@ -16,15 +16,6 @@ import static android.net.ConnectivityManager.EXTRA_EXTRA_INFO;
 public class NetworkBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "NetworkChangeReceiver";
     private NetworkChangeCallback mCallback;
-    private static boolean isConnected = false;
-
-    public static boolean isConnected() {
-        return isConnected;
-    }
-
-    public static void setIsConnected(boolean isConnected) {
-        NetworkBroadcastReceiver.isConnected = isConnected;
-    }
 
     public void setNetworkChangeCallback(NetworkChangeCallback callback) {
         this.mCallback = callback;
@@ -32,7 +23,18 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        isConnected = isDeviceConnected(context);
+        boolean isConnected = isDeviceConnected(context);
+
+        String reason = "";
+
+        try {
+            reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Log.e(TAG, reason+"ijn");
+        }
+
 
         if (isConnected) {
             Log.i(TAG, "Connection established");
@@ -42,8 +44,6 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
         } else {
             Log.i(TAG, "Connection lost");
             if (mCallback != null) {
-                String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
-
                 mCallback.onDisconnected(reason);
             }
         }

@@ -88,7 +88,9 @@ public class StreamManager {
      *
      * @return True if the streaming started, else returns false
      */
-    public boolean getIsStreaming() {
-        return mIsStreaming;
+    public void stopStream() {
+        if (mIsStreaming) {
+            mLiveStream.stop();
+        }
     }
 }

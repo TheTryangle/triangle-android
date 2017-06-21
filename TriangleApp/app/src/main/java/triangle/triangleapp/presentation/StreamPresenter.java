@@ -55,12 +55,5 @@ public class StreamPresenter {
         }
     }
 
-    /**
-     * Stops the streaming
-     */
-    public void stopStreaming() {
-        if (mManager.getIsStreaming()) {
-            mManager.stream();
-        }
-    }
+
 }

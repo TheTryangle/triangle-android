@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import triangle.triangleapp.R;
-import triangle.triangleapp.logic.NetworkBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MainActivity";
