@@ -28,8 +28,8 @@ public class CameraLiveStream implements LiveStream {
     private static final int MAX_RECORD_DURATION = 5000;
     private static final int SET_ORIENTATION = 90;
     */
-    private static final int MAX_RECORD_DURATION = ConfigHelper.getInstance().getInt("max_record_duration");
-    private static final int SET_ORIENTATION = ConfigHelper.getInstance().getInt("display_orientation");
+    private static final int MAX_RECORD_DURATION = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_MAX_RECORD_DURATION);
+    private static final int SET_ORIENTATION = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_DISPLAY_ORIENTATION);
     private MediaRecorder mMediaRecorder;
     private Camera mCamera;
     private FileRecordedCallback mCallback;
