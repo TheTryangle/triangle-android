@@ -17,10 +17,9 @@ import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.chat.ChatCallback;
-import triangle.triangleapp.persistence.impl.HttpStream;
+import triangle.triangleapp.persistence.stream.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
-import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
