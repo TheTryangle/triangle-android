@@ -34,11 +34,11 @@ import triangle.triangleapp.TriangleApplication;
 public class IntegrityHelper {
     private static final String TAG = "IntegrityHelper";
 
-    private static final String KEY_ALGORITHM = ConfigHelper.getInstance().get("key_algorithm");
-    private static final String SIGN_ALGORITHM = ConfigHelper.getInstance().get("sign_algorithm");
-    private static final int KEY_SIZE = ConfigHelper.getInstance().getInt("key_size");
-    private static final String KEY_ALIAS = ConfigHelper.getInstance().get("key_alias");
-    private static final String KEY_STORE = ConfigHelper.getInstance().get("key_store");
+    private static final String KEY_ALGORITHM = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_ALGORITHM);
+    private static final String SIGN_ALGORITHM = ConfigHelper.getInstance().get(ConfigHelper.KEY_SIGN_ALGORITHM);
+    private static final int KEY_SIZE = ConfigHelper.getInstance().getInt(ConfigHelper.KEY_KEY_SIZE);
+    private static final String KEY_ALIAS = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_ALIAS);
+    private static final String KEY_STORE = ConfigHelper.getInstance().get(ConfigHelper.KEY_KEY_STORE);
     private static final int CERT_END_DATE_INCREMENT = 30;
 
     /**

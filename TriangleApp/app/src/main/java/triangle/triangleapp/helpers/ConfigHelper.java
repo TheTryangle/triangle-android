@@ -10,6 +10,22 @@ public class ConfigHelper {
     private static ConfigHelper store;
     private SharedPreferences SP;
 
+    public static final String KEY_VERSION_CODE = "versionCode";
+    public static final String KEY_VERSION_NAME = "versionName";
+
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_WEBSOCKET_PROTOCOL = "websocket_protocol";
+
+    public static final String KEY_KEY_ALGORITHM = "key_algorithm";
+    public static final String KEY_SIGN_ALGORITHM = "sign_algorithm";
+    public static final String KEY_KEY_SIZE = "key_size";
+    public static final String KEY_KEY_ALIAS = "key_alias";
+    public static final String KEY_KEY_STORE = "key_store";
+    public static final String KEY_STREAM_DESTINATION_ADDRESS = "stream_destination_address";
+    public static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
+    public static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
+    public static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
+
     /**
      * sets variables, internal constructor called from getinstance
      * @param context activity context
