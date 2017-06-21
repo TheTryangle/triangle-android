@@ -6,6 +6,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.persistence.ViewersCallback;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -46,4 +47,9 @@ public interface StreamAdapter {
      * @return Obtained id from the server
      */
     String getId();
+
+    /**
+     *  Get viewersAmount via callback.
+     */
+    void getViewers(ViewersCallback viewersCallback);
 }

@@ -1,6 +1,7 @@
 package triangle.triangleapp.presentation.stream;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.logic.StreamManager;
@@ -43,5 +44,10 @@ public class StreamPresenter implements StreamManagerCallback {
     @Override
     public void streamError(@NonNull Exception exception, boolean fatal) {
         mView.errorOccurred(AdapterType.TYPE_STREAM, exception, fatal);
+    }
+
+    @Override
+    public void setViewersCount(int viewersAmount) {
+        Log.i("Viewers", "Amount: " + viewersAmount); //todo: Call view and show it
     }
 }

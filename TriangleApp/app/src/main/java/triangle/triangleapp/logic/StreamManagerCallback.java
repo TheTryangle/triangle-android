@@ -19,4 +19,10 @@ public interface StreamManagerCallback {
      * @param fatal Whether the exception is fatal and should abort the stream entirely.
      */
     void streamError(@NonNull Exception exception, boolean fatal);
+
+    /**
+     * Get the amount of viewers
+     * @param viewersAmount Count of viewers
+     */
+    void setViewersCount(int viewersAmount);
 }
