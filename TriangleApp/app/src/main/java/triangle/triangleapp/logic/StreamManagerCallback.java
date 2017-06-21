@@ -18,4 +18,10 @@ public interface StreamManagerCallback {
      * @param exception The exception that occurred.
      */
     void streamError(@NonNull Exception exception);
+
+    /**
+     * Called when an error occurs during streaming
+     * @param stringResId The resource ID of the error message.
+     */
+    void streamError(@NonNull int stringResId);
 }

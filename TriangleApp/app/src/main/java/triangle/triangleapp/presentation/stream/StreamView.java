@@ -52,4 +52,6 @@ public interface StreamView {
      * @param exception The exception that occurred
      */
     void errorOccurred(@AdapterType int type, @NonNull Exception exception);
+
+    void errorOccurred(@AdapterType int type, @NonNull int stringResId);
 }

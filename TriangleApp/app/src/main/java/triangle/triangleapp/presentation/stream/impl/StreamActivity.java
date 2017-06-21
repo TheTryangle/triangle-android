@@ -83,7 +83,36 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void errorOccurred(@AdapterType int type, @NonNull Exception exception) {
+    public void errorOccurred(@AdapterType int type, @NonNull final Exception exception) {
         Log.e(TAG, "Error adapter = " + type, exception);
+
+        //Show toast on UI thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int toastDuration = Toast.LENGTH_LONG;
+                Toast.makeText(StreamActivity.this, exception.getLocalizedMessage(), toastDuration).show();
+            }
+        });
+
+        this.finish();
+    }
+
+    @Override
+    public void errorOccurred(@AdapterType int type, @NonNull int stringResId) {
+
+        final String msg = getString(stringResId);
+        Log.e(TAG, msg);
+
+        //Show toast on UI thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int toastDuration = Toast.LENGTH_LONG;
+                Toast.makeText(StreamActivity.this, msg, toastDuration).show();
+            }
+        });
+
+        this.finish();
     }
 }

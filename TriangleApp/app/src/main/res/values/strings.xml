@@ -55,5 +55,8 @@
     <string name="display_orientation_dialog_title">Display orientation</string>
     <string name="display_orientation_dialog_message">set the amount of degrees the camera should rotate</string>
 
+    <string name="err_send_username">Could not send username to server.</string>
+    <string name="err_connect_server">Could not connect to server. Please check connection settings and try again.</string>
+
 
 </resources>
