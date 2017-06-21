@@ -99,7 +99,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void errorOccurred(@AdapterType int type, @NonNull int stringResId) {
+    public void errorOccurred(@AdapterType int type, @NonNull int stringResId, boolean fatal) {
 
         final String msg = getString(stringResId);
         Log.e(TAG, msg);
@@ -113,6 +113,15 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
             }
         });
 
-        this.finish();
+        //If it's a fatal error, the stream should be stopped.
+        if(fatal) {
+            this.finish();
+        }
+    }
+
+    @Override
+    public void errorOccurred(@AdapterType int type, @NonNull int stringResId){
+        //An error should not be fatal by default.
+        errorOccurred(type, stringResId, false);
     }
 }

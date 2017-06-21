@@ -35,7 +35,7 @@ public class StreamManager {
     public StreamManager(StreamManagerCallback managerCallback) {
         mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new HttpStream();
+        mStreamAdapter = new HttpStream(managerCallback);
 
         // Try to get the keypair from the store else we generate
 
