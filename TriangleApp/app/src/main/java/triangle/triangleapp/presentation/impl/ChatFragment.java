@@ -147,7 +147,7 @@ public class ChatFragment extends Fragment {
         return true;
     }
     public void addReceivedMessage(ChatAction msg){
-        chatArrayAdapter.add(new ChatAction(msg.getName(),msg.getMessage()));
+        chatArrayAdapter.add(msg);
     }
 
     /**
