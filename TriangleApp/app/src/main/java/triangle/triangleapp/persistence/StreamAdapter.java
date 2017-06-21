@@ -33,6 +33,13 @@ public interface StreamAdapter {
     void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey);
 
     /**
+     * Sends text to the stream.
+     *
+     * @param text The text to send.
+     */
+    void sendText(@NonNull String text);
+
+    /**
      * Get the obtained id
      * @return Obtained id from the server
      */
