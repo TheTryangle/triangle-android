@@ -25,8 +25,8 @@ public class WebSocketStream implements StreamAdapter {
 
     private static final String TAG = "WebSocket/sendStream";
 
-    private static final String URL = ConfigHelper.getInstance().get("stream_destination_address");
-    private static final String PROTOCOL = ConfigHelper.getInstance().get("websocket_protocol");
+    private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_STREAM_DESTINATION_ADDRESS);
+    private static final String PROTOCOL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBSOCKET_PROTOCOL);
     private WebSocket mWebSocket;
     private boolean mIsConnected;
 
@@ -90,7 +90,7 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     @Override
-    public void sendText(@NonNull String text){
+    public void sendText(@NonNull String text) {
         try {
             if (mIsConnected) {
                 mWebSocket.send(text);
