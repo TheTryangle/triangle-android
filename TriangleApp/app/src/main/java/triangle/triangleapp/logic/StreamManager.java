@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.security.KeyPair;
 import java.security.PublicKey;
 
-import triangle.triangleapp.ConfigHelper;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
@@ -54,13 +54,15 @@ public class StreamManager {
                 PublicKey pub = mKeyPair.getPublic();
                 mStreamAdapter.sendPublicKey(pub);
 
+                mManagerCallback.streamConnected();
+
                 //Send username to server
                 try {
                     String username = ConfigHelper.getInstance().get("username");
                     JSONObject streamInfo = new JSONObject();
                     streamInfo.put("StreamerName", username);
                     mStreamAdapter.sendText(streamInfo.toString());
-                } catch(JSONException ex){
+                } catch (JSONException ex) {
                     Log.e(TAG, "An error occurred while attempting to send username to server", ex);
                 }
                 mManagerCallback.streamConnected();
@@ -71,6 +73,7 @@ public class StreamManager {
             public void onError(@NonNull Exception ex) {
                 mManagerCallback.streamError(ex);
                 Log.e(TAG, "Error occurred during connecting", ex);
+                mManagerCallback.streamError(ex);
             }
         });
     }

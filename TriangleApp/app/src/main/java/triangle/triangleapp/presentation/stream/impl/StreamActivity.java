@@ -1,12 +1,11 @@
-package triangle.triangleapp.presentation.impl;
+package triangle.triangleapp.presentation.stream.impl;
 
 import android.os.Bundle;
 
 import triangle.triangleapp.R;
-import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
-import triangle.triangleapp.presentation.StreamPresenter;
-import triangle.triangleapp.presentation.StreamView;
+import triangle.triangleapp.presentation.stream.StreamPresenter;
+import triangle.triangleapp.presentation.stream.StreamView;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import android.widget.Toast;
  */
 
 public class StreamActivity extends AppCompatActivity implements StreamView {
+    private static final String TAG = "StreamActivity";
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
     private Button mButtonStream;
@@ -60,6 +60,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void showPreview() {
         mCameraSurfaceView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -77,17 +78,12 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     }
 
     @Override
-    public void showMessage(ChatAction message) {
-        Log.i("StreamActivity", "Chat message received");
-    }
-
-    @Override
     public void connected(@AdapterType int type) {
-
+        Log.i(TAG, "Connected adapter = " + type);
     }
 
     @Override
     public void errorOccurred(@AdapterType int type, @NonNull Exception exception) {
-
+        Log.e(TAG, "Error adapter = " + type, exception);
     }
 }

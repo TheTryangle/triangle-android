@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import triangle.triangleapp.ConfigHelper;
-
 /**
  * Created by Kevin Ly on 6/13/2017.
  */

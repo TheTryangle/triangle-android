@@ -1,4 +1,4 @@
-package triangle.triangleapp;
+package triangle.triangleapp.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

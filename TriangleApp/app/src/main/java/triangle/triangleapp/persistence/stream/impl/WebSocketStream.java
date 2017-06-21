@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
@@ -21,12 +22,13 @@ import triangle.triangleapp.persistence.ConnectionCallback;
  */
 
 public class WebSocketStream implements StreamAdapter {
-    private static final String URL = "ws://145.49.3.220:5000/server/send";
-    private static final String PROTOCOL = "ws";
-    private static final String TAG = "WebSocket/Stream";
+
+    private static final String TAG = "WebSocket/sendStream";
+
+    private static final String URL = ConfigHelper.getInstance().get("stream_destination_address");
+    private static final String PROTOCOL = ConfigHelper.getInstance().get("websocket_protocol");
     private WebSocket mWebSocket;
     private boolean mIsConnected;
-    private String mId;
 
     /**
      * Determines if the WebSocket is connected.
@@ -60,17 +62,7 @@ public class WebSocketStream implements StreamAdapter {
                         if (ex == null) {
                             mIsConnected = true;
                             mWebSocket = webSocket;
-                            mWebSocket.setStringCallback(new WebSocket.StringCallback() {
-                                @Override
-                                public void onStringAvailable(String s) {
-                                    if (s.startsWith("ID:")) {
-                                        Log.i("WebSocketStream", "Received item");
-                                        String replacedString = s.replace("ID: ", "");
-                                        mId = replacedString;
-                                        callback.onConnected();
-                                    }
-                                }
-                            });
+                            callback.onConnected();
                         } else {
                             callback.onError(ex);
                         }
@@ -98,7 +90,7 @@ public class WebSocketStream implements StreamAdapter {
     }
 
     @Override
-    public void sendText(@NonNull String text) {
+    public void sendText(@NonNull String text){
         try {
             if (mIsConnected) {
                 mWebSocket.send(text);
@@ -106,11 +98,6 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception ex) {
             Log.e(TAG, "Error while sending text.", ex);
         }
-    }
-
-    @Override
-    public String getId() {
-        return mId;
     }
 }
 

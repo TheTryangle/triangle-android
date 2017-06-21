@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import triangle.triangleapp.ConfigHelper;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.CameraHelper;
 import triangle.triangleapp.helpers.FileHelper;
 import triangle.triangleapp.logic.FileRecordedCallback;
