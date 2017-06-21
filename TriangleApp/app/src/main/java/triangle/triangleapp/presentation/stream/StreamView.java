@@ -69,4 +69,6 @@ public interface StreamView {
      * @param message The message to show.
      */
     void showMessage(@NonNull ChatAction message);
+
+    void showViewersCount(@NonNull int viewersCount);
 }

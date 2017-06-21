@@ -104,5 +104,6 @@ public class StreamPresenter implements StreamManagerCallback {
     @Override
     public void setViewersCount(int viewersAmount) {
         Log.i("Viewers", "Amount: " + viewersAmount); //todo: Call view and show it
+        mView.showViewersCount(viewersAmount);
     }
 }

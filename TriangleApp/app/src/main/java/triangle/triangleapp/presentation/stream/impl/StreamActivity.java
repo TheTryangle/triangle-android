@@ -20,6 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -33,6 +34,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
     private static boolean firstStart = true;
 
     private Button mButtonStream, mButtonChat;
+    private TextView mCountViewers;
     private ChatFragment chatFrag;
 
     @Override
@@ -44,6 +46,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
 
         mCameraSurfaceView = (SurfaceView) findViewById(R.id.surface_camera_preview);
         mButtonStream = (Button) findViewById(R.id.btn_stream);
+        mCountViewers = (TextView) findViewById(R.id.textView_counting_viewers);
         mButtonStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,6 +200,11 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
             }
         });
 
+    }
+
+    @Override
+    public void showViewersCount(@NonNull int viewersCount) {
+        mCountViewers.setText(viewersCount + "");
     }
 
     @Override
