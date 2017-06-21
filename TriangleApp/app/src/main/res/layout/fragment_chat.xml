@@ -1,20 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="triangle.triangleapp.presentation.impl.ChatFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/transparent"
+              android:orientation="vertical"
+              tools:context="triangle.triangleapp.presentation.impl.ChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/msgview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:divider="@null"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"></ListView>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="248dp"
-        android:layout_height="144dp"
-        android:background="@color/colorAccent"
-        android:text="Button"/>
+        <EditText
+            android:id="@+id/msg"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"/>
 
-</FrameLayout>
+        <Button
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Send"/>
+
+    </LinearLayout>
+
+</LinearLayout>
