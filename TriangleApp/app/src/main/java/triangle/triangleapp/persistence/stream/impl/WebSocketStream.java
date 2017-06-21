@@ -12,10 +12,10 @@ import java.io.StringWriter;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import triangle.triangleapp.helpers.ConfigHelper;
+import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
+import triangle.triangleapp.persistence.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
-import triangle.triangleapp.persistence.stream.StreamAdapter;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
