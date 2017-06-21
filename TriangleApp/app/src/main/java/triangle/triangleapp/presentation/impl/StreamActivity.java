@@ -1,5 +1,6 @@
 package triangle.triangleapp.presentation.impl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.logic.NetworkBroadcastReceiver;
 import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.presentation.ConnectionState;
 import triangle.triangleapp.presentation.StreamPresenter;
@@ -25,7 +27,8 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
     private Button mButtonStream;
-    private StreamManager mManager;
+    private Boolean firstStart = true;
+    private NetworkBroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,12 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
         mButtonStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            if (NetworkBroadcastReceiver.isConnected()) {
                 // Start or stop the stream
                 mPresenter.stream();
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_SHORT).show();
+            }
             }
         });
     }
@@ -80,36 +87,23 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
 
-        String text = "Connection lost!";
+        // Do not execute on starting
+        if (!firstStart) {
 
-        boolean isStreaming = mManager.stream();
-
-
-
-        switch (state) {
-            case ConnectionState.CONNECTED: {
-                text = "Connection established!";
-                Log.e("CONNECITON MADE", "CONNECTION MADE!!!!!!!!!!!!!");
-                break;
-            }
-            case ConnectionState.DISCONNECTED: {
-
-                // if streaming
-                if (isStreaming) {
-                mManager.stopStream();
-                    text = "Connection lost! Streaming has stopped.";
-                    Log.e("CONNECTIION LOST", "CONNECTION LOST");
-                    // stop streaming
-                    mManager.stream();
-
-                // if reason is provided
-                } else if (reason != null) {
-                    text = "Connection lost! Reason: "+reason;
+            switch (state) {
+                case ConnectionState.CONNECTED: {
+                    Toast.makeText(getApplicationContext(), R.string.notify_connected, Toast.LENGTH_LONG).show();
+                    break;
                 }
-                break;
+                case ConnectionState.DISCONNECTED: {
+                    Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_LONG).show();
+                    mPresenter.stream();
+                    break;
+                }
             }
-        }
 
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+        } else {
+            firstStart = false;
+        }
     }
 }
