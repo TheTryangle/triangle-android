@@ -90,7 +90,19 @@ public class StreamManager {
                 mChatAdapter.setCallback(new ChatCallback() {
                     @Override
                     public void onMessageReceived(ChatAction message) {
-                        mManagerCallback.chatMessageReceived(message);
+                        switch (message.getActionType()) {
+                            case ChatAction.ActionType.ACTION_MESSAGE: {
+                                mManagerCallback.chatMessageReceived(message);
+                                break;
+                            }
+                            case ChatAction.ActionType.ACTION_JOIN:
+                            case ChatAction.ActionType.ACTION_LEAVE:
+                            case ChatAction.ActionType.ACTION_NONE:
+                            default: {
+                                // not needed to handle
+                                break;
+                            }
+                        }
                     }
                 });
             }
@@ -138,10 +150,10 @@ public class StreamManager {
     /**
      * Sends a chat message using the adapter
      *
-     * @param chatAction The message to be sent
+     * @param message The message to be sent
      */
-    public void sendChatMessage(@NonNull ChatAction chatAction) {
-        chatAction.setStreamId(mStreamAdapter.getId());
+    public void sendChatMessage(@NonNull String message) {
+        ChatAction chatAction = ChatAction.message(message, ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME), mStreamAdapter.getId());
         mChatAdapter.sendMessage(chatAction);
     }
 }

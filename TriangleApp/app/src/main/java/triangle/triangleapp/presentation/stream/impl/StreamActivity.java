@@ -61,7 +61,6 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void showPreview() {
         mCameraSurfaceView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -90,6 +89,6 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
 
     @Override
     public void showMessage(@NonNull ChatAction message) {
-        Log.i(TAG, "Received message");
+        Log.i(TAG, "Received message, message = " + message.getMessage());
     }
 }

@@ -60,4 +60,13 @@ public class StreamPresenter implements StreamManagerCallback {
     public void chatError(@NonNull Exception exception) {
 
     }
+
+    /**
+     * Sends a chat message
+     *
+     * @param message The message to be sent
+     */
+    public void sendChatMessage(@NonNull String message) {
+        mManager.sendChatMessage(message);
+    }
 }

@@ -30,11 +30,14 @@ public class ChatAction {
     @SerializedName("StreamId")
     private String streamId;
 
+    @SerializedName("Name")
+    private String name;
+
     public ChatAction() {
         this.timeStamp = new Date();
     }
 
-    public ChatAction(String message, int actionType, String streamId) {
+    public ChatAction(String message, String name, int actionType, String streamId) {
         super();
         this.message = message;
         this.actionType = actionType;
@@ -57,8 +60,8 @@ public class ChatAction {
         return streamId;
     }
 
-    public void setStreamId(String streamId) {
-        this.streamId = streamId;
+    public String getName() {
+        return name;
     }
 
     @IntDef({ACTION_NONE, ACTION_MESSAGE, ACTION_JOIN, ACTION_LEAVE})
@@ -70,10 +73,10 @@ public class ChatAction {
     }
 
     public static ChatAction join(String streamId) {
-        return new ChatAction("", ActionType.ACTION_JOIN, streamId);
+        return new ChatAction("", "", ActionType.ACTION_JOIN, streamId);
     }
 
-    public static ChatAction message(String message, String streamId) {
-        return new ChatAction(message, ActionType.ACTION_MESSAGE, streamId);
+    public static ChatAction message(String message, String name, String streamId) {
+        return new ChatAction(message, name, ActionType.ACTION_MESSAGE, streamId);
     }
 }
