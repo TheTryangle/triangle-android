@@ -25,7 +25,6 @@ import java.util.Calendar;
 
 import javax.security.auth.x500.X500Principal;
 
-import triangle.triangleapp.ConfigHelper;
 import triangle.triangleapp.TriangleApplication;
 
 /**

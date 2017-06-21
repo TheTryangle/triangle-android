@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import triangle.triangleapp.persistence.impl.WebSocketStream;
+import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
 /**
  * Created by D2110175 on 13-6-2017.

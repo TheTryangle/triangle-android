@@ -10,12 +10,12 @@ import org.json.JSONObject;
 import java.security.KeyPair;
 import java.security.PublicKey;
 
-import triangle.triangleapp.ConfigHelper;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.ConnectionCallback;
-import triangle.triangleapp.persistence.StreamAdapter;
-import triangle.triangleapp.persistence.impl.HttpStream;
+import triangle.triangleapp.persistence.stream.StreamAdapter;
+import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -28,11 +28,10 @@ public class StreamManager {
     private Surface mPreviewView;
     private StreamAdapter mStreamAdapter;
     private KeyPair mKeyPair;
+    private StreamManagerCallback mManagerCallback;
 
-    /**
-     * Initialize the stream manager (constructor)
-     */
-    public StreamManager() {
+    public StreamManager(StreamManagerCallback managerCallback) {
+        mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
         mStreamAdapter = new HttpStream();
 
@@ -49,13 +48,15 @@ public class StreamManager {
                 PublicKey pub = mKeyPair.getPublic();
                 mStreamAdapter.sendPublicKey(pub);
 
+                mManagerCallback.streamConnected();
+
                 //Send username to server
                 try {
                     String username = ConfigHelper.getInstance().get("username");
                     JSONObject streamInfo = new JSONObject();
                     streamInfo.put("StreamerName", username);
                     mStreamAdapter.sendText(streamInfo.toString());
-                } catch(JSONException ex){
+                } catch (JSONException ex) {
                     Log.e(TAG, "An error occurred while attempting to send username to server", ex);
                 }
             }
@@ -63,6 +64,7 @@ public class StreamManager {
             @Override
             public void onError(@NonNull Exception ex) {
                 Log.e(TAG, "Error occurred during connecting", ex);
+                mManagerCallback.streamError(ex);
             }
         });
 
