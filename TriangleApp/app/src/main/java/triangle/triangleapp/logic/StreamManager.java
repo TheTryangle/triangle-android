@@ -26,6 +26,7 @@ import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.stream.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
+import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
 import static io.reactivex.internal.subscriptions.SubscriptionHelper.cancel;
 
@@ -60,7 +61,12 @@ public class StreamManager {
             }
         };
 
-        mStreamAdapter = new HttpStream(httpStreamCallback);
+        mStreamAdapter = new WebSocketStream(new ViewersCallback() {
+            @Override
+            public void getViewersCount(int viewersAmount) {
+                mManagerCallback.setViewersCount(viewersAmount);
+            }
+        });
 
         // Try to get the keypair from the store else we generate
         try {
@@ -169,19 +175,14 @@ public class StreamManager {
         return mIsStreaming;
     }
 
-    private void getViewerCount(){
+    private void getViewerCount() {
         Observable.interval(10, TimeUnit.SECONDS)
-            .subscribe(new Consumer<Long>() {
-                @Override
-                public void accept(@io.reactivex.annotations.NonNull Long aLong) throws Exception {
-                    mStreamAdapter.getViewers(new ViewersCallback() {
-                        @Override
-                        public void getViewersCount(int viewersAmount) {
-                            mManagerCallback.setViewersCount(viewersAmount);
-                        }
-                    });
-                }
-            });
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Long aLong) throws Exception {
+                        mStreamAdapter.getViewers(null);
+                    }
+                });
     }
 
     /**

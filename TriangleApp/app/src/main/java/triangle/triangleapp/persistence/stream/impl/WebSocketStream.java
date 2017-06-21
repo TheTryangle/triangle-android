@@ -31,6 +31,11 @@ public class WebSocketStream implements StreamAdapter {
     private WebSocket mWebSocket;
     private boolean mIsConnected;
     private String mId;
+    private ViewersCallback mViewersCallback;
+
+    public WebSocketStream(ViewersCallback viewersCallback) {
+        mViewersCallback = viewersCallback;
+    }
 
     /**
      * Determines if the WebSocket is connected.
@@ -72,6 +77,10 @@ public class WebSocketStream implements StreamAdapter {
                                         String replacedString = s.replace("ID: ", "");
                                         mId = replacedString;
                                         callback.onConnected();
+                                    } else if (s.startsWith("VIEWERCOUNT: ")) {
+                                        String replacedString = s.replace("VIEWERCOUNT: ", "");
+                                        int viewerCount = Integer.parseInt(replacedString);
+                                        mViewersCallback.getViewersCount(viewerCount);
                                     }
                                 }
                             });
@@ -119,7 +128,7 @@ public class WebSocketStream implements StreamAdapter {
 
     @Override
     public void getViewers(ViewersCallback viewersCallback) {
-
+        mWebSocket.send("VIEWERCOUNT");
     }
 }
 

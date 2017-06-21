@@ -2,15 +2,6 @@ package triangle.triangleapp.presentation.stream.impl;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import triangle.triangleapp.R;
-import triangle.triangleapp.domain.ChatAction;
-import triangle.triangleapp.helpers.AdapterType;
-import triangle.triangleapp.presentation.stream.ConnectionState;
-import triangle.triangleapp.presentation.impl.ChatFragment;
-import triangle.triangleapp.presentation.stream.StreamPresenter;
-import triangle.triangleapp.presentation.stream.StreamView;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +14,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import triangle.triangleapp.R;
+import triangle.triangleapp.domain.ChatAction;
+import triangle.triangleapp.helpers.AdapterType;
+import triangle.triangleapp.presentation.impl.ChatFragment;
+import triangle.triangleapp.presentation.stream.ConnectionState;
+import triangle.triangleapp.presentation.stream.StreamPresenter;
+import triangle.triangleapp.presentation.stream.StreamView;
+
 /**
  * Created by Kevin Ly on 6/15/2017.
  */
@@ -33,7 +32,8 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
     private SurfaceView mCameraSurfaceView;
     private static boolean firstStart = true;
 
-    private Button mButtonStream, mButtonChat;
+    private Button mButtonStream;
+    private Button mButtonChat;
     private TextView mCountViewers;
     private ChatFragment chatFrag;
 
@@ -152,7 +152,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
         String exceptionType = exception.getClass().getSimpleName();
 
         final String errorMsg;
-        switch(exceptionType) {
+        switch (exceptionType) {
             case "ConnectException":
                 errorMsg = getString(R.string.err_connect_server);
                 break;
@@ -174,8 +174,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
             }
         });
 
-        if(fatal)
-        {
+        if (fatal) {
             this.finish();
         }
     }
@@ -186,12 +185,12 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
         runOnUiThread(new Runnable() {
             public void run() {
                 Log.i(TAG, "Received message, message = " + msg.getMessage());
-                if(chatFrag.isAdded()){
+                if (chatFrag.isAdded()) {
                     chatFrag.addReceivedMessage(msg);
-                }else{
-                    Log.e(TAG,"error");
+                } else {
+                    Log.e(TAG, "error");
                     android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.frameLayout, chatFrag, "A");
+                    ft.add(R.id.frameLayout, chatFrag, "A");
                     ft.hide(chatFrag);
                     ft.commit();
 
@@ -203,8 +202,13 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
     }
 
     @Override
-    public void showViewersCount(@NonNull int viewersCount) {
-        mCountViewers.setText(viewersCount + "");
+    public void showViewersCount(@NonNull final int viewersCount) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mCountViewers.setText(Integer.toString(viewersCount));
+            }
+        });
     }
 
     @Override
