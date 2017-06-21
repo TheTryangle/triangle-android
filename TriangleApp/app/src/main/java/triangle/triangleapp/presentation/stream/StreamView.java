@@ -50,24 +50,7 @@ public interface StreamView {
      *
      * @param type      The type of adapter
      * @param exception The exception that occurred
+     * @param fatal Whether the stream should be aborted.
      */
-    void errorOccurred(@AdapterType int type, @NonNull Exception exception);
-
-    /**
-     * Called when some kind of error occurred in the stream.
-     *
-     * @param type The type of adapter (chat or stream).
-     * @param stringResId The ID of the error message to show.
-     * @param fatal
-     */
-    void errorOccurred(@AdapterType int type, @NonNull int stringResId);
-
-    /**
-     * Called when some kind of error occurred in the stream.
-     *
-     * @param type The type of adapter (chat or stream).
-     * @param stringResId The ID of the error message to show.
-     * @param fatal
-     */
-    void errorOccurred(@AdapterType int type, @NonNull int stringResId, boolean fatal);
+    void errorOccurred(@AdapterType int type, @NonNull Exception exception, boolean fatal);
 }

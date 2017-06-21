@@ -14,21 +14,22 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.spongycastle.openssl.PEMException;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
+
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import triangle.triangleapp.R;
 import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.domain.KeySerializer;
 import triangle.triangleapp.helpers.ConfigHelper;
-import triangle.triangleapp.logic.StreamManagerCallback;
+import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.helpers.MultipartRequest;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
-import triangle.triangleapp.presentation.stream.impl.StreamActivity;
 
 /**
  * Created by Kevin Ly on 6/16/2017.
@@ -40,14 +41,14 @@ public class HttpStream implements StreamAdapter {
     private RequestQueue mRequestQueue;
     private String id;
     private Gson mGsonInstance;
-    private StreamManagerCallback mManagerCallback;
+    private StreamManager mStreamManager;
 
     /**
      * Initializing HttpStream
      */
-    public HttpStream(StreamManagerCallback managerCallback) {
+    public HttpStream(StreamManager manager) {
         mRequestQueue = Volley.newRequestQueue(TriangleApplication.getAppContext());
-        mManagerCallback = managerCallback;
+        mStreamManager = manager;
         GsonBuilder builder = new GsonBuilder();
         mGsonInstance = builder.create();
     }
@@ -77,7 +78,7 @@ public class HttpStream implements StreamAdapter {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Error sending public key to server.", error);
-                mManagerCallback.streamError(R.string.err_send_pubkey, true);
+                mStreamManager.error(new ConnectException("Could not send public key to server."), true);
 
             }
         }){
@@ -92,7 +93,7 @@ public class HttpStream implements StreamAdapter {
                     return pubKeyJsonObj.toString().getBytes("UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     Log.e(TAG, "Error while get bytes from public key.", e);
-                    mManagerCallback.streamError(R.string.err_decode_server_pubkey, true);
+                    mStreamManager.error(new PEMException("Could not get bytes from public key."), true);
                     return null;
                 }
             }
@@ -116,7 +117,7 @@ public class HttpStream implements StreamAdapter {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Error getting ID", error);
-                mManagerCallback.streamError(R.string.err_get_stream_id, true);
+                mStreamManager.error(new ConnectException("Could not get ID from server."), true);
             }
         });
 
@@ -138,7 +139,7 @@ public class HttpStream implements StreamAdapter {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Error sending data", error);
-                    mManagerCallback.streamError(R.string.err_send_stream_file, false);
+                    mStreamManager.error(new ConnectException("Could not send stream data to server."), false);
                 }
             });
 
@@ -147,7 +148,7 @@ public class HttpStream implements StreamAdapter {
 
         } catch (Exception ex) {
             Log.e(TAG, "Error occured while send request via Volley", ex);
-            mManagerCallback.streamError(R.string.err_send_stream_file, false);
+            mStreamManager.error(new ConnectException("Could not send stream data to server."), false);
         }
     }
 

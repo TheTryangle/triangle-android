@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.security.KeyPair;
 import java.security.PublicKey;
 
-import triangle.triangleapp.R;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
@@ -34,7 +33,7 @@ public class StreamManager {
     public StreamManager(StreamManagerCallback managerCallback) {
         mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new HttpStream(managerCallback);
+        mStreamAdapter = new HttpStream(this);
 
         // Try to get the keypair from the store else we generate
 
@@ -59,14 +58,12 @@ public class StreamManager {
                     mStreamAdapter.sendText(streamInfo.toString());
                 } catch (JSONException ex) {
                     Log.e(TAG, "An error occurred while attempting to send username to server", ex);
-                    mManagerCallback.streamError(R.string.err_send_username);
                 }
             }
 
             @Override
             public void onError(@NonNull Exception ex) {
                 Log.e(TAG, "Error occurred during connecting", ex);
-                mManagerCallback.streamError(R.string.err_connect_server);
             }
         });
 
@@ -102,5 +99,14 @@ public class StreamManager {
         mIsStreaming = !mIsStreaming;
 
         return mIsStreaming;
+    }
+
+    /**
+     *
+     * @param e The exception to report.
+     * @param fatal Whether the error is fatal, and should abort the stream entirely.
+     */
+    public void error(Exception e, boolean fatal){
+        mManagerCallback.streamError(e, fatal);
     }
 }

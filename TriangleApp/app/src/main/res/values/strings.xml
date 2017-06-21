@@ -61,6 +61,7 @@
     <string name="err_send_stream_file">Could not send stream to server.</string>
     <string name="err_send_username">Could not send username to server.</string>
     <string name="err_connect_server">Could not connect to server. Please check connection settings and try again.</string>
+    <string name="err_unknown">An unknown error occurred.</string>
 
 
 </resources>

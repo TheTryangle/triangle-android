@@ -41,17 +41,7 @@ public class StreamPresenter implements StreamManagerCallback {
     }
 
     @Override
-    public void streamError(@NonNull Exception exception) {
-        mView.errorOccurred(AdapterType.TYPE_STREAM, exception);
-    }
-
-    @Override
-    public void streamError(@NonNull int stringResId, boolean fatal) {
-        mView.errorOccurred(AdapterType.TYPE_STREAM, stringResId, fatal);
-    }
-
-    @Override
-    public void streamError(@NonNull int stringResId) {
-        streamError(stringResId, false);
+    public void streamError(@NonNull Exception exception, boolean fatal) {
+        mView.errorOccurred(AdapterType.TYPE_STREAM, exception, fatal);
     }
 }
