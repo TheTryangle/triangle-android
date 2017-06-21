@@ -1,4 +1,4 @@
-package triangle.triangleapp.persistence.impl;
+package triangle.triangleapp.persistence.stream.impl;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,7 +14,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +24,7 @@ import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.domain.KeySerializer;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.helpers.MultipartRequest;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 
 /**
