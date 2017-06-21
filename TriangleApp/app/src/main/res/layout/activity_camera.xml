@@ -26,6 +26,7 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:text="@string/btn_start_streaming"
+                android:textColor="@android:color/background_light"
                 tools:text="@string/btn_start_streaming"/>
 
             <Button
@@ -35,30 +36,36 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:text="Chat"
+                android:textColor="@android:color/background_light"
                 tools:text="Chat"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginBottom="-31dp"
+            android:alpha="0.5"
+            android:background="@color/colorPrimary"
             android:maxHeight="30dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:translationZ="4dp">
 
             <TextView
                 android:id="@+id/textView_aantal_kijkers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:text="Aantal kijkers"
-                android:textSize="12sp"/>
+                android:text="Current viewers"
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/textView_counting_viewers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:hint="0"
-                android:textSize="12sp"/>
+                android:textColor="@android:color/background_light"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <SurfaceView
