@@ -23,6 +23,7 @@ import triangle.triangleapp.persistence.ConnectionCallback;
 public class WebSocketStream implements StreamAdapter {
     private static final String URL = "ws://145.49.3.220:5000/server/send";
     private static final String PROTOCOL = "ws";
+    private static final String TAG = "WebSocket/Stream";
     private WebSocket mWebSocket;
     private boolean mIsConnected;
     private String mId;
@@ -92,7 +93,18 @@ public class WebSocketStream implements StreamAdapter {
                 mWebSocket.send(fileInBytes);
             }
         } catch (Exception ex) {
-            Log.e("WebSocket/sendStream", "Error while sending stream.", ex);
+            Log.e(TAG, "Error while sending stream.", ex);
+        }
+    }
+
+    @Override
+    public void sendText(@NonNull String text) {
+        try {
+            if (mIsConnected) {
+                mWebSocket.send(text);
+            }
+        } catch (Exception ex) {
+            Log.e(TAG, "Error while sending text.", ex);
         }
     }
 
