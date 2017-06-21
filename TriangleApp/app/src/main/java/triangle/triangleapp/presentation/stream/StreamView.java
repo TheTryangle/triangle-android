@@ -51,8 +51,9 @@ public interface StreamView {
      *
      * @param type      The type of adapter
      * @param exception The exception that occurred
+     * @param fatal Whether the stream should be aborted.
      */
-    void errorOccurred(@AdapterType int type, @NonNull Exception exception);
+    void errorOccurred(@AdapterType int type, @NonNull Exception exception, boolean fatal);
 
     /**
      * Called when a message should be shown.

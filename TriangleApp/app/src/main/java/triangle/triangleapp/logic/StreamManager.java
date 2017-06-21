@@ -6,10 +6,14 @@ import android.view.Surface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
@@ -20,6 +24,8 @@ import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.stream.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
+
+import static io.reactivex.internal.subscriptions.SubscriptionHelper.cancel;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -38,8 +44,21 @@ public class StreamManager {
     public StreamManager(StreamManagerCallback managerCallback) {
         mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new HttpStream();
         mChatAdapter = new WebSocketChat();
+
+        StreamCallback httpStreamCallback = new StreamCallback() {
+            @Override
+            public void onConnectError(Exception e, boolean fatal) {
+                mManagerCallback.streamError(e, fatal);
+            }
+
+            @Override
+            public void onSendError(Exception e, boolean fatal) {
+                mManagerCallback.streamError(e, fatal);
+            }
+        };
+
+        mStreamAdapter = new HttpStream(httpStreamCallback);
 
         // Try to get the keypair from the store else we generate
         try {
@@ -71,9 +90,8 @@ public class StreamManager {
 
             @Override
             public void onError(@NonNull Exception ex) {
-                mManagerCallback.streamError(ex);
+                mManagerCallback.streamError(ex, true);
                 Log.e(TAG, "Error occurred during connecting", ex);
-                mManagerCallback.streamError(ex);
             }
         });
     }

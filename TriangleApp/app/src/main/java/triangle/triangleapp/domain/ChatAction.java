@@ -3,6 +3,7 @@ package triangle.triangleapp.domain;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -17,24 +18,39 @@ import static triangle.triangleapp.domain.ChatAction.ActionType.ACTION_NONE;
  */
 
 public class ChatAction {
+    @Expose
     @SerializedName("Message")
     private String message;
 
+    @Expose
     @SerializedName("Timestamp")
     private Date timeStamp;
 
+    @Expose
     @SerializedName("ActionType")
     @ActionType
     private int actionType;
 
+    @Expose
     @SerializedName("StreamId")
     private String streamId;
 
+    @Expose
     @SerializedName("Name")
     private String name;
 
+    private boolean fromMe;
+
     public ChatAction() {
         this.timeStamp = new Date();
+    }
+
+    public ChatAction(String name, String message) {
+        this();
+        this.name = name;
+        this.message = message;
+        this.actionType = ACTION_MESSAGE;
+        this.fromMe = true;
     }
 
     public ChatAction(String message, String name, int actionType, String streamId) {
@@ -43,6 +59,7 @@ public class ChatAction {
         this.name = name;
         this.actionType = actionType;
         this.streamId = streamId;
+        this.fromMe = true;
     }
 
     public String getMessage() {
@@ -63,6 +80,10 @@ public class ChatAction {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isFromMe() {
+        return fromMe;
     }
 
     @IntDef({ACTION_NONE, ACTION_MESSAGE, ACTION_JOIN, ACTION_LEAVE})

@@ -58,5 +58,13 @@
     <string name="chat_address_summary">The address to connect to for chatting purposes</string>
     <string name="chat_address_dialog_message">Setup the address to use for chatting</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="err_send_pubkey">Could not send public key to server. Please check connection settings and try again.</string>
+    <string name="err_decode_server_pubkey">Server\'s public key could not be decoded.</string>
+    <string name="err_get_stream_id">Could not get stream ID from server.</string>
+    <string name="err_send_stream_file">Could not send stream to server.</string>
+    <string name="err_send_username">Could not send username to server.</string>
+    <string name="err_connect_server">Could not connect to server. Please check connection settings and try again.</string>
+    <string name="err_unknown">An unknown error occurred.</string>
+
+
 </resources>
