@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import triangle.triangleapp.R;
 import triangle.triangleapp.helpers.AdapterType;
+import triangle.triangleapp.presentation.stream.ConnectionState;
 import triangle.triangleapp.presentation.stream.StreamPresenter;
 import triangle.triangleapp.presentation.stream.StreamView;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
@@ -26,6 +28,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
     private Button mButtonStream;
+    private static boolean firstStart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,33 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
             return holder.getSurface();
         }
         return null;
+    }
+
+    @Override
+    public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
+
+        switch (state) {
+            case ConnectionState.CONNECTED: {
+
+                // Do not execute on start
+                if (!firstStart) {
+                    Toast.makeText(getApplicationContext(), R.string.notify_connected, Toast.LENGTH_LONG).show();
+                }
+
+                mButtonStream.setEnabled(true);
+                break;
+            }
+            case ConnectionState.DISCONNECTED: {
+                Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_LONG).show();
+                mButtonStream.setEnabled(false);
+                if (mPresenter.isStreaming()) {
+                    mPresenter.stream();
+                }
+                break;
+            }
+        }
+
+        firstStart = false;
     }
 
     @Override
