@@ -98,7 +98,7 @@ public class WebSocketStream implements StreamAdapter {
 
     @Override
     public String getId() {
-        return null;
+        return mId;
     }
 }
 
