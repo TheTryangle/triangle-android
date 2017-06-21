@@ -49,6 +49,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void streamStarted() {
         mButtonStream.setText(R.string.btn_stop_streaming);
+
         Toast.makeText(this, R.string.notify_streaming_started, Toast.LENGTH_SHORT).show();
     }
 
@@ -90,5 +91,9 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void showMessage(@NonNull ChatAction message) {
         Log.i(TAG, "Received message, message = " + message.getMessage());
+    }
+
+    public void showCount() {
+
     }
 }

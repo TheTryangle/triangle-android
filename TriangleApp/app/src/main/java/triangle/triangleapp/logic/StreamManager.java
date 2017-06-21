@@ -6,10 +6,14 @@ import android.view.Surface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
@@ -20,6 +24,8 @@ import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.stream.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
+
+import static io.reactivex.internal.subscriptions.SubscriptionHelper.cancel;
 
 /**
  * Created by Kevin Ly on 6/15/2017.
@@ -155,5 +161,33 @@ public class StreamManager {
     public void sendChatMessage(@NonNull String message) {
         ChatAction chatAction = ChatAction.message(message, ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME), mStreamAdapter.getId());
         mChatAdapter.sendMessage(chatAction);
+    }
+
+    public void getCurrentViewers() {
+
+        Observable.interval(1, TimeUnit.SECONDS).subscribe(new Subscriber<Long>() {
+
+            @Override
+            public void onSubscribe(Subscription s) {
+                s.request(250);
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                if (aLong == 3) {
+                }
+                System.out.println);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                t.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("Test", "Complete");
+            }
+        });
     }
 }
