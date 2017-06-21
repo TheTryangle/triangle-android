@@ -2,7 +2,6 @@ package triangle.triangleapp;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,14 +22,13 @@ public class WebSocketTest {
     @Test
     public void testWebSocketConnection() {
         try {
-            WebSocketStream webSocket = new WebSocketStream();
+            WebSocketStream webSocketStream = new WebSocketStream();
 
-            if (!webSocket.isConnected()) {
+            if (!webSocketStream.isConnected()) {
                 Assert.assertTrue(true);
             }
         } catch (Exception ex) {
             Assert.assertTrue(false);
         }
-
     }
 }

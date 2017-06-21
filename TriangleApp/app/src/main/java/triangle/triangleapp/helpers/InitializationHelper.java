@@ -64,7 +64,7 @@ public class InitializationHelper {
         store.put(ConfigHelper.KEY_WEBSOCKET_PROTOCOL, "ws");
 
         store.put(ConfigHelper.KEY_USERNAME, "anoniem");
-        store.put(ConfigHelper.KEY_STREAM_DESTINATION_ADDRESS, "ws://188.226.164.87/server/send");
+        store.put(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS, "http://145.49.44.137:5000/api/");
 
         store.put(ConfigHelper.KEY_KEY_ALGORITHM, "RSA");
         store.put(ConfigHelper.KEY_SIGN_ALGORITHM, "SHA1withRSA");

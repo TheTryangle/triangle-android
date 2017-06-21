@@ -40,4 +40,10 @@ public interface StreamAdapter {
      * @param text The text to send.
      */
     void sendText(@NonNull String text);
+
+    /**
+     * Get the obtained id
+     * @return Obtained id from the server
+     */
+    String getId();
 }

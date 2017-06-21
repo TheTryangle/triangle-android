@@ -21,7 +21,7 @@ public class ConfigHelper {
     public static final String KEY_KEY_SIZE = "key_size";
     public static final String KEY_KEY_ALIAS = "key_alias";
     public static final String KEY_KEY_STORE = "key_store";
-    public static final String KEY_STREAM_DESTINATION_ADDRESS = "stream_destination_address";
+    public static final String KEY_WEBAPI_DESTINATION_ADDRESS = "webapi_destination_address";
     public static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
     public static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
     public static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
