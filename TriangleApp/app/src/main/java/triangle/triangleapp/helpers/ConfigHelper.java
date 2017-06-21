@@ -1,4 +1,5 @@
 package triangle.triangleapp.helpers;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -25,17 +26,20 @@ public class ConfigHelper {
     public static final String KEY_FILE_HELPER_SAVE_LOCATION = "file_helper_save_location";
     public static final String KEY_MAX_RECORD_DURATION = "max_record_duration";
     public static final String KEY_DISPLAY_ORIENTATION = "display_orientation";
+    public static final String KEY_CHAT_ADDRESS = "chat_address";
 
     /**
      * sets variables, internal constructor called from getinstance
+     *
      * @param context activity context
      */
     private ConfigHelper(Context context) {
-        SP= PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SP = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     /**
      * gets an instance
+     *
      * @param context activity context
      * @return static keystore object
      */
@@ -48,6 +52,7 @@ public class ConfigHelper {
 
     /**
      * gets an existing istance
+     *
      * @return existing instance
      */
     public static ConfigHelper getInstance() {
@@ -56,7 +61,8 @@ public class ConfigHelper {
 
     /**
      * puts string key-value pair in config, overwrites existing key-value pair if existing
-     * @param key string key value
+     *
+     * @param key   string key value
      * @param value string value
      */
     public void put(String key, String value) {
@@ -68,6 +74,7 @@ public class ConfigHelper {
 
     /**
      * gets the value from given key
+     *
      * @param key key to get value from
      * @return string value
      */
@@ -77,22 +84,23 @@ public class ConfigHelper {
 
     /**
      * gets int value from key
+     *
      * @param key key to get value from
      * @return int value from key
      */
     public int getInt(String key) {
-        String tmp="";
-        int iTmp=0;
-        try{
-            iTmp=SP.getInt(key, 0);
-            if(iTmp==0){
+        String tmp = "";
+        int iTmp = 0;
+        try {
+            iTmp = SP.getInt(key, 0);
+            if (iTmp == 0) {
                 throw new InvalidKeyException();
             }
-        }catch (Exception e){
-            tmp=SP.getString(key,null);
-            try{
-                iTmp= Integer.parseInt(tmp);
-            }catch (Exception e1){
+        } catch (Exception e) {
+            tmp = SP.getString(key, null);
+            try {
+                iTmp = Integer.parseInt(tmp);
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
 
@@ -103,6 +111,7 @@ public class ConfigHelper {
 
     /**
      * puts int key-value pair in config, overwrites existing key-value pair if existing
+     *
      * @param key string key
      * @param num int value
      */
@@ -116,29 +125,29 @@ public class ConfigHelper {
     /**
      * saves pendng changes
      */
-    public void save(){
+    public void save() {
         Editor editor;
         editor = SP.edit();
-        editor.commit();
+        editor.apply();
     }
 
     /**
      * clears config file
      */
-    public void clear(){
+    public void clear() {
         Editor editor;
         editor = SP.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     /**
      * deletes config file
      */
-    public void remove(){
+    public void remove() {
         Editor editor;
         editor = SP.edit();
-        editor.commit();
+        editor.apply();
     }
 
     /*

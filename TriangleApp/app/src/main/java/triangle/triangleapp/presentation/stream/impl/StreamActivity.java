@@ -1,10 +1,13 @@
 package triangle.triangleapp.presentation.stream.impl;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 import triangle.triangleapp.presentation.stream.ConnectionState;
+import triangle.triangleapp.presentation.impl.ChatFragment;
 import triangle.triangleapp.presentation.stream.StreamPresenter;
 import triangle.triangleapp.presentation.stream.StreamView;
 
@@ -23,12 +26,14 @@ import android.widget.Toast;
  * Created by Kevin Ly on 6/15/2017.
  */
 
-public class StreamActivity extends AppCompatActivity implements StreamView {
+public class StreamActivity extends AppCompatActivity implements StreamView, ChatFragment.OnFragmentInteractionListener {
     private static final String TAG = "StreamActivity";
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
-    private Button mButtonStream;
     private static boolean firstStart = true;
+
+    private Button mButtonStream, mButtonChat;
+    private ChatFragment chatFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +51,36 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
                 mPresenter.stream();
             }
         });
+
+        chatFrag = ChatFragment.newInstance();
+        mButtonChat = (Button) findViewById(R.id.btnChat);
+        mButtonChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(android.R.animator.fade_in,
+                        android.R.animator.fade_out);*/
+
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                if (chatFrag.isAdded()) { // if the fragment is already in container
+                    if (chatFrag.isHidden()) {
+                        ft.show(chatFrag);
+                    } else {
+                        ft.hide(chatFrag);
+                    }
+                } else { // fragment needs to be added to frame container
+                    ft.add(R.id.frameLayout, chatFrag, "A");
+                }
+
+                ft.commit();
+            }
+        });
     }
 
     @Override
     public void streamStarted() {
         mButtonStream.setText(R.string.btn_stop_streaming);
+
         Toast.makeText(this, R.string.notify_streaming_started, Toast.LENGTH_SHORT).show();
     }
 
@@ -63,7 +93,6 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
     @Override
     public void showPreview() {
         mCameraSurfaceView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -146,5 +175,41 @@ public class StreamActivity extends AppCompatActivity implements StreamView {
         {
             this.finish();
         }
+    }
+
+    @Override
+    public void showMessage(@NonNull final ChatAction message) {
+        final ChatAction msg = message;
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Log.i(TAG, "Received message, message = " + msg.getMessage());
+                if(chatFrag.isAdded()){
+                    chatFrag.addReceivedMessage(msg);
+                }else{
+                    Log.e(TAG,"error");
+                    android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.frameLayout, chatFrag, "A");
+                    ft.hide(chatFrag);
+                    ft.commit();
+
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onSendMessage(String msg) {
+        mPresenter.sendChatMessage(msg);
+    }
+
+    public void showCount() {
+
     }
 }

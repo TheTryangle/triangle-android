@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.Surface;
 import android.view.SurfaceView;
 
+import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
 
 /**
@@ -61,4 +62,11 @@ public interface StreamView {
      * @param fatal Whether the stream should be aborted.
      */
     void errorOccurred(@AdapterType int type, @NonNull Exception exception, boolean fatal);
+
+    /**
+     * Called when a message should be shown.
+     *
+     * @param message The message to show.
+     */
+    void showMessage(@NonNull ChatAction message);
 }
