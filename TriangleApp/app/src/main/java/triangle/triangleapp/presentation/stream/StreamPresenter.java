@@ -3,6 +3,7 @@ package triangle.triangleapp.presentation.stream;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.support.annotation.Nullable;
 
 import triangle.triangleapp.domain.ChatAction;
@@ -98,5 +99,11 @@ public class StreamPresenter implements StreamManagerCallback {
      */
     public void sendChatMessage(@NonNull String message) {
         mManager.sendChatMessage(message);
+    }
+
+    @Override
+    public void setViewersCount(int viewersAmount) {
+        Log.i("Viewers", "Amount: " + viewersAmount); //todo: Call view and show it
+        mView.showViewersCount(viewersAmount);
     }
 }

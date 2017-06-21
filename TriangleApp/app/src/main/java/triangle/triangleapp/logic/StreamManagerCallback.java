@@ -28,4 +28,10 @@ public interface StreamManagerCallback {
     void chatConnected();
 
     void chatError(@NonNull Exception exception);
+
+    /**
+     * Get the amount of viewers
+     * @param viewersAmount Count of viewers
+     */
+    void setViewersCount(int viewersAmount);
 }

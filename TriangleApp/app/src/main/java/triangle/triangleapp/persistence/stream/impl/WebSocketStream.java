@@ -14,6 +14,7 @@ import java.security.PublicKey;
 
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
+import triangle.triangleapp.persistence.ViewersCallback;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
 
@@ -114,6 +115,11 @@ public class WebSocketStream implements StreamAdapter {
     @Override
     public String getId() {
         return mId;
+    }
+
+    @Override
+    public void getViewers(ViewersCallback viewersCallback) {
+
     }
 }
 

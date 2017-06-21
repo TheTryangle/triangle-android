@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.Excluder;
 
 import org.spongycastle.openssl.PEMException;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
@@ -30,6 +31,7 @@ import triangle.triangleapp.logic.StreamCallback;
 import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.helpers.MultipartRequest;
+import triangle.triangleapp.persistence.ViewersCallback;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 
 /**
@@ -161,5 +163,29 @@ public class HttpStream implements StreamAdapter {
     @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public void getViewers(final ViewersCallback callback) {
+        final String completeUrl = URL + "stream/getViewers/" + id;
+
+        StringRequest getViewersAmountRequest = new StringRequest(Request.Method.GET, completeUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.i(TAG, "Viewers: " + response);
+                    callback.getViewersCount(Integer.parseInt(response));
+                } catch (Exception ex){
+                    Log.e(TAG, "Error while parse integer of viewers (response)", ex);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error getting viewers", error);
+            }
+        });
+
+        mRequestQueue.add(getViewersAmountRequest);
     }
 }

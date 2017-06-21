@@ -14,12 +14,14 @@ import java.security.PublicKey;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.persistence.ViewersCallback;
 import triangle.triangleapp.persistence.chat.ChatCallback;
 import triangle.triangleapp.persistence.stream.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
@@ -74,6 +76,8 @@ public class StreamManager {
                 mStreamAdapter.sendPublicKey(pub);
 
                 mManagerCallback.streamConnected();
+
+                getViewerCount();
 
                 //Send username to server
                 try {
@@ -163,6 +167,21 @@ public class StreamManager {
         mIsStreaming = !mIsStreaming;
 
         return mIsStreaming;
+    }
+
+    private void getViewerCount(){
+        Observable.interval(10, TimeUnit.SECONDS)
+            .subscribe(new Consumer<Long>() {
+                @Override
+                public void accept(@io.reactivex.annotations.NonNull Long aLong) throws Exception {
+                    mStreamAdapter.getViewers(new ViewersCallback() {
+                        @Override
+                        public void getViewersCount(int viewersAmount) {
+                            mManagerCallback.setViewersCount(viewersAmount);
+                        }
+                    });
+                }
+            });
     }
 
     /**
