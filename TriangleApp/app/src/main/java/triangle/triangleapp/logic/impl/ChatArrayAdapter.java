@@ -1,6 +1,7 @@
 package triangle.triangleapp.logic.impl;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import triangle.triangleapp.R;
-import triangle.triangleapp.persistence.ChatMessage;
+import triangle.triangleapp.domain.ChatAction;
+
 
 /**
  * Created by D2110175 on 21-6-2017.
  */
 
-public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
+public class ChatArrayAdapter extends ArrayAdapter<ChatAction> {
 
+    private static final String TAG = "ChatArrayAdapter";
     private TextView chatText;
-    private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
+    private List<ChatAction> ChatActionList = new ArrayList<ChatAction>();
     private Context context;
 
     @Override
-    public void add(ChatMessage object) {
-        chatMessageList.add(object);
+    public void add(ChatAction object) {
+        ChatActionList.add(object);
         super.add(object);
     }
 
@@ -35,24 +38,31 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     }
 
     public int getCount() {
-        return this.chatMessageList.size();
+        return this.ChatActionList.size();
     }
 
-    public ChatMessage getItem(int index) {
-        return this.chatMessageList.get(index);
+    public ChatAction getItem(int index) {
+        return this.ChatActionList.get(index);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ChatMessage chatMessageObj = getItem(position);
+        ChatAction ChatActionObj = getItem(position);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (chatMessageObj.left) {
+        if (ChatActionObj.isFromMe()) {
             row = inflater.inflate(R.layout.right, parent, false);
+            TextView tname = (TextView) row.findViewById(R.id.msgName);
+            tname.setText(ChatActionObj.getName());
+            Log.e(TAG,ChatActionObj.getName());
         }else{
             row = inflater.inflate(R.layout.left, parent, false);
+            TextView tname = (TextView) row.findViewById(R.id.msgName);
+            tname.setText(ChatActionObj.getName());
+            Log.e(TAG,ChatActionObj.getName());
         }
         chatText = (TextView) row.findViewById(R.id.msgr);
-        chatText.setText(chatMessageObj.message);
+        chatText.setText(ChatActionObj.getMessage());
+
         return row;
     }
 }

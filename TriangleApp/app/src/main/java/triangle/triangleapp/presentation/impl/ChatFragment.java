@@ -18,8 +18,10 @@ import android.widget.ListView;
 import java.security.PublicKey;
 
 import triangle.triangleapp.R;
+import triangle.triangleapp.domain.ChatAction;
+import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.logic.impl.ChatArrayAdapter;
-import triangle.triangleapp.persistence.ChatMessage;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,7 +85,7 @@ public class ChatFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage(true);
+                    return sendChatAction(true);
                 }
                 return false;
             }
@@ -91,7 +93,7 @@ public class ChatFragment extends Fragment {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sendChatMessage(true);
+                sendChatAction(true);
             }
         });
 
@@ -134,17 +136,18 @@ public class ChatFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    private boolean sendChatMessage(boolean fromStreamer) {
+    private boolean sendChatAction(boolean fromStreamer) {
+
         String message = chatText.getText().toString();
         Log.e(TAG,message+" ,"+fromStreamer);
-        chatArrayAdapter.add(new ChatMessage(fromStreamer,message));
+        chatArrayAdapter.add(new ChatAction(ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME),message));
         chatText.setText("");
         //side = !side;
         mListener.onSendMessage(message);
         return true;
     }
-    public void addReceivedMessage(String msg){
-        chatArrayAdapter.add(new ChatMessage(false,msg));
+    public void addReceivedMessage(ChatAction msg){
+        chatArrayAdapter.add(new ChatAction(msg.getName(),msg.getMessage()));
     }
 
     /**
