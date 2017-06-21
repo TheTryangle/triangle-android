@@ -60,18 +60,8 @@ public class HttpStream implements StreamAdapter {
         final String pubKey = stringWriter.toString();
         final String completeUrl = URL + "stream/sendKey/" + id;
 
-        KeySerializer keySerializer = new KeySerializer(pubKey);
-
+        KeySerializer keySerializer = new KeySerializer(pubKey, ConfigHelper.getInstance().get(ConfigHelper.KEY_USERNAME));
         final String pubKeyJsonObj = mGsonInstance.toJson(keySerializer);
-
-//        final JSONObject pubKeyObj = new JSONObject();
-//        try {
-//            pubKeyObj.put("publicKey", pubKey);
-//        } catch (Exception ex){
-//            Log.e(TAG, "Error while put public key in JSON object.", ex);
-//        }
-
-
 
         StringRequest keyRequest = new StringRequest(Request.Method.PUT, completeUrl, new Response.Listener<String>() {
             @Override
