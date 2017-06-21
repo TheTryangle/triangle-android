@@ -11,6 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 import org.spongycastle.openssl.jcajce.JcaPEMWriter;
@@ -20,6 +22,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import triangle.triangleapp.TriangleApplication;
+import triangle.triangleapp.domain.KeySerializer;
 import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
@@ -33,12 +36,15 @@ public class HttpStream implements StreamAdapter {
     private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS);
     private RequestQueue mRequestQueue;
     private String id;
+    private Gson mGsonInstance;
 
     /**
      * Initializing HttpStream
      */
     public HttpStream() {
         mRequestQueue = Volley.newRequestQueue(TriangleApplication.getAppContext());
+        GsonBuilder builder = new GsonBuilder();
+        mGsonInstance = builder.create();
     }
 
     @Override
@@ -54,7 +60,9 @@ public class HttpStream implements StreamAdapter {
         final String pubKey = stringWriter.toString();
         final String completeUrl = URL + "stream/sendKey/" + id;
 
+        KeySerializer keySerializer = new KeySerializer(pubKey);
 
+        final String pubKeyJsonObj = mGsonInstance.toJson(keySerializer);
 
 //        final JSONObject pubKeyObj = new JSONObject();
 //        try {
@@ -84,7 +92,7 @@ public class HttpStream implements StreamAdapter {
             @Override
             public byte[] getBody() throws AuthFailureError {
                 try {
-                    return pubKeyObj.toString().getBytes("UTF-8");
+                    return pubKeyJsonObj.toString().getBytes("UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     Log.e(TAG, "Error while get bytes from public key.", e);
                     return null;

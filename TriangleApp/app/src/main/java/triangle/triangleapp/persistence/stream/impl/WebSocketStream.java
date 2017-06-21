@@ -25,7 +25,7 @@ public class WebSocketStream implements StreamAdapter {
 
     private static final String TAG = "WebSocket/sendStream";
 
-    private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_STREAM_DESTINATION_ADDRESS);
+    private static final String URL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS);
     private static final String PROTOCOL = ConfigHelper.getInstance().get(ConfigHelper.KEY_WEBSOCKET_PROTOCOL);
     private WebSocket mWebSocket;
     private boolean mIsConnected;
@@ -98,6 +98,11 @@ public class WebSocketStream implements StreamAdapter {
         } catch (Exception ex) {
             Log.e(TAG, "Error while sending text.", ex);
         }
+    }
+
+    @Override
+    public String getId() {
+        return null;
     }
 }
 

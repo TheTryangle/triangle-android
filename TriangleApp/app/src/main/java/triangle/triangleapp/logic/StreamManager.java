@@ -14,6 +14,7 @@ import triangle.triangleapp.helpers.ConfigHelper;
 import triangle.triangleapp.helpers.IntegrityHelper;
 import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.ConnectionCallback;
+import triangle.triangleapp.persistence.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
 
