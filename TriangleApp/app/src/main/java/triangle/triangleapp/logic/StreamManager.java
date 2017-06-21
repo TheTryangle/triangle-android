@@ -52,8 +52,7 @@ public class StreamManager {
                     JSONObject streamInfo = new JSONObject();
                     streamInfo.put("StreamerName", username);
                     mStreamAdapter.sendText(streamInfo.toString());
-                }
-                catch(JSONException ex){
+                } catch(JSONException ex){
                     Log.e(TAG, "An error occurred while attempting to send username to server", ex);
                 }
             }
