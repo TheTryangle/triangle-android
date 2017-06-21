@@ -67,10 +67,10 @@
             android:summary="@string/webapi_destination_address_summary"
             android:dialogTitle="@string/webapi_destination_address_dialog_title"
             android:dialogMessage="@string/webapi_destination_address_dialog_message"
-            android:defaultValue="http://188.226.164.87/server/api/"/>
+            android:defaultValue="http://145.49.35.215:5000/api/"/>
 
         <EditTextPreference
-            android:defaultValue="ws://188.226.164.87/server/chat"
+            android:defaultValue="ws://145.49.35.215:5000/chat/"
             android:dialogMessage="@string/chat_address_dialog_message"
             android:dialogTitle="@string/chat_address"
             android:key="chat_address"

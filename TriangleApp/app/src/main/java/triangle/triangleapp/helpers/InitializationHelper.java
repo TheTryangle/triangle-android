@@ -58,7 +58,7 @@ public class InitializationHelper {
         store.put(ConfigHelper.KEY_WEBSOCKET_PROTOCOL, "ws");
 
         store.put(ConfigHelper.KEY_USERNAME, "anoniem");
-        store.put(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS, "http://188.226.164.87/server/api/");
+        store.put(ConfigHelper.KEY_WEBAPI_DESTINATION_ADDRESS, "http://145.49.35.215:5000/api/");
 
         store.put(ConfigHelper.KEY_KEY_ALGORITHM, "RSA");
         store.put(ConfigHelper.KEY_SIGN_ALGORITHM, "SHA1withRSA");
@@ -68,7 +68,7 @@ public class InitializationHelper {
         store.put(ConfigHelper.KEY_FILE_HELPER_SAVE_LOCATION, "TriangleApp");
         store.put(ConfigHelper.KEY_MAX_RECORD_DURATION, "4000");
         store.put(ConfigHelper.KEY_DISPLAY_ORIENTATION, "90");
-        store.put(ConfigHelper.KEY_CHAT_ADDRESS, "ws://188.226.164.87/server/chat");
+        store.put(ConfigHelper.KEY_CHAT_ADDRESS, "ws://145.49.35.215:5000/chat/");
         store.save();
 
 

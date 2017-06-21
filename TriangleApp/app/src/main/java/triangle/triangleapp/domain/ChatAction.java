@@ -39,6 +39,7 @@ public class ChatAction {
 
     public ChatAction(String message, String name, int actionType, String streamId) {
         super();
+        this.name=name;
         this.message = message;
         this.actionType = actionType;
         this.streamId = streamId;

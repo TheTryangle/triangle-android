@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class ChatFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage();
+                    return sendChatMessage(true);
                 }
                 return false;
             }
@@ -90,7 +91,7 @@ public class ChatFragment extends Fragment {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sendChatMessage();
+                sendChatMessage(true);
             }
         });
 
@@ -133,11 +134,17 @@ public class ChatFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    private boolean sendChatMessage() {
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+    private boolean sendChatMessage(boolean fromStreamer) {
+        String message = chatText.getText().toString();
+        Log.e(TAG,message+" ,"+fromStreamer);
+        chatArrayAdapter.add(new ChatMessage(fromStreamer,message));
         chatText.setText("");
-        side = !side;
+        //side = !side;
+        mListener.onSendMessage(message);
         return true;
+    }
+    public void addReceivedMessage(String msg){
+        chatArrayAdapter.add(new ChatMessage(false,msg));
     }
 
     /**
@@ -153,5 +160,6 @@ public class ChatFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void onSendMessage(String msg);
     }
 }

@@ -118,10 +118,17 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
     @Override
     public void showMessage(@NonNull ChatAction message) {
         Log.i(TAG, "Received message, message = " + message.getMessage());
+        ChatFragment chatFrag = (ChatFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        chatFrag.addReceivedMessage(message.getMessage());
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onSendMessage(String msg) {
+        mPresenter.sendChatMessage(msg);
     }
 }
