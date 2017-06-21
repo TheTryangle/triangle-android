@@ -1,9 +1,11 @@
-package triangle.triangleapp.persistence;
+package triangle.triangleapp.persistence.stream;
 
 import android.support.annotation.NonNull;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+
+import triangle.triangleapp.persistence.ConnectionCallback;
 
 /**
  * Created by Kevin Ly on 6/15/2017.

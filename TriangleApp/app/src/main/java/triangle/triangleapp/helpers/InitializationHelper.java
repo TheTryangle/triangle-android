@@ -5,8 +5,6 @@ import android.util.Log;
 
 import triangle.triangleapp.BuildConfig;
 
-import triangle.triangleapp.ConfigHelper;
-
 
 /**
  * Created by D2110175 on 16-6-2017.

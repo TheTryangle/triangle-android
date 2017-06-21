@@ -20,7 +20,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import triangle.triangleapp.R;
-import triangle.triangleapp.helpers.InitializationHelper;
+import triangle.triangleapp.presentation.stream.impl.StreamActivity;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MainActivity";

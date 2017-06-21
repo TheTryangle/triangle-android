@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.impl.StreamActivity"/>
+        <activity android:name=".presentation.stream.impl.StreamActivity"/>
         <activity android:name=".presentation.impl.SettingsActivity"/>
 
     </application>
