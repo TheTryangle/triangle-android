@@ -113,4 +113,13 @@ public class StreamManager {
 
         return mIsStreaming;
     }
+
+    /**
+     * Checks if streaming
+     *
+     * @return True if the streaming started, else returns false
+     */
+    public boolean getIsStreaming() {
+        return mIsStreaming;
+    }
 }
