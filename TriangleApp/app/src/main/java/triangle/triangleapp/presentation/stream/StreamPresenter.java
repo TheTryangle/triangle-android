@@ -1,9 +1,15 @@
 package triangle.triangleapp.presentation.stream;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import triangle.triangleapp.domain.ChatAction;
+import triangle.triangleapp.TriangleApplication;
 import triangle.triangleapp.helpers.AdapterType;
+import triangle.triangleapp.logic.NetworkBroadcastReceiver;
+import triangle.triangleapp.logic.NetworkChangeCallback;
 import triangle.triangleapp.logic.StreamManager;
 import triangle.triangleapp.logic.StreamManagerCallback;
 
@@ -18,6 +24,23 @@ public class StreamPresenter implements StreamManagerCallback {
     public StreamPresenter(StreamView streamView) {
         mView = streamView;
         mManager = new StreamManager(this);
+
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        NetworkBroadcastReceiver broadcastReceiver = new NetworkBroadcastReceiver();
+        broadcastReceiver.setNetworkChangeCallback(new NetworkChangeCallback() {
+            @Override
+            public void onConnected() {
+                mView.networkConnectivityChanged(ConnectionState.CONNECTED, null);
+            }
+
+            @Override
+            public void onDisconnected(@Nullable String reason) {
+                mView.networkConnectivityChanged(ConnectionState.DISCONNECTED, reason);
+            }
+        });
+        TriangleApplication.getAppContext().registerReceiver(broadcastReceiver, filter);
     }
 
     /**
@@ -34,6 +57,13 @@ public class StreamPresenter implements StreamManagerCallback {
             mView.hidePreview();
             mView.streamStopped();
         }
+    }
+
+    /**
+     * Checks if streaming
+     */
+    public boolean isStreaming() {
+        return mManager.getIsStreaming();
     }
 
     @Override

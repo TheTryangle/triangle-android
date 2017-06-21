@@ -166,6 +166,15 @@ public class StreamManager {
     }
 
     /**
+     * Checks if streaming
+     *
+     * @return True if the streaming started, else returns false
+     */
+    public boolean getIsStreaming() {
+        return mIsStreaming;
+    }
+
+    /**
      * Sends a chat message using the adapter
      *
      * @param message The message to be sent

@@ -1,6 +1,7 @@
 package triangle.triangleapp.presentation.stream;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Surface;
 import android.view.SurfaceView;
 
@@ -38,6 +39,13 @@ public interface StreamView {
      * @return Surface used for preview.
      */
     Surface getPreviewSurface();
+
+    /**
+     * Called when the connection is changed.
+     *
+     * @param state The newState of the connection
+     */
+    void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason);
 
     /**
      * Called when an adapter has connected

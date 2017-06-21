@@ -6,11 +6,13 @@ import android.os.Bundle;
 import triangle.triangleapp.R;
 import triangle.triangleapp.domain.ChatAction;
 import triangle.triangleapp.helpers.AdapterType;
+import triangle.triangleapp.presentation.stream.ConnectionState;
 import triangle.triangleapp.presentation.impl.ChatFragment;
 import triangle.triangleapp.presentation.stream.StreamPresenter;
 import triangle.triangleapp.presentation.stream.StreamView;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
@@ -28,6 +30,7 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
     private static final String TAG = "StreamActivity";
     private StreamPresenter mPresenter;
     private SurfaceView mCameraSurfaceView;
+    private static boolean firstStart = true;
 
     private Button mButtonStream, mButtonChat;
     private ChatFragment chatFrag;
@@ -104,6 +107,33 @@ public class StreamActivity extends AppCompatActivity implements StreamView, Cha
             return holder.getSurface();
         }
         return null;
+    }
+
+    @Override
+    public void networkConnectivityChanged(@ConnectionState int state, @Nullable String reason) {
+
+        switch (state) {
+            case ConnectionState.CONNECTED: {
+
+                // Do not execute on start
+                if (!firstStart) {
+                    Toast.makeText(getApplicationContext(), R.string.notify_connected, Toast.LENGTH_LONG).show();
+                }
+
+                mButtonStream.setEnabled(true);
+                break;
+            }
+            case ConnectionState.DISCONNECTED: {
+                Toast.makeText(getApplicationContext(), R.string.notify_disconnected, Toast.LENGTH_LONG).show();
+                mButtonStream.setEnabled(false);
+                if (mPresenter.isStreaming()) {
+                    mPresenter.stream();
+                }
+                break;
+            }
+        }
+
+        firstStart = false;
     }
 
     @Override
