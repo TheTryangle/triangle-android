@@ -31,4 +31,10 @@ public interface StreamAdapter {
      * @param privateKey The private key to use for signing
      */
     void sendFile(@NonNull byte[] fileInBytes, @NonNull PrivateKey privateKey);
+
+    /**
+     * Get the obtained id
+     * @return Obtained id from the server
+     */
+    String getId();
 }

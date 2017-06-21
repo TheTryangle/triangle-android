@@ -136,4 +136,9 @@ public class HttpStream implements StreamAdapter {
             Log.e(TAG, "Error occured while send request via Volley", ex);
         }
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
 }
