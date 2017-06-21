@@ -17,6 +17,7 @@ import triangle.triangleapp.logic.impl.CameraLiveStream;
 import triangle.triangleapp.persistence.chat.ChatAdapter;
 import triangle.triangleapp.persistence.ConnectionCallback;
 import triangle.triangleapp.persistence.chat.ChatCallback;
+import triangle.triangleapp.persistence.impl.HttpStream;
 import triangle.triangleapp.persistence.stream.StreamAdapter;
 import triangle.triangleapp.persistence.chat.impl.WebSocketChat;
 import triangle.triangleapp.persistence.stream.impl.WebSocketStream;
@@ -38,7 +39,7 @@ public class StreamManager {
     public StreamManager(StreamManagerCallback managerCallback) {
         mManagerCallback = managerCallback;
         mLiveStream = new CameraLiveStream();
-        mStreamAdapter = new WebSocketStream();
+        mStreamAdapter = new HttpStream();
         mChatAdapter = new WebSocketChat();
 
         // Try to get the keypair from the store else we generate

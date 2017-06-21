@@ -41,5 +41,9 @@ public interface StreamAdapter {
      */
     void sendText(@NonNull String text);
 
+    /**
+     * Get the obtained id
+     * @return Obtained id from the server
+     */
     String getId();
 }
