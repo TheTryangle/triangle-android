@@ -13,9 +13,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:foreground="@drawable/textview"
-        android:text="sendName"
-        android:textSize="8sp"
+        android:background="@drawable/textview"
+        android:text="test"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
         android:translationZ="3dp"/>
 
     <TextView

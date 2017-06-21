@@ -22,7 +22,7 @@ import triangle.triangleapp.domain.ChatAction;
 public class ChatArrayAdapter extends ArrayAdapter<ChatAction> {
 
     private static final String TAG = "ChatArrayAdapter";
-    private TextView chatText;
+    private TextView chatText,chatName;
     private List<ChatAction> ChatActionList = new ArrayList<ChatAction>();
     private Context context;
 
@@ -51,13 +51,13 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatAction> {
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (ChatActionObj.isFromMe()) {
             row = inflater.inflate(R.layout.right, parent, false);
-            TextView tname = (TextView) row.findViewById(R.id.msgName);
-            tname.setText(ChatActionObj.getName());
+            chatName = (TextView) row.findViewById(R.id.msgName);
+            chatName.setText(ChatActionObj.getName());
             Log.e(TAG,ChatActionObj.getName());
         }else{
             row = inflater.inflate(R.layout.left, parent, false);
-            TextView tname = (TextView) row.findViewById(R.id.msgName);
-            tname.setText(ChatActionObj.getName());
+            chatName = (TextView) row.findViewById(R.id.msgName);
+            chatName.setText(ChatActionObj.getName());
             Log.e(TAG,ChatActionObj.getName());
         }
         chatText = (TextView) row.findViewById(R.id.msgr);
